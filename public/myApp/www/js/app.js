@@ -40,46 +40,178 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.home', {
+    url: '/home',
+    abstract: true,
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-home': {
+        templateUrl: 'templates/tab-home.html',
+        controller: 'HomeCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.home.map', {
+    url: '',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-content': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
       }
     }
-  });
+  })
+
+  .state('tab.home.list', {
+    url: '/list',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.home.detailview', {
+    url: '/list/:truckId',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
+      }
+    }
+  })
+
+  /////FAVORITES/////
+  .state('tab.favorites', {
+    url: '/favorites',
+    abstract: true,
+    views: {
+      'tab-favorites': {
+        templateUrl: 'templates/tab-favorites.html',
+        controller: 'FavoritesCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.map', {
+    url: '',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.list', {
+    url: '/list',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-favorites-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.detailview', {
+    url: '/list/:truckId',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.vendoraccess', {
+    url: '/vendoraccess',
+    views: {
+      'tab-vendoraccess': {
+        templateUrl: 'templates/tab-vendoraccess.html',
+        controller: 'VendorAccessCtrl'
+      }
+    }
+  })
+
+  .state('tab.vendorsignup', {
+    url: '/vendorsignup',
+    views: {
+      'tab-vendorsignup': {
+        templateUrl: 'templates/tab-vendorsignup.html',
+        controller: 'VendorsignupCtrl'
+      }
+    }
+  })
+
+  .state('tab.vendordashboard', {
+    url: '/vendordashboard',
+    views: {
+      'tab-vendordashboard': {
+        templateUrl: 'templates/tab-vendordashboard.html',
+        controller: 'VendordashboardCtrl'
+      }
+    }
+  })
+
+  .state('tab.edit', {
+    url: '/edit',
+    views: {
+      'tab-edit': {
+        templateUrl: 'templates/tab-edit.html',
+        controller: 'EditCtrl'
+      }
+    }
+  })
+
+  .state('tab.search', {
+      url: '/search',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/tab-search.html',
+          controller: 'SearchCtrl'
+        }
+      }
+    })
+    .state('tab.truck-detail', {
+      url: '/trucks/:truckId',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/tab-detailview.html',
+          controller: 'DetailviewCtrl'
+        }
+      }
+    })
+
+    // .state('tab.trucks', {
+    //     url: '/trucks',
+    //     views: {
+    //       'tab-trucks': {
+    //         templateUrl: 'templates/tab-trucks.html',
+    //         controller: 'trucksCtrl'
+    //       }
+    //     }
+    //   })
+    //   .state('tab.truck-detail', {
+    //     url: '/trucks/:truckId',
+    //     views: {
+    //       'tab-trucks': {
+    //         templateUrl: 'templates/truck-detail.html',
+    //         controller: 'truckDetailCtrl'
+    //       }
+    //     }
+    //   })
+
+  // .state('tab.account', {
+  //   url: '/account',
+  //   views: {
+  //     'tab-account': {
+  //       templateUrl: 'templates/tab-account.html',
+  //       controller: 'AccountCtrl'
+  //     }
+  //   }
+  // });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });
