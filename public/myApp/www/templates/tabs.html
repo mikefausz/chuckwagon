@@ -5,14 +5,15 @@ navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
+  <!-- Home Tab -->
+  <ion-tab title="Home" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/map">
+    <ion-nav-view name="tab-home"></ion-nav-view>
+  </ion-tab>
+
+
   <!-- Add New Vendor -->
   <ion-tab title="Vendor" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/tab/vendoraccess">
     <ion-nav-view name="tab-vendoraccess"></ion-nav-view>
-  </ion-tab>
-
-  <!-- Dashboard Tab -->
-  <ion-tab title="Map" icon-off="ion-ios-location-outline" icon-on="ion-ios-location" href="#/tab/map">
-    <ion-nav-view name="tab-map"></ion-nav-view>
   </ion-tab>
 
   <!-- Advanced Search Tab -->
