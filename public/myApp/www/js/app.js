@@ -40,6 +40,47 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // Each tab has its own nav history stack:
 
+  .state('tab.home', {
+    url: '/home',
+    abstract: true,
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/tab-home.html',
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+
+  .state('tab.home.map', {
+    url: '',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.home.list', {
+    url: '/list',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.listview', {
+    url: '/listview',
+    views: {
+      'tab-listview': {
+        templateUrl: 'templates/tab-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
   .state('tab.vendoraccess', {
     url: '/vendoraccess',
     views: {
@@ -66,26 +107,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'tab-vendordashboard': {
         templateUrl: 'templates/tab-vendordashboard.html',
         controller: 'VendordashboardCtrl'
-      }
-    }
-  })
-
-  .state('tab.map', {
-    url: '/map',
-    views: {
-      'tab-map': {
-        templateUrl: 'templates/tab-map.html',
-        controller: 'MapCtrl'
-      }
-    }
-  })
-
-  .state('tab.listview', {
-    url: '/listview',
-    views: {
-      'tab-listview': {
-        templateUrl: 'templates/tab-listview.html',
-        controller: 'ListviewCtrl'
       }
     }
   })
@@ -149,6 +170,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/map');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });
