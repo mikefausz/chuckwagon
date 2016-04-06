@@ -1,6 +1,7 @@
 package com.chuckwagon.entities;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,24 +17,30 @@ public class Vendor {
 
     @GeneratedValue
     @Id
+    @NonNull
     private Integer id;
 
+    @NonNull
     @Column(nullable = false, name = "vendor_name")
     private String vendorName;
 
-    @Column(nullable = false, name = "contact_first_name")
+    @Column( name = "contact_first_name")
     private String contactFirstName;
 
-    @Column(nullable = false, name = "contact_last_name")
+    @Column( name = "contact_last_name")
     private String contactLastName;
 
-    @Column(nullable = false, name = "contact_email")
+    @Column( name = "contact_email")
     private String contactEmail;
 
-    @Column(nullable = false, name = "bio")
+    @Column( name = "bio")
     private String bio;
 
-    @Column(nullable = false, name = "profile_picture")
+    @Column( name = "profile_picture")
     private String profilePicture;
+
+    @Column(name = "active")
+    private boolean isActive;
+
 
 }
