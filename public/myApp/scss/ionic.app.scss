@@ -24,6 +24,13 @@ $dark:                            #444 !default;
   height: 100%;
 }
 
+#map-toggle {
+  position: absolute;
+  width: 50%;
+  bottom: 5%;
+  left: 24%;
+}
+
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
