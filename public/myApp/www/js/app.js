@@ -71,6 +71,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  /////FAVORITES/////
+  .state('tab.favorites', {
+    url: '/favorites',
+    abstract: true,
+    views: {
+      'tab-favorites': {
+        templateUrl: 'templates/tab-favorites.html',
+        controller: 'FavoritesCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.map', {
+    url: '',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.list', {
+    url: '/list',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
   .state('tab.listview', {
     url: '/listview',
     views: {
@@ -159,15 +191,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     //     }
     //   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+  // .state('tab.account', {
+  //   url: '/account',
+  //   views: {
+  //     'tab-account': {
+  //       templateUrl: 'templates/tab-account.html',
+  //       controller: 'AccountCtrl'
+  //     }
+  //   }
+  // });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
