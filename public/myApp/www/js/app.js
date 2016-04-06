@@ -86,7 +86,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-vendoraccess': {
         templateUrl: 'templates/tab-vendoraccess.html',
-        controller: 'VendoraccessCtrl'
+        controller: 'VendorAccessCtrl'
       }
     }
   })

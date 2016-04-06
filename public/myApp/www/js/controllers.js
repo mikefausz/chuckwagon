@@ -1,7 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('VendoraccessCtrl', function($scope){
+.controller('VendorAccessCtrl', function($scope){
+  $scope.vendor = {};
 
+  $scope.login = function(){
+
+  }
 })
 
 .controller('VendorsignupCtrl', function($scope){
