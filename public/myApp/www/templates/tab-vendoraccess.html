@@ -1,5 +1,22 @@
-<ion-view view-title="Vendor">
-  <ion-content>
-    <h1>New Vendor Page</h1>
+<ion-view view-title="Vendor Login">
+  <ion-content class="padding">
+    <img src="https://s-media-cache-ak0.pinimg.com/236x/9a/3d/35/9a3d355ecf245f984e6196695d55a7fe.jpg" alt="" style="width: 60%;" />
+
+  <div class="list list-inset">
+    <label class="item item-input">
+      <input type="text" placeholder="username" ng-model="vendor.username">
+    </label>
+    <label class="item item-input">
+      <input type="text" placeholder="password" ng-model="vendor.password">
+    </label>
+  </div>
+
+  <button class="button button-block button-dark" type="submit" name="button">login</button>
+  <button class="button button-block button-dark" type="submit" name="button">cancel</button>
+
+    <p>
+      not a member?
+    </p>
+    <button class="button button-dark" type="submit" name="button">sign-up</button>
   </ion-content>
 </ion-view>
