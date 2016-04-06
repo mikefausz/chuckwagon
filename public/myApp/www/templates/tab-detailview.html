@@ -6,10 +6,13 @@
 -->
 <ion-view view-title="{{chat.name}}">
   <ion-content class="padding">
-    <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
+    <img ng-src="{{chat.profileImg}}" style="width: 64px; height: 64px">
+    <h1>{{chat.name}}</h1>
+    <h3>{{chat.tags}}</h3>
     <p>
-      {{chat.lastText}}
+      {{chat.bio}}
     </p>
+    <div id="map-detail"></div>
   </ion-content>
 </ion-view>
 

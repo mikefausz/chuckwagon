@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, Chats) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -42,6 +42,16 @@ angular.module('starter.controllers', [])
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+    $scope.chats = Chats.all();
+    $scope.chats.forEach(function(chat) {
+      var marker = new google.maps.Marker({
+        position: chat.location,
+        map: $scope.map,
+        title: chat.name,
+      });
+
+      marker.setMap($scope.map);
+    });
   }, function(error){
     console.log("Could not get location");
   });
@@ -66,6 +76,23 @@ angular.module('starter.controllers', [])
 
 .controller('DetailviewCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
+  var mapOptions = {
+    // center: {lat: -34.397, lng: 150.644},
+    center: $scope.chat.location,
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: $scope.chat.location,
+    // position: {lat: -34.397, lng: 150.644},
+    map: $scope.map,
+    title: 'Truck name'
+  });
+
+  marker.setMap($scope.map);
 })
 
 .controller('FavoritesCtrl', function($scope) {
