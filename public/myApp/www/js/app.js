@@ -40,55 +40,103 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // Each tab has its own nav history stack:
 
-
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.vendoraccess', {
+    url: '/vendoraccess',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-vendoraccess': {
+        templateUrl: 'templates/tab-vendoraccess.html',
+        controller: 'VendoraccessCtrl'
       }
     }
   })
 
-  .state('tab.dash.map', {
-        url: '',
-        views: {
-            'dash-content@': {
-                templateUrl: 'templates/map.html',
-                controller: 'MapCtrl'
-            }
-        }
+  .state('tab.vendorsignup', {
+    url: '/vendorsignup',
+    views: {
+      'tab-vendorsignup': {
+        templateUrl: 'templates/tab-vendorsignup.html',
+        controller: 'VendorsignupCtrl'
+      }
+    }
+  })
 
-    })
-  .state('tab.dash.list', {
-        url: '/list',
-        views: {
-            'dash-content@': {
-                templateUrl: 'templates/list.html',
-                controller: 'ListCtrl'
-            }
-        }
+  .state('tab.vendordashboard', {
+    url: '/vendordashboard',
+    views: {
+      'tab-vendordashboard': {
+        templateUrl: 'templates/tab-vendordashboard.html',
+        controller: 'VendordashboardCtrl'
+      }
+    }
+  })
 
-    })
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.map', {
+    url: '/map',
+    views: {
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.listview', {
+    url: '/listview',
+    views: {
+      'tab-listview': {
+        templateUrl: 'templates/tab-listview.html',
+        controller: 'ListviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.edit', {
+    url: '/edit',
+    views: {
+      'tab-edit': {
+        templateUrl: 'templates/tab-edit.html',
+        controller: 'EditCtrl'
+      }
+    }
+  })
+
+  .state('tab.search', {
+      url: '/search',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-search': {
+          templateUrl: 'templates/tab-search.html',
+          controller: 'SearchCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.detailview', {
+      url: '/detailview/:chatId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-detailview': {
+          templateUrl: 'templates/tab-detailview.html',
+          controller: 'DetailviewCtrl'
         }
       }
     })
+
+    // .state('tab.chats', {
+    //     url: '/chats',
+    //     views: {
+    //       'tab-chats': {
+    //         templateUrl: 'templates/tab-chats.html',
+    //         controller: 'ChatsCtrl'
+    //       }
+    //     }
+    //   })
+    //   .state('tab.chat-detail', {
+    //     url: '/chats/:chatId',
+    //     views: {
+    //       'tab-chats': {
+    //         templateUrl: 'templates/chat-detail.html',
+    //         controller: 'ChatDetailCtrl'
+    //       }
+    //     }
+    //   })
 
   .state('tab.account', {
     url: '/account',
@@ -101,6 +149,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/map');
 
 });
