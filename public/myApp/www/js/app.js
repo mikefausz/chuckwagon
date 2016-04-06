@@ -71,12 +71,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.listview', {
-    url: '/listview',
+  .state('tab.home.detailview', {
+    url: '/list/:chatId',
     views: {
-      'tab-listview': {
-        templateUrl: 'templates/tab-listview.html',
-        controller: 'ListviewCtrl'
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
       }
     }
   })
@@ -130,10 +130,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.detailview', {
-      url: '/detailview/:chatId',
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
       views: {
-        'tab-detailview': {
+        'tab-search': {
           templateUrl: 'templates/tab-detailview.html',
           controller: 'DetailviewCtrl'
         }
