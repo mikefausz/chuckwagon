@@ -66,6 +66,23 @@ angular.module('starter.controllers', [])
 
 .controller('DetailviewCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
+  var mapOptions = {
+    // center: {lat: -34.397, lng: 150.644},
+    center: $scope.chat.location,
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: $scope.chat.location,
+    // position: {lat: -34.397, lng: 150.644},
+    map: $scope.map,
+    title: 'Truck name'
+  });
+
+  marker.setMap($scope.map);
 })
 
 .controller('AccountCtrl', function($scope) {
