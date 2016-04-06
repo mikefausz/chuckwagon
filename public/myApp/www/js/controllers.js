@@ -1,5 +1,8 @@
 angular.module('starter.controllers', [])
 
+.controller('MapCtrl', function($scope, Chats) {
+})
+
 .controller('DashCtrl', function($scope, $state, $cordovaGeolocation) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
@@ -21,6 +24,9 @@ angular.module('starter.controllers', [])
 
 })
 
+
+.controller('ListCtrl', function($scope, Chats) {
+})
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.

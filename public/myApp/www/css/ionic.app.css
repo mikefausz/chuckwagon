@@ -19,8 +19,12 @@ $dark:                            #444 !default;
   height: 100%; }
 
 #map {
+  position: absolute;
   width: 100%;
   height: 100%; }
+
+#map-toggle {
+  position: absolute; }
 
 /*!
   Ionicons, v2.0.1
