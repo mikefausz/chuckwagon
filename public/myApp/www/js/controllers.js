@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, Chats) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -42,6 +42,16 @@ angular.module('starter.controllers', [])
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+    $scope.chats = Chats.all();
+    $scope.chats.forEach(function(chat) {
+      var marker = new google.maps.Marker({
+        position: chat.location,
+        map: $scope.map,
+        title: chat.name,
+      });
+
+      marker.setMap($scope.map);
+    });
   }, function(error){
     console.log("Could not get location");
   });
