@@ -71,6 +71,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.home.detailview', {
+    url: '/list/:chatId',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
+      }
+    }
+  })
+
   /////FAVORITES/////
   .state('tab.favorites', {
     url: '/favorites',
@@ -97,13 +107,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/list',
     views: {
       'tab-content': {
-        templateUrl: 'templates/tab-listview.html',
+        templateUrl: 'templates/tab-favorites-listview.html',
         controller: 'ListviewCtrl'
       }
     }
   })
 
-  .state('tab.home.detailview', {
+  .state('tab.favorites.detailview', {
     url: '/list/:chatId',
     views: {
       'tab-content': {
