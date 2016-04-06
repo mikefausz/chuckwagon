@@ -12,8 +12,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ListviewCtrl', function($scope){
-
+.controller('ListviewCtrl', function($scope, Chats){
+  $scope.chats = Chats.all();
+  $scope.remove = function(chat) {
+    Chats.remove(chat);
+  };
 })
 
 .controller('HomeCtrl', function($scope){
