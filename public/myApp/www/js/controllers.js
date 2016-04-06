@@ -85,8 +85,6 @@ angular.module('starter.controllers', [])
   marker.setMap($scope.map);
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('FavoritesCtrl', function($scope) {
+
 });
