@@ -71,12 +71,54 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.listview', {
-    url: '/listview',
+  .state('tab.home.detailview', {
+    url: '/list/:chatId',
     views: {
-      'tab-listview': {
-        templateUrl: 'templates/tab-listview.html',
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
+      }
+    }
+  })
+
+  /////FAVORITES/////
+  .state('tab.favorites', {
+    url: '/favorites',
+    abstract: true,
+    views: {
+      'tab-favorites': {
+        templateUrl: 'templates/tab-favorites.html',
+        controller: 'FavoritesCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.map', {
+    url: '',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.list', {
+    url: '/list',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-favorites-listview.html',
         controller: 'ListviewCtrl'
+      }
+    }
+  })
+
+  .state('tab.favorites.detailview', {
+    url: '/list/:chatId',
+    views: {
+      'tab-content': {
+        templateUrl: 'templates/tab-detailview.html',
+        controller: 'DetailviewCtrl'
       }
     }
   })
@@ -130,10 +172,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.detailview', {
-      url: '/detailview/:chatId',
+    .state('tab.chat-detail', {
+      url: '/chats/:chatId',
       views: {
-        'tab-detailview': {
+        'tab-search': {
           templateUrl: 'templates/tab-detailview.html',
           controller: 'DetailviewCtrl'
         }
@@ -159,15 +201,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     //     }
     //   })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+  // .state('tab.account', {
+  //   url: '/account',
+  //   views: {
+  //     'tab-account': {
+  //       templateUrl: 'templates/tab-account.html',
+  //       controller: 'AccountCtrl'
+  //     }
+  //   }
+  // });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
