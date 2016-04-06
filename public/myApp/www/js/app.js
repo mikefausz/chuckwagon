@@ -72,7 +72,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.home.detailview', {
-    url: '/list/:chatId',
+    url: '/list/:truckId',
     views: {
       'tab-content': {
         templateUrl: 'templates/tab-detailview.html',
@@ -114,7 +114,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.favorites.detailview', {
-    url: '/list/:chatId',
+    url: '/list/:truckId',
     views: {
       'tab-content': {
         templateUrl: 'templates/tab-detailview.html',
@@ -172,8 +172,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.truck-detail', {
+      url: '/trucks/:truckId',
       views: {
         'tab-search': {
           templateUrl: 'templates/tab-detailview.html',
@@ -182,21 +182,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
 
-    // .state('tab.chats', {
-    //     url: '/chats',
+    // .state('tab.trucks', {
+    //     url: '/trucks',
     //     views: {
-    //       'tab-chats': {
-    //         templateUrl: 'templates/tab-chats.html',
-    //         controller: 'ChatsCtrl'
+    //       'tab-trucks': {
+    //         templateUrl: 'templates/tab-trucks.html',
+    //         controller: 'trucksCtrl'
     //       }
     //     }
     //   })
-    //   .state('tab.chat-detail', {
-    //     url: '/chats/:chatId',
+    //   .state('tab.truck-detail', {
+    //     url: '/trucks/:truckId',
     //     views: {
-    //       'tab-chats': {
-    //         templateUrl: 'templates/chat-detail.html',
-    //         controller: 'ChatDetailCtrl'
+    //       'tab-trucks': {
+    //         templateUrl: 'templates/truck-detail.html',
+    //         controller: 'truckDetailCtrl'
     //       }
     //     }
     //   })

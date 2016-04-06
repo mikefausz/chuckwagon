@@ -12,10 +12,10 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ListviewCtrl', function($scope, Chats){
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+.controller('ListviewCtrl', function($scope, TruckService){
+  $scope.trucks = TruckService.all();
+  $scope.remove = function(truck) {
+    TruckService.remove(truck);
   };
 })
 
@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, Chats) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -42,12 +42,21 @@ angular.module('starter.controllers', [])
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    $scope.chats = Chats.all();
-    $scope.chats.forEach(function(chat) {
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: $scope.map,
+      title: 'You are here',
+      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+    });
+
+    marker.setMap($scope.map);
+
+    $scope.trucks = TruckService.all();
+    $scope.trucks.forEach(function(truck) {
       var marker = new google.maps.Marker({
-        position: chat.location,
+        position: truck.location,
         map: $scope.map,
-        title: chat.name,
+        title: truck.name,
       });
 
       marker.setMap($scope.map);
@@ -59,7 +68,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('SearchCtrl', function($scope, Chats) {
+.controller('SearchCtrl', function($scope, TruckService) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -68,17 +77,17 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
+  $scope.trucks = TruckService.all();
+  $scope.remove = function(truck) {
+    TruckService.remove(truck);
   };
 })
 
-.controller('DetailviewCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('DetailviewCtrl', function($scope, $stateParams, TruckService) {
+  $scope.truck = TruckService.get($stateParams.truckId);
   var mapOptions = {
     // center: {lat: -34.397, lng: 150.644},
-    center: $scope.chat.location,
+    center: $scope.truck.location,
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -86,7 +95,7 @@ angular.module('starter.controllers', [])
   $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
 
   var marker = new google.maps.Marker({
-    position: $scope.chat.location,
+    position: $scope.truck.location,
     // position: {lat: -34.397, lng: 150.644},
     map: $scope.map,
     title: 'Truck name'
