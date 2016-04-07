@@ -1,5 +1,9 @@
 angular.module('starter.controllers', [])
 
+.controller('VendorCtrl', function($scope){
+
+})
+
 .controller('VendorAccessCtrl', function($scope){
   $scope.vendor = {};
 
@@ -93,6 +97,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, TruckService) {
+  // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+  //   viewData.enableBack = true;
+  // });
   $scope.truck = TruckService.get($stateParams.truckId);
   var mapOptions = {
     // center: {lat: -34.397, lng: 150.644},
