@@ -24,9 +24,6 @@
   ],
   "cordovaPlatforms": [
     "ios"
-<<<<<<< HEAD
-  ]
-=======
   ],
   "main": "gulpfile.js",
   "scripts": {
@@ -34,5 +31,4 @@
   },
   "author": "",
   "license": "ISC"
->>>>>>> 22d938b587d0522d2a347423fee8a64d065c9c46
 }
