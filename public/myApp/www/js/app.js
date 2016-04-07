@@ -123,27 +123,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.vendoraccess', {
-    url: '/vendoraccess',
+/////VENDOR/////
+  .state('tab.vendor', {
+    url: '/vendor',
+    abstract: true,
     views: {
-      'tab-vendoraccess': {
+      'tab-vendor': {
+        templateUrl: 'templates/tab-vendor.html',
+        controller: 'VendorCtrl'
+      }
+    }
+  })
+  .state('tab.vendor.vendoraccess', {
+    url: '',
+    views: {
+      'tab-content': {
         templateUrl: 'templates/tab-vendoraccess.html',
         controller: 'VendorAccessCtrl'
       }
     }
   })
 
-  .state('tab.vendorsignup', {
+  .state('tab.vendor.vendorsignup', {
     url: '/vendorsignup',
     views: {
-      'tab-vendorsignup': {
+      'tab-content': {
         templateUrl: 'templates/tab-vendorsignup.html',
         controller: 'VendorsignupCtrl'
       }
     }
   })
-
-  .state('tab.vendordashboard', {
+//////////////////////NEED TO ADJUST TAB VIEW
+  .state('tab.vendor.vendordashboard', {
     url: '/vendordashboard',
     views: {
       'tab-vendordashboard': {
