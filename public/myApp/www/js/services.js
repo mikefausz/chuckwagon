@@ -2,6 +2,8 @@ angular.module('starter.services', [])
 
 .factory('TruckService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
+  var ip = "http://10.0.10.70:8080";
+  var loginUrl = ip + "/vendor/login";
 
   function getTrucks() {
       var defer = $q.defer();
@@ -67,6 +69,9 @@ angular.module('starter.services', [])
     },
     remove: function(truck) {
       trucks.splice(trucks.indexOf(truck), 1);
+    },
+    login: function(vendor){
+      return $http.post(loginUrl, vendor);
     },
     get: function(truckId) {
       for (var i = 0; i < trucks.length; i++) {

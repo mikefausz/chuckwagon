@@ -16,11 +16,12 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('VendorAccessCtrl', function($scope){
+.controller('VendorAccessCtrl', function($scope, TruckService){
   $scope.vendor = {};
 
-  $scope.login = function(){
-
+  $scope.login = function(vendor){
+    console.log("LOGGING IN");
+    TruckService.login(vendor);
   };
 })
 
