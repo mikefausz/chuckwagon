@@ -1,8 +1,8 @@
 <!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
+  This template loads for the 'tab.detailview' state (app.js)
+  'truck' is a $scope variable created in the ListviewCtrl controller (controllers.js)
+  The ListviewCtrl pulls data from the TruckService(service.js)
+  The TruckService returns an array of vendor data
 -->
 <ion-view view-title="{{truck.name}}">
   <ion-content class="padding">
@@ -15,17 +15,3 @@
     <div id="map-detail"></div>
   </ion-content>
 </ion-view>
-<!-- <ion-view view-title="{{truck.name}}">
-  <ion-content class="padding">
-    <img ng-src="{{truck.profileImg}}" style="width: 64px; height: 64px">
-    <h1>{{truck.name}}</h1>
-    <h3>{{truck.tags}}</h3>
-    <p>
-      {{truck.bio}}
-    </p>
-    <div id="map-detail"></div>
-  </ion-content>
-</ion-view> -->
-
-
-<!-- this is a test comment -->
