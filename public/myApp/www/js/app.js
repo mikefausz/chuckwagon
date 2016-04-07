@@ -131,7 +131,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 /////VENDOR/////
 
   .state('tab.vendoraccess', {
-    url: '',
+    url: '/vendoraccess',
     views: {
       'tab-vendor': {
         templateUrl: 'templates/tab-vendoraccess.html',
