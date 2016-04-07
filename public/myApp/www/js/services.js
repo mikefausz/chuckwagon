@@ -1,12 +1,30 @@
 angular.module('starter.services', [])
 
-.factory('TruckService', function($http) {
-  // Might use a resource here that returns a JSON array
+.factory('TruckService', function($http, $q, $cacheFactory) {
+  var cacheEngine = $cacheFactory('starter');
   var ip = "http://10.0.10.70:8080";
-
   var loginUrl = ip + "/vendor/login";
 
-  // Some fake testing data
+  function getTrucks() {
+      var defer = $q.defer();
+      var cache = cacheEngine.get('vendors');
+      // IF cache already contains vendors, use those
+      if(cache) {
+        console.log('found trucks in the cache');
+        defer.resolve(cache);
+      }
+      // ELSE get vendors from server, put them in cache
+      else {
+        console.log('no trucks in cache. getting from service');
+        // var vendors = $http.get(ip + 'vendors');
+        var vendors = trucks;
+        cacheEngine.put('vendors',  vendors);
+        defer.resolve(vendors);
+      }
+      return defer.promise;
+  }
+
+  // Dummy data for development
   var trucks = [{
     id: 0,
     name: 'Bon Banh Mi',
@@ -45,6 +63,7 @@ angular.module('starter.services', [])
   }];
 
   return {
+    getTrucks: getTrucks,
     all: function() {
       return trucks;
     },
