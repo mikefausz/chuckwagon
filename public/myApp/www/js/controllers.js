@@ -53,9 +53,9 @@ angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
-
+  console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
+    console.log("RELOG POS")
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     var mapOptions = {
@@ -65,7 +65,46 @@ angular.module('starter.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    console.log('map',$scope.map)
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: $scope.map,
+      title: 'You are here',
+      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+    });
 
+    marker.setMap($scope.map);
+
+    $scope.trucks = TruckService.all();
+    $scope.trucks.forEach(function(truck) {
+      var marker = new google.maps.Marker({
+        position: truck.location,
+        map: $scope.map,
+        title: truck.name,
+      });
+
+      marker.setMap($scope.map);
+    });
+  }, function(error){
+    console.log("Could not get location");
+  });
+
+})
+.controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+  console.log("INITIALIZING MAP");
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    console.log("RELOG POS")
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("fav-map"), mapOptions);
+    console.log('map',$scope.map)
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,
