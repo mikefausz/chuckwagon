@@ -45,17 +45,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // Each tab has its own nav history stack:
 
-  // .state('tab.home', {
-  //   url: '/home',
-  //   abstract: true,
-  //   views: {
-  //     'tab-home': {
-  //       templateUrl: 'templates/tab-home.html',
-  //       controller: 'HomeCtrl'
-  //     }
-  //   }
-  // })
-
   .state('tab.map', {
     url: '/home',
     views: {
@@ -87,17 +76,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   /////FAVORITES/////
-  // .state('tab.favorites', {
-  //   url: '/favorites',
-  //   abstract: true,
-  //   views: {
-  //     'tab-favorites': {
-  //       templateUrl: 'templates/tab-favorites.html',
-  //       controller: 'FavoritesCtrl'
-  //     }
-  //   }
-  // })
-
   .state('tab.fav-map', {
     url: '/favorites',
     views: {
@@ -130,12 +108,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 /////VENDOR/////
 
-  .state('tab.vendoraccess', {
-    url: '/vendoraccess',
+  .state('tab.vendorlogin', {
+    url: '/vendorlogin',
     views: {
       'tab-vendor': {
-        templateUrl: 'templates/tab-vendoraccess.html',
-        controller: 'VendorAccessCtrl'
+        templateUrl: 'templates/tab-vendorlogin.html',
+        controller: 'VendorLoginCtrl'
       }
     }
   })
@@ -161,7 +139,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.vendoredit', {
-    url: '/edit',
+    url: '/vendoredit',
     views: {
       'tab-vendoredit': {
         templateUrl: 'templates/tab-vendoredit.html',
@@ -179,7 +157,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    
+
     .state('tab.truck-detail', {
       url: '/trucks/:truckId',
       views: {
@@ -189,35 +167,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-
-    // .state('tab.trucks', {
-    //     url: '/trucks',
-    //     views: {
-    //       'tab-trucks': {
-    //         templateUrl: 'templates/tab-trucks.html',
-    //         controller: 'trucksCtrl'
-    //       }
-    //     }
-    //   })
-    //   .state('tab.truck-detail', {
-    //     url: '/trucks/:truckId',
-    //     views: {
-    //       'tab-trucks': {
-    //         templateUrl: 'templates/truck-detail.html',
-    //         controller: 'truckDetailCtrl'
-    //       }
-    //     }
-    //   })
-
-  // .state('tab.account', {
-  //   url: '/account',
-  //   views: {
-  //     'tab-account': {
-  //       templateUrl: 'templates/tab-account.html',
-  //       controller: 'AccountCtrl'
-  //     }
-  //   }
-  // });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');

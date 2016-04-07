@@ -5,41 +5,38 @@ navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-  <!-- Home Tab -->
-  <ion-tab title="Home" ng-show="getVendorView" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/map">
-    <ion-nav-view name="tab-home"></ion-nav-view>
-  </ion-tab>
 
-  <div ng-if="notVendor">
+  <!-- <div ng-if="notVendor"> -->
+
+      <!-- Home Tab -->
+      <ion-tab title="Home" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/map">
+        <ion-nav-view name="tab-home"></ion-nav-view>
+      </ion-tab>
+
     <!-- Favorites Tab -->
-    <ion-tab title="Favorites" ng-show="getVendorView" icon-off="ion-ios-heart-outline" icon-on="ion-ios-heart" href="#/tab/favorites">
+    <ion-tab title="Favorites" icon-off="ion-ios-heart-outline" icon-on="ion-ios-heart" href="#/tab/favorites">
       <ion-nav-view name="tab-favorites"></ion-nav-view>
     </ion-tab>
 
 
     <!-- Advanced Search Tab -->
-    <ion-tab title="Search" ng-show="getVendorView" icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
+    <ion-tab title="Search" icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
       <ion-nav-view name="tab-search"></ion-nav-view>
     </ion-tab>
 
-  </div>
-
-  <div ng-if="vendorView">
-
      <!-- Add New Vendor -->
-     <ion-tab title="Edit Profile" ng-show="getVendorView" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/vendor">
+     <ion-tab title="Edit Profile" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/vendoredit">
        <ion-nav-view name="tab-vendoredit"></ion-nav-view>
      </ion-tab>
 
     <!-- Advanced Search Tab -->
-    <ion-tab title="Logout" ng-show="getVendorView" ng-click="toggleVendorView()" icon-off="ion-ios-undo-outline" icon-on="ion-ios-undo" href="#/tab/search">
+    <!-- <ion-tab title="Logout" ng-click="toggleVendorView()" icon-off="ion-ios-undo-outline" icon-on="ion-ios-undo" href="#/tab/">
       <ion-nav-view name="tab-logout"></ion-nav-view>
-    </ion-tab>
+    </ion-tab> -->
 
-  </div>
 
   <!-- Vendor Access Tab -->
-  <ion-tab title="Vendor" ng-show="getVendorView" ng-click="toggleVendorView()" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/tab/vendoraccess">
+  <ion-tab title="Vendor Login" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/tab/vendorlogin">
     <ion-nav-view name="tab-vendor"></ion-nav-view>
   </ion-tab>
 

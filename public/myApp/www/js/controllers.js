@@ -13,14 +13,10 @@ angular.module('starter.controllers', [])
       $scope.vendorView = true;
       $scope.notVendor = false;
     }
-  }
+  };
 })
 
-.controller('VendorCtrl', function($scope){
-
-})
-
-.controller('VendorAccessCtrl', function($scope, TruckService){
+.controller('VendorLoginCtrl', function($scope, TruckService){
   $scope.vendor = {};
 
   $scope.login = function(vendor){
@@ -56,7 +52,7 @@ angular.module('starter.controllers', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    console.log("RELOG POS")
+    console.log("RELOG POS");
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     var mapOptions = {
@@ -66,7 +62,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    console.log('map',$scope.map)
+    console.log('map',$scope.map);
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,
@@ -95,7 +91,7 @@ angular.module('starter.controllers', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    console.log("RELOG POS")
+    console.log("RELOG POS");
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     var mapOptions = {
@@ -105,7 +101,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("fav-map"), mapOptions);
-    console.log('map',$scope.map)
+    console.log('map',$scope.map);
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,
