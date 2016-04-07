@@ -35,7 +35,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    views: {
+      'stuff': {
+        templateUrl: 'templates/tabs.html',
+        controller: 'TabCtrl'
+      }
+    }
   })
 
   // Each tab has its own nav history stack:
@@ -124,40 +129,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
 /////VENDOR/////
-  .state('tab.vendor', {
-    url: '/vendor',
-    abstract: true,
-    views: {
-      'tab-vendor': {
-        templateUrl: 'templates/tab-vendor.html',
-        controller: 'VendorCtrl'
-      }
-    }
-  })
-  .state('tab.vendor.vendoraccess', {
+
+  .state('tab.vendoraccess', {
     url: '',
     views: {
-      'tab-content': {
+      'tab-vendor': {
         templateUrl: 'templates/tab-vendoraccess.html',
         controller: 'VendorAccessCtrl'
       }
     }
   })
 
-  .state('tab.vendor.vendorsignup', {
+  .state('tab.vendorsignup', {
     url: '/vendorsignup',
     views: {
-      'tab-content': {
+      'tab-vendor': {
         templateUrl: 'templates/tab-vendorsignup.html',
         controller: 'VendorsignupCtrl'
       }
     }
   })
 //////////////////////NEED TO ADJUST TAB VIEW
-  .state('tab.vendor.vendordashboard', {
+  .state('tab.vendordashboard', {
     url: '/vendordashboard',
     views: {
-      'tab-vendordashboard': {
+      'tab-vendor': {
         templateUrl: 'templates/tab-vendordashboard.html',
         controller: 'VendordashboardCtrl'
       }
