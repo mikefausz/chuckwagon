@@ -1,5 +1,17 @@
 angular.module('starter.controllers', [])
 
+.controller('TabCtrl', function($scope){
+  $scope.vendorView = false;
+  console.log('in tab controller');
+  $scope.toggleVendorView = function() {
+    if ($scope.vendorView) {
+      $scope.vendorView = false;
+    } else {
+      $scope.vendorView = true;
+    }
+  };
+})
+
 .controller('VendorCtrl', function($scope){
 
 })
