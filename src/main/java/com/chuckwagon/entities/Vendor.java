@@ -18,7 +18,7 @@ public class Vendor {
     @GeneratedValue
     private Integer id;
 
-    @Column(nullable = false, name = "vendor_name")
+    @Column(nullable = false, name = "vendor_name", unique = true)
     private String vendorName;
 
     @Column(nullable = false, name = "vendor_password_hashed")
@@ -30,7 +30,7 @@ public class Vendor {
     @Column( name = "contact_last_name")
     private String contactLastName;
 
-    @Column( name = "contact_email")
+    @Column( name = "contact_email", unique = true)
     private String contactEmail;
 
     @Column( name = "bio")
@@ -52,8 +52,8 @@ public class Vendor {
     public Vendor() {
     }
 
-    public Vendor(String vendorName, String password) {
-        this.vendorName = vendorName;
+    public Vendor(String contactEmail, String password) {
+        this.contactEmail = contactEmail;
         this.password = password;
     }
 
