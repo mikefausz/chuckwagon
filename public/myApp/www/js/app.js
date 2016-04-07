@@ -131,7 +131,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 /////VENDOR/////
 
   .state('tab.vendoraccess', {
-    url: '',
+    url: '/vendoraccess',
     views: {
       'tab-vendor': {
         templateUrl: 'templates/tab-vendoraccess.html',
@@ -160,11 +160,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.edit', {
+  .state('tab.vendoredit', {
     url: '/edit',
     views: {
-      'tab-edit': {
-        templateUrl: 'templates/tab-edit.html',
+      'tab-vendoredit': {
+        templateUrl: 'templates/tab-vendoredit.html',
         controller: 'EditCtrl'
       }
     }
@@ -179,6 +179,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
+    
     .state('tab.truck-detail', {
       url: '/trucks/:truckId',
       views: {

@@ -118,6 +118,7 @@ angular.module('starter.controllers', [])
   //   viewData.enableBack = true;
   // });
   $scope.truck = TruckService.get($stateParams.truckId);
+
   var mapOptions = {
     // center: {lat: -34.397, lng: 150.644},
     center: $scope.truck.location,
