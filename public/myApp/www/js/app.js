@@ -98,7 +98,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-favorites': {
         templateUrl: 'templates/tab-favorites.html',
-        controller: 'MapCtrl'
+        controller: 'FavMapCtrl'
       }
     }
   })
