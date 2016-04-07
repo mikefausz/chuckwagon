@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
 
   $scope.login = function(){
 
-  }
+  };
 })
 
 .controller('VendorsignupCtrl', function($scope){
@@ -55,21 +55,26 @@ angular.module('starter.controllers', [])
 
     marker.setMap($scope.map);
 
-    $scope.trucks = TruckService.all();
-    $scope.trucks.forEach(function(truck) {
-      var marker = new google.maps.Marker({
-        position: truck.location,
-        map: $scope.map,
-        title: truck.name,
-      });
+    // $scope.trucks = TruckService.all();
+    TruckService.getTrucks().then(function(trucks) {
+      $scope.trucks = trucks;
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
+        });
 
-      marker.setMap($scope.map);
+        marker.setMap($scope.map);
+      });
     });
-  }, function(error){
+
+    }, function(error){
     console.log("Could not get location");
   });
-
 })
+
 
 
 .controller('SearchCtrl', function($scope, TruckService) {
