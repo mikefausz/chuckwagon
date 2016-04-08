@@ -159,6 +159,50 @@ angular.module('starter.controllers', [])
   });
 })
 
+.controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+  console.log("INITIALIZING MAP");
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    console.log("RELOG POS");
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("search-map"), mapOptions);
+    console.log('map',$scope.map);
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: $scope.map,
+      title: 'You are here',
+      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+    });
+
+    marker.setMap($scope.map);
+
+    // $scope.trucks = TruckService.all();
+    TruckService.getTrucks().then(function(trucks) {
+      $scope.trucks = trucks;
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
+        });
+
+        marker.setMap($scope.map);
+      });
+    });
+
+    }, function(error){
+    console.log("Could not get location");
+  });
+})
+
 
 
 .controller('SearchCtrl', function($scope, TruckService) {
@@ -199,6 +243,10 @@ angular.module('starter.controllers', [])
   });
 
   marker.setMap($scope.map);
+})
+
+.controller('AdvSearchCtrl', function($scope) {
+
 })
 
 .controller('FavoritesCtrl', function($scope) {
