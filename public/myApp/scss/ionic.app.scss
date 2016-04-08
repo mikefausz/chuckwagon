@@ -15,6 +15,12 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+// CHUCKWAGON blue
+$calm: rgb(37,155,205);
+// CHUCKWAGON red
+$assertive: rgb(240,83,61);
+$grey:                          #666;
+
 .scroll {
     height: 100%;
 }
@@ -24,12 +30,40 @@ $dark:                            #444 !default;
   height: 100%;
 }
 
-#map-detail {
-  width: 100%;
-  height: 100px;
+#detailview {
+  #detail-header {
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      float: left;
+      margin: 0 10px 6px 0;
+    }
+    h3, h4 {
+      display: inline-block;
+      vertical-align: top;
+      font-weight: normal;
+    }
+    h4 {
+      color: $grey;
+      margin: 0 0 8px 0;
+    }
+  }
+  img {
+    width: 100%;
+    height: 200px;
+  }
+  h4 {
+    font-weight: normal;
+  }
 }
 
-.map-toggle {
+#map-detail {
+  width: 100%;
+  height: 200px;
+}
+
+.button-bar.map-toggle {
   position: absolute;
   width: 50%;
   bottom: 5%;

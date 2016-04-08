@@ -29,6 +29,11 @@ navigation history that also transitions its views in and out.
        <ion-nav-view name="tab-vendoredit"></ion-nav-view>
      </ion-tab>
 
+     <!-- Vendor Dashboard Tab -->
+     <ion-tab title="Vendor Dashboard" ng-if="vendorView" icon-off="ion-ios-speedometer-outline" icon-on="ion-ios-speedometer" href="#/tab/vendordashboard">
+       <ion-nav-view name="tab-vendordashboard"></ion-nav-view>
+     </ion-tab>
+
     <!-- Advanced Search Tab -->
     <!-- <ion-tab title="Logout" ng-click="toggleVendorView()" icon-off="ion-ios-undo-outline" icon-on="ion-ios-undo" href="#/tab/">
       <ion-nav-view name="tab-logout"></ion-nav-view>
