@@ -8,20 +8,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.UserNotFoundException;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.VendorRepository;
+import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
+import org.aspectj.lang.annotation.Before;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by branden on 4/5/16 at 21:19.
@@ -30,7 +34,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @CrossOrigin
 @RestController
 public class ChuckWagonController {
-
 
     //set up method wide vars
     private final VendorRepository vendorRepository;
@@ -61,50 +64,54 @@ public class ChuckWagonController {
 
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
     ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
-        //run validates
+        //We are expecting an email address(id) a vendor name, and a password
+        if (!EmailUtils.isValidEmailAddress(vendor.getContactEmail())) return new ResponseEntity<Object>("invalid email", HttpStatus.BAD_REQUEST);
+        //String regex = ".[$&+,:;=?@#|'<>.-^*()%!]";
+        //if (vendor.getPassword().length() < 4 || !vendor.getPassword().matches(regex)) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
+        if (vendor.getPassword().length() < 4) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
 
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
-
         Vendor result = vendorRepository.save(vendor);
 
 
-        //set up a response entity
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
-
-        return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
-    ResponseEntity<?> updateVendor(@PathVariable Integer id, @RequestBody Vendor vendor) throws IOException {
+    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
+    ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
 
-        if (vendorRepository.findOne(id) != null) {
+        Vendor vendor = vendorRepository.findOne(id);
+        Vendor loggedIn = vendorRepository.findByContactEmail((String) session.getAttribute("email"));
+        //see if the vendor exists
+        if (vendor != null && vendor.getContactEmail().equals(session.getAttribute("email"))) {
+            /** Logic for file upload */
+            if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
+                //ensure that the directory exists
+                File dir = new File("public/images/" + vendor.getVendorName().toLowerCase().replace(" ", ""));
+                dir.mkdirs();
 
-            if (vendor.getProfilePicture().getContentType().startsWith("image")) {  //check for a photo of some sort --MAY WANT TO TRY CATCH THIS?
+                System.out.println(vendor);
+
                 //all this creates a random file name
-                File photoFile = File.createTempFile("image", vendor.getProfilePicture().getOriginalFilename(), new File("public/images" + vendor.getVendorName().toLowerCase().replace(" ", "")));
+                File photoFile = File.createTempFile("image", profilePicture.getOriginalFilename(), dir);
                 FileOutputStream fos = new FileOutputStream(photoFile);
-                fos.write(vendor.getProfilePicture().getBytes());
+                fos.write(profilePicture.getBytes());
 
                 vendor.setProfilePictureString(photoFile.getName());
+                vendorRepository.save(vendor);
+                return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<Object>("Not an image ", HttpStatus.NOT_ACCEPTABLE);
             }
-
-            vendorRepository.save(vendor);
-            return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
 
-
-
+    }
 
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vendor.getId()).toUri()); //keep an eye on this now.
-
-
-        return new ResponseEntity<Object>("Vendor does not exist", HttpStatus.NOT_FOUND);
-        //return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
-    }
-
 
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
@@ -113,31 +120,32 @@ public class ChuckWagonController {
         return vendorRepository.findOne(id);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    ResponseEntity<?> login(@RequestBody Vendor vendor, HttpSession session) {
-       Vendor result =  validateVendor(vendor.getVendorName());
+    @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
+    ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
-        session.setAttribute("vendorName", vendor.getVendorName());
+//       //Fake it till you make it -- take this out in production
+//        if (vendorRepository.findByContactEmail("email") == null) {
+//            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
+//        }
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
+        //make connection to logging in vendor and vendors in DB
+        Vendor vendor = vendorRepository.findByContactEmail((String) data.get("contactEmail"));
 
-        return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
+        //check to see if vendor exists in DB, and that password matches.
+        if (vendor != null && PasswordStorage.verifyPassword((String) data.get("password"), vendor.getPassword())) {
+            session.setAttribute("email", vendor.getContactEmail());
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
+
+        }
+       // httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
     }
-
 
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
     List<Vendor> vendorByLocation(@PathVariable Location locaton) {
         return vendorRepository.findByIsActive(true);
     }
 
-
-
-
-    //validation methods
-    private Vendor validateVendor(String vendorName) {
-        return vendorRepository.findByVendorName(vendorName).orElseThrow(
-                () -> new UserNotFoundException(vendorName));
-    }
 
 }
