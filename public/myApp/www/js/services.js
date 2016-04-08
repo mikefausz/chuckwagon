@@ -4,6 +4,7 @@ angular.module('starter.services', [])
   var cacheEngine = $cacheFactory('starter');
   var ip = "http://10.0.10.70:8080";
   var loginUrl = ip + "/vendor/login";
+  var signupUrl = ip + "/vendor";
 
   function getTrucks() {
       var defer = $q.defer();
@@ -70,8 +71,18 @@ angular.module('starter.services', [])
     remove: function(truck) {
       trucks.splice(trucks.indexOf(truck), 1);
     },
-    login: function(vendor){
-      return $http.post(loginUrl, vendor);
+    loginVendor: function(login){
+      var currentVendor = $http.post(loginUrl, login);
+      cacheEngine.put('currentVendor',  currentVendor);
+      return currentVendor;
+    },
+    signup: function(vendor){
+      var currentVendor = $http.post(signupUrl, vendor);
+      cacheEngine.put('currentVendor',  currentVendor);
+      return currentVendor;
+    },
+    getCurrentVendor: function(){
+      return cacheEngine.get('currentVendor');
     },
     get: function(truckId) {
       for (var i = 0; i < trucks.length; i++) {

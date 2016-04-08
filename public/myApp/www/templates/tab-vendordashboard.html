@@ -1,5 +1,17 @@
 <ion-view view-title="Vendor Dashboard">
-  <ion-content>
-    <h1>Vendor Dashboard</h1>
+  <ion-content class="padding">
+    <h1>Welcome, {{currentVendor.truckname}}</h1>
+    <button class="button" ng-click="upload()">Upload File</button>
+
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">At Location Until</span>
+      <input type="time" placeholder="" ng-click="showDatePicker()">
+    </label>
+
+    <label class="item item-input item-stacked-label">
+      <input type="text" placeholder="Type a message">
+    </label>
+
+    <a href="#/tab/{{truck.id}}"><button class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
   </ion-content>
 </ion-view>

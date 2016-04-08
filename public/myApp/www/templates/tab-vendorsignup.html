@@ -1,14 +1,14 @@
 <ion-view view-title="Vendor Signup">
   <ion-content class="padding">
-    
+
     <h2>ChuckWagon</h2>
 
   <div class="list list-inset">
     <label class="item item-input">
-      <input type="text" placeholder="TRUCK NAME" ng-model="vendor.truckname">
+      <input type="text" placeholder="TRUCK NAME" ng-model="vendor.vendorName">
     </label>
     <label class="item item-input">
-      <input type="text" placeholder="EMAIL" ng-model="vendor.email">
+      <input type="text" placeholder="EMAIL" ng-model="vendor.contactEmail">
     </label>
     <label class="item item-input">
       <input type="text" placeholder="PASSWORD" ng-model="vendor.password">
@@ -18,8 +18,8 @@
     </label>
   </div>
 
-  <button class="button button-block button-dark" type="submit" name="button">APPLY FOR ACCOUNT</button>
-  <button class="button button-block button-dark" type="submit" name="button">CANCEL</button>
+  <a href="#/tab/vendordashboard"><button ng-click="signup(vendor)" class="button button-block button-dark" type="submit" name="button">APPLY FOR ACCOUNT</button></a>
+  <a href="#/tab/home"><button class="button button-block button-dark" type="submit" name="button">CANCEL</button></a>
 
   </ion-content>
 </ion-view>
