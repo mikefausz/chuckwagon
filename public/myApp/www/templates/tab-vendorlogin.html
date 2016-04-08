@@ -1,6 +1,6 @@
 <ion-view view-title="Vendor Login">
   <ion-content class="padding">
-    <img src="https://s-media-cache-ak0.pinimg.com/236x/9a/3d/35/9a3d355ecf245f984e6196695d55a7fe.jpg" alt="" style="width: 60%;" />
+    <img id="chuckwagon-logo" src="https://s-media-cache-ak0.pinimg.com/236x/9a/3d/35/9a3d355ecf245f984e6196695d55a7fe.jpg" alt="" style="width: 60%;" />
 
   <div class="list list-inset">
     <label class="item item-input">
@@ -12,12 +12,13 @@
   </div>
 
   <button ng-click="loginVendor(login)" class="button button-block button-dark" type="submit" name="button">LOGIN</button>
+    <a href="#/tab/home"><button class="button button-block button-assertive" type="submit" name="button">CANCEL</button></a>
 
-  <a href="#/tab/home"><button class="button button-block button-assertive" type="submit" name="button">CANCEL</button></a>
-
-    <p>
-      not a member?
-    </p>
-    <a href="#/tab/vendorsignup"><button class="button button-positive" type="button" name="button">SIGN-UP</button></a>
+    <div class="center">
+      <p>
+        not a member?
+      </p>
+      <a href="#/tab/vendorsignup"><button class="button button-positive" type="button" name="button">SIGN-UP</button></a>
+    </div>
   </ion-content>
 </ion-view>

@@ -132,7 +132,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('tab.vendordashboard', {
     url: '/vendordashboard',
     views: {
-      'tab-vendordashboard': {
+      'tab-vendor': {
         templateUrl: 'templates/tab-vendordashboard.html',
         controller: 'VendordashboardCtrl'
       }

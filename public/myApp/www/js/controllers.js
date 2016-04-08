@@ -5,14 +5,14 @@ angular.module('starter.controllers', [])
   $scope.notVendor = true;
 
   $scope.toggleVendorView = function() {
-    if($scope.vendorView) {
-      $scope.vendorView = false;
-      $scope.notVendor = true;
-      $state.go('tab.map');
-    } else {
+    if ($scope.notVendor){
       $scope.vendorView = true;
       $scope.notVendor = false;
       $state.go('tab.vendorlogin');
+    } else {
+      $scope.vendorView = false;
+      $scope.notVendor = true;
+      $state.go('tab.map');
     }
   };
 })
