@@ -23,6 +23,7 @@ angular.module('starter.controllers', [])
     TruckService.loginVendor(login).then(function(vendor){
       $state.go('tab.vendordashboard');
       console.log("VENDOR", vendor);
+      $scope.sayMyName = vendor;
     });
   };
 })
@@ -35,7 +36,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService){
-  $scope.currentVendor = TruckService.get('currentVendor');
+  $scope.currentVendor = TruckService.getCurrentVendor();
+  window.glob = $scope.currentVendor;
   $scope.upload = function(){
     var options = {
       fileKey: "avatar",
