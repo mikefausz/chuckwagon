@@ -2,7 +2,6 @@ package com.chuckwagon.controllers;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,7 +26,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * Created by branden on 4/5/16 at 21:19.
@@ -36,7 +34,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @CrossOrigin
 @RestController
 public class ChuckWagonController {
-
 
     //set up method wide vars
     private final VendorRepository vendorRepository;
@@ -69,9 +66,9 @@ public class ChuckWagonController {
     ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
         //We are expecting an email address(id) a vendor name, and a password
         if (!EmailUtils.isValidEmailAddress(vendor.getContactEmail())) return new ResponseEntity<Object>("invalid email", HttpStatus.BAD_REQUEST);
-        String regex = ".[$&+,:;=?@#|'<>.-^*()%!]";
-        if (vendor.getPassword().length() < 4 || !vendor.getPassword().matches(regex)) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
-
+        //String regex = ".[$&+,:;=?@#|'<>.-^*()%!]";
+        //if (vendor.getPassword().length() < 4 || !vendor.getPassword().matches(regex)) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
+        if (vendor.getPassword().length() < 4) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
 
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
@@ -125,20 +122,23 @@ public class ChuckWagonController {
     }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
-    ResponseEntity<?> login(@RequestBody Vendor vendor, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    ResponseEntity<?> login(@RequestBody HashMap vendor, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
-
-        //Fake it till you make it
-
+       //Fake it till you make it
         if (vendorRepository.findByContactEmail("email") == null) {
-            vendorRepository.save(new Vendor("email", PasswordStorage.createHash("password")));
+            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
         }
 
-        Vendor result = vendorRepository.findByContactEmail((String) vendor.getContactEmail());
 
-        if (result != null && PasswordStorage.verifyPassword((String) vendor.getContactEmail(), result.getPassword())) {
+        Vendor result = vendorRepository.findByContactEmail((String) vendor.get("contactEmail"));
+
+
+
+        System.out.println("vendor: " + vendor);
+        System.out.println("result " + result);
+        if (result != null && PasswordStorage.verifyPassword((String) vendor.get("password"), result.getPassword())) {
             session.setAttribute("email", result.getContactEmail());
-            return new ResponseEntity<Object>("Accepted", HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
 

@@ -52,8 +52,9 @@ public class Vendor {
     public Vendor() {
     }
 
-    public Vendor(String contactEmail, String password) {
+    public Vendor(String contactEmail, String vendorName, String password) {
         this.contactEmail = contactEmail;
+        this.vendorName = vendorName;
         this.password = password;
     }
 
