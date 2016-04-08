@@ -1,17 +1,18 @@
 angular.module('starter.controllers', [])
 
-.controller('TabCtrl', function($scope){
+.controller('TabCtrl', function($scope, $state){
   $scope.vendorView = false;
-
   $scope.notVendor = true;
 
   $scope.toggleVendorView = function() {
     if($scope.vendorView) {
       $scope.vendorView = false;
       $scope.notVendor = true;
+      $state.go('tab.map');
     } else {
       $scope.vendorView = true;
       $scope.notVendor = false;
+      $state.go('tab.vendorlogin');
     }
   };
 })
