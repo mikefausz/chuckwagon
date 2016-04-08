@@ -179,15 +179,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.truck-detail', {
-      url: '/trucks/:truckId',
-      views: {
-        'tab-search': {
-          templateUrl: 'templates/tab-detailview.html',
-          controller: 'DetailviewCtrl'
-        }
-      }
-    })
+    // .state('tab.truck-detail', {
+    //   url: '/trucks/:truckId',
+    //   views: {
+    //     'tab-search': {
+    //       templateUrl: 'templates/tab-detailview.html',
+    //       controller: 'DetailviewCtrl'
+    //     }
+    //   }
+    // })
 
     // .state('tab.trucks', {
     //     url: '/trucks',

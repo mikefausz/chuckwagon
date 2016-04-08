@@ -26,7 +26,7 @@ $dark:                            #444 !default;
   width: 100%;
   height: 100px; }
 
-.button-bar.map-toggle {
+.map-toggle {
   position: absolute;
   width: 50%;
   bottom: 5%;
@@ -35,6 +35,14 @@ $dark:                            #444 !default;
 #fav-map {
   width: 100%;
   height: 100%; }
+
+.search-items {
+  width: 100%;
+  margin: 0 auto;
+  padding: 5px; }
+
+.tag.button {
+  margin-bottom: 5px; }
 
 /*!
   Ionicons, v2.0.1

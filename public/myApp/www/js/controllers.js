@@ -170,6 +170,10 @@ angular.module('starter.controllers', [])
   marker.setMap($scope.map);
 })
 
+.controller('AdvSearchCtrl', function($scope) {
+
+})
+
 .controller('FavoritesCtrl', function($scope) {
 
 });

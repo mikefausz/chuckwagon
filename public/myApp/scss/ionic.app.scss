@@ -41,6 +41,15 @@ $dark:                            #444 !default;
   height: 100%;
 }
 
+.search-items {
+  width: 100%;
+  margin: 0 auto;
+  padding: 5px
+}
+
+.tag.button {
+  margin-bottom: 5px;
+}
 
 
 // The path for our ionicons font files, relative to the built CSS in www/css

@@ -1,5 +1,35 @@
 <ion-view view-title="Advanced Search">
   <ion-content>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search by Truck Name">
+      </label>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Sandwiches</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">BBQ</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Seafood</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Pizza</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Coffee</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Ice Cream</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Tacos</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Salads</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Stir Fry</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Breakfast</button>
+    <button class="tag button button-outline button-positive button-large" type="button" name="button">Juice & Smoothies</button>
+    <select class="search-items">
+      <option value="1">1 Mile</option>
+      <option value="5">5 Miles</option>
+      <option value="10">10 Miles</option>
+      <option value="25">25 Miles</option>
+    </select>
+    <!-- <input type="checkbox" name="taco" value="taco">
+    <input type="checkbox" name="pizza" value="pizza"> -->
+    <a href="#/tab/home"><button class="button button-block button-dark" type="submit" name="button">SUBMIT</button></a>
+  </div>
+  </ion-content>
+</ion-view>
+<!-- <ion-view view-title="Advanced Search">
+  <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap" href="#/tab/trucks/{{truck.id}}">
         <img ng-src="{{truck.face}}">
@@ -13,4 +43,4 @@
       </ion-item>
     </ion-list>
   </ion-content>
-</ion-view>
+</ion-view> -->
