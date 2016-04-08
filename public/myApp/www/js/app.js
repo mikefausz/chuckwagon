@@ -108,6 +108,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 /////VENDOR/////
 
+
   .state('tab.vendorlogin', {
     url: '/vendorlogin',
     views: {

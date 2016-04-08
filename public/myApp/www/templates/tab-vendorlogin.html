@@ -4,14 +4,14 @@
 
   <div class="list list-inset">
     <label class="item item-input">
-      <input type="text" placeholder="EMAIL" ng-model="vendor.email">
+      <input type="text" placeholder="EMAIL" ng-model="login.contactEmail">
     </label>
     <label class="item item-input">
-      <input type="text" placeholder="PASSWORD" ng-model="vendor.password">
+      <input type="text" placeholder="PASSWORD" ng-model="login.password">
     </label>
   </div>
 
-  <a href="#/tab/home"><button ng-click="login(vendor)" class="button button-block button-dark" type="submit" name="button">LOGIN</button></a>
+  <button ng-click="loginVendor(login)" class="button button-block button-dark" type="submit" name="button">LOGIN</button>
 
   <a href="#/tab/home"><button class="button button-block button-dark" type="submit" name="button">CANCEL</button></a>
 
