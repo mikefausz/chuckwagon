@@ -38,8 +38,7 @@ $dark:                            #444 !default;
 
 .search-items {
   width: 100%;
-  margin: 0 auto;
-  padding: 5px; }
+  margin: 0 auto; }
 
 .tag.button {
   margin-bottom: 5px; }
