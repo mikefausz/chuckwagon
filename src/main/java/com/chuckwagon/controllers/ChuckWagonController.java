@@ -79,14 +79,18 @@ public class ChuckWagonController {
     }
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
-    ResponseEntity<?> updateVendor(@PathVariable Integer id, @RequestBody Vendor vendor, MultipartFile profilePicture) throws IOException {
+    ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture) throws IOException {
 
-     //   if (vendorRepository.findOne(id) != null) {
+        if (vendorRepository.findOne(id) != null) {
 
-          //  if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort --MAY WANT TO TRY/CATCH THIS?
+            if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort --MAY WANT TO TRY/CATCH THIS?
                 //ensure that the directory exists
-                File dir = new File("public/images/" + vendor.getVendorName().toLowerCase().replace(" ", ""));
+
+                Vendor result = vendorRepository.findOne(id);
+                File dir = new File("public/images/" + result.getVendorName().toLowerCase().replace(" ", ""));
                 dir.mkdirs();
+
+                System.out.println(result);
 
 
                 //all this creates a random file name
@@ -95,12 +99,17 @@ public class ChuckWagonController {
                 fos.write(profilePicture.getBytes());
 
 
-                vendor.setProfilePictureString(photoFile.getName());
-         //   }
+                result.setProfilePictureString(photoFile.getName());
+                vendorRepository.save(result);
+                return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<Object>("Not an image ", HttpStatus.NOT_ACCEPTABLE);
+            }
+        } else {
+            return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
+        }
 
-            vendorRepository.save(vendor);
-            return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
-   //     }
+    }
 
 
 
@@ -111,7 +120,6 @@ public class ChuckWagonController {
 
       //  return new ResponseEntity<Object>("Vendor does not exist", HttpStatus.NOT_FOUND);
         //return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
-    }
 
 
 
@@ -124,21 +132,18 @@ public class ChuckWagonController {
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     ResponseEntity<?> login(@RequestBody HashMap vendor, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
-       //Fake it till you make it
-        if (vendorRepository.findByContactEmail("email") == null) {
-            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
-        }
+//       //Fake it till you make it -- take this out in production
+//        if (vendorRepository.findByContactEmail("email") == null) {
+//            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
+//        }
 
-
+        //make connection to logging in vendor and vendors in DB
         Vendor result = vendorRepository.findByContactEmail((String) vendor.get("contactEmail"));
 
-
-
-        System.out.println("vendor: " + vendor);
-        System.out.println("result " + result);
+        //check to see if vendor exists in DB, and that password matches.
         if (result != null && PasswordStorage.verifyPassword((String) vendor.get("password"), result.getPassword())) {
             session.setAttribute("email", result.getContactEmail());
-            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(result, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
 
@@ -152,8 +157,6 @@ public class ChuckWagonController {
     List<Vendor> vendorByLocation(@PathVariable Location locaton) {
         return vendorRepository.findByIsActive(true);
     }
-
-
 
 
 }

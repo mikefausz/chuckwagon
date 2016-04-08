@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -55,16 +57,11 @@ public class ChuckWagonApplicationTests {
 	@Test
 	public void ACreateVendorTest() throws Exception {
 
-		Vendor vendor = new Vendor();
+		Vendor vendor = new Vendor("mail@mail.com", "Auto Bahn Mi", "password");
 
-        vendor.setVendorName("Auto Bahn Mi");
-        vendor.setPassword("EatIt");
-		vendor.setContactEmail("email");
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(vendor);
-
-        System.out.println(vendor);
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.post("/vendor")
@@ -72,37 +69,47 @@ public class ChuckWagonApplicationTests {
 						.contentType("application/json")
 
 		);
-		Assert.assertTrue(vendorRepository.findOne(1).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
-        Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("EatIt"));  //check to see if password got hashed.
+
+        System.out.println("After Perform: " + vendorRepository.findOne(1));
+        Assert.assertTrue(vendorRepository.findOne(1).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
+        Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("password"));  //check to see if password got hashed.
+	}
+
+
+	@Test
+	public void BEditVendorFileUploadTest() throws Exception {
+        FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
+		MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
+
+        Vendor vendor = new Vendor();
+
+        vendor.setVendorName("Auto Bahn Mi");
+        vendor.setPassword("EatIt");
+        vendor.setContactEmail("email");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(vendor);
+
+		mockMvc.perform(
+				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image)
+		).andExpect(status().is(202));
 	}
 
 	@Test
 	public void CLoginTest() throws Exception {
 
 		HashMap m = new HashMap();
-		m.put("email", "email");
-		m.put("password", "eatIt");
+		m.put("contactEmail", "mail@mail.com");
+		m.put("password", "password");
 
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(m);
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.post("/vendor/login")
-					.content(json)
-					.contentType("application/json")
+						.content(json)
+						.contentType("application/json")
 		).andExpect(status().is(202));
-
-	}
-
-
-	@Test
-	public void BEditVendorFileUploadTest() throws Exception {
-		MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image", "a big image file of some stuff".getBytes());
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image)
-		).andExpect(status().is(202))
-		.andExpect(content().string("success"));
 
 	}
 
