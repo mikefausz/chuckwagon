@@ -74,6 +74,7 @@ angular.module('starter.services', [])
     loginVendor: function(login){
       var currentVendor = $http.post(loginUrl, login);
       cacheEngine.put('currentVendor',  currentVendor);
+      console.log("currentVendor", currentVendor)
       return currentVendor;
     },
     signup: function(vendor){

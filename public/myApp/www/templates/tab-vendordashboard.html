@@ -1,7 +1,11 @@
 <ion-view view-title="Vendor Dashboard">
   <ion-content class="padding">
-    <h1>Welcome, {{currentVendor.truckname}}</h1>
-    <button ng-click="toggleVendorView()" class="button button-dark" type="button" name="button">LOG OUT</button>
+
+    <h1>Welcome, {{sayMyName.data.vendorName}}</h1>
+    <!-- <form action="/vendor/{{truck.id}}" method="post">
+      <input type="file" name="profilePicture">
+      <button type="submit">Upload File</button>
+    </form> -->
     <button class="button" ng-click="upload()">Upload File</button>
 
     <label class="item item-input item-stacked-label">
