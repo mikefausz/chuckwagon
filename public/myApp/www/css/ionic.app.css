@@ -36,6 +36,14 @@ $dark:                            #444 !default;
   width: 100%;
   height: 100%; }
 
+.button-box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+
+.tag.button {
+  margin: 5px 0; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
