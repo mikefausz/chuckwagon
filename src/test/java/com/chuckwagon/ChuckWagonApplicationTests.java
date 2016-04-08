@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -59,7 +60,6 @@ public class ChuckWagonApplicationTests {
 
 		Vendor vendor = new Vendor("mail@mail.com", "Auto Bahn Mi", "password");
 
-
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(vendor);
 
@@ -75,43 +75,39 @@ public class ChuckWagonApplicationTests {
         Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("password"));  //check to see if password got hashed.
 	}
 
+    @Test
+    public void BLoginTest() throws Exception {
+
+        HashMap m = new HashMap();
+        m.put("contactEmail", "mail@mail.com");
+        m.put("password", "password");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(m);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/vendor/login")
+                        .content(json)
+                        .contentType("application/json")
+        ).andExpect(status().is(202));
+
+    }
 
 	@Test
-	public void BEditVendorFileUploadTest() throws Exception {
+	public void CEditVendorFileUploadTest() throws Exception {
         FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
 		MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
 
-        Vendor vendor = new Vendor();
-
-        vendor.setVendorName("Auto Bahn Mi");
-        vendor.setPassword("EatIt");
-        vendor.setContactEmail("email");
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(vendor);
+//        MockHttpSession session = new MockHttpSession();
+//        session.setAttribute("email", "mail@mail.com");
 
 		mockMvc.perform(
-				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image)
-		).andExpect(status().is(202));
-	}
-
-	@Test
-	public void CLoginTest() throws Exception {
-
-		HashMap m = new HashMap();
-		m.put("contactEmail", "mail@mail.com");
-		m.put("password", "password");
-
-		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writeValueAsString(m);
-
-		mockMvc.perform(
-				MockMvcRequestBuilders.post("/vendor/login")
-						.content(json)
-						.contentType("application/json")
+				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
 		).andExpect(status().is(202));
 
-	}
+        System.out.println(vendorRepository.findOne(1).getContactEmail());
+    }
+
 
 	@Test
 	public void contextLoads() {

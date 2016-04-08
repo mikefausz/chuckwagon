@@ -79,28 +79,27 @@ public class ChuckWagonController {
     }
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
-    ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture) throws IOException {
+    ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
 
-        if (vendorRepository.findOne(id) != null) {
-
-            if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort --MAY WANT TO TRY/CATCH THIS?
+        Vendor vendor = vendorRepository.findOne(id);
+        Vendor loggedIn = vendorRepository.findByContactEmail((String) session.getAttribute("email"));
+        //see if the vendor exists
+        if (vendor != null && vendor.getContactEmail().equals(session.getAttribute("email"))) {
+            /** Logic for file upload */
+            if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
                 //ensure that the directory exists
-
-                Vendor result = vendorRepository.findOne(id);
-                File dir = new File("public/images/" + result.getVendorName().toLowerCase().replace(" ", ""));
+                File dir = new File("public/images/" + vendor.getVendorName().toLowerCase().replace(" ", ""));
                 dir.mkdirs();
 
-                System.out.println(result);
-
+                System.out.println(vendor);
 
                 //all this creates a random file name
                 File photoFile = File.createTempFile("image", profilePicture.getOriginalFilename(), dir);
                 FileOutputStream fos = new FileOutputStream(photoFile);
                 fos.write(profilePicture.getBytes());
 
-
-                result.setProfilePictureString(photoFile.getName());
-                vendorRepository.save(result);
+                vendor.setProfilePictureString(photoFile.getName());
+                vendorRepository.save(vendor);
                 return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<Object>("Not an image ", HttpStatus.NOT_ACCEPTABLE);
@@ -111,16 +110,8 @@ public class ChuckWagonController {
 
     }
 
-
-
-
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vendor.getId()).toUri()); //keep an eye on this now.
-
-
-      //  return new ResponseEntity<Object>("Vendor does not exist", HttpStatus.NOT_FOUND);
-        //return new ResponseEntity<>(null, httpHeaders, HttpStatus.ACCEPTED);
-
 
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
@@ -130,7 +121,7 @@ public class ChuckWagonController {
     }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
-    ResponseEntity<?> login(@RequestBody HashMap vendor, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
 //       //Fake it till you make it -- take this out in production
 //        if (vendorRepository.findByContactEmail("email") == null) {
@@ -138,20 +129,18 @@ public class ChuckWagonController {
 //        }
 
         //make connection to logging in vendor and vendors in DB
-        Vendor result = vendorRepository.findByContactEmail((String) vendor.get("contactEmail"));
+        Vendor vendor = vendorRepository.findByContactEmail((String) data.get("contactEmail"));
 
         //check to see if vendor exists in DB, and that password matches.
-        if (result != null && PasswordStorage.verifyPassword((String) vendor.get("password"), result.getPassword())) {
-            session.setAttribute("email", result.getContactEmail());
-            return new ResponseEntity<Object>(result, HttpStatus.ACCEPTED);
+        if (vendor != null && PasswordStorage.verifyPassword((String) data.get("password"), vendor.getPassword())) {
+            session.setAttribute("email", vendor.getContactEmail());
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
 
         }
        // httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
-
     }
-
 
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
     List<Vendor> vendorByLocation(@PathVariable Location locaton) {
