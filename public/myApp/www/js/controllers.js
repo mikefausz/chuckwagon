@@ -63,7 +63,17 @@ angular.module('starter.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    console.log('map',$scope.map);
+
+    // // Create the search box and link it to the UI element.
+    // var input = document.getElementById('map');
+    // var searchBox = new google.maps.places.SearchBox(input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    //
+    // // Bias the SearchBox results towards current map's viewport.
+    // map.addListener('bounds_changed', function() {
+    //   searchBox.setBounds(map.getBounds());
+    // });
+
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,

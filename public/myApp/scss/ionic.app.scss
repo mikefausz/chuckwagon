@@ -41,6 +41,15 @@ $dark:                            #444 !default;
   height: 100%;
 }
 
+.button-box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.tag.button {
+  margin: 5px 0;
+}
 
 
 // The path for our ionicons font files, relative to the built CSS in www/css
