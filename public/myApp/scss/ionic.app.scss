@@ -19,37 +19,39 @@ $dark:                            #444 !default;
     height: 100%;
 }
 
-#map {
+#map, #fav-map, #search-map {
   width: 100%;
   height: 100%;
 }
+
+
 
 #map-detail {
   width: 100%;
   height: 100px;
 }
 
-.map-toggle {
+.button-bar.map-toggle {
   position: absolute;
   width: 50%;
   bottom: 5%;
   left: 24%;
 }
 
-#fav-map {
-  width: 100%;
-  height: 100%;
-}
-
 .search-items {
-  width: 100%;
-  margin: 0 auto;
+  left: 0;
 }
 
 .tag.button {
   margin-bottom: 5px;
 }
 
+.tag-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px auto;
+}
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;

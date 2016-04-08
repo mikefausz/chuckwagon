@@ -148,6 +148,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+/////SEARCH/////
   .state('tab.search', {
       url: '/search',
       views: {
@@ -158,15 +159,40 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     })
 
-    .state('tab.truck-detail', {
-      url: '/trucks/:truckId',
+    .state('tab.search-map', {
+      url: '/search-map',
       views: {
         'tab-search': {
-          templateUrl: 'templates/tab-detailview.html',
-          controller: 'DetailviewCtrl'
+          templateUrl: 'templates/tab-search-map.html',
+          controller: 'SearchMapCtrl'
         }
       }
     })
+
+    .state('tab.search-list', {
+      url: '/search-list',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/tab-search-listview.html',
+          controller: 'ListviewCtrl'
+        }
+      }
+    })
+
+
+      .state('tab.search-detailview', {
+        url: '/search-list/:truckId',
+        views: {
+          'tab-search': {
+            templateUrl: 'templates/tab-detailview.html',
+            controller: 'DetailviewCtrl'
+          }
+        }
+      })
+
+
+
+
 
 
   // if none of the above states are matched, use this as the fallback
