@@ -58,7 +58,7 @@ public class ChuckWagonController {
 
 
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
-    ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
+    public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
         //We are expecting an email address(id) a vendor name, and a password
         if (!EmailUtils.isValidEmailAddress(vendor.getContactEmail())) return new ResponseEntity<Object>("invalid email", HttpStatus.BAD_REQUEST);
         //String regex = ".[$&+,:;=?@#|'<>.-^*()%!]";
@@ -73,13 +73,13 @@ public class ChuckWagonController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    //this is an edit vendor route
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
-    ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
 
         Vendor vendor = vendorRepository.findOne(id);
-        Vendor loggedIn = vendorRepository.findByContactEmail((String) session.getAttribute("email"));
         //see if the vendor exists
-        if (vendor != null && vendor.getContactEmail().equals(session.getAttribute("email"))) {
+        if (vendor != null && verifyVendor(session, vendor)) {
             /** Logic for file upload */
             if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
 
@@ -113,13 +113,13 @@ public class ChuckWagonController {
 
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
-    Vendor getVendor(@PathVariable Integer id) {
+    public Vendor getVendor(@PathVariable("id") Integer id) {
         //validate
         return vendorRepository.findOne(id);
     }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
-    ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    public ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
 //       //Fake it till you make it -- take this out in production
 //        if (vendorRepository.findByContactEmail("email") == null) {
@@ -140,9 +140,35 @@ public class ChuckWagonController {
        // httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
     }
 
+
+
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
-    List<Vendor> vendorByLocation(@PathVariable Location locaton) {
+    public List<Vendor> vendorByLocation(@PathVariable Location locaton) {
         return vendorRepository.findByIsActive(true);
+    }
+
+
+
+
+
+    @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.GET)
+    public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
+
+        if (verifyVendor(session, vendorRepository.findOne(id))) {
+            session.invalidate();
+            return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
+
+    public boolean verifyVendor(HttpSession session, Vendor vendor) {
+        if (vendor.getContactEmail().equals(session.getAttribute("email"))) {
+            return true;
+        } else {
+            return false; }
     }
 
 
