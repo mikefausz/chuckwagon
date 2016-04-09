@@ -7,21 +7,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import com.chuckwagon.entities.Location;
-import com.chuckwagon.entities.UserNotFoundException;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.VendorRepository;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
-import org.aspectj.lang.annotation.Before;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -87,8 +82,11 @@ public class ChuckWagonController {
         if (vendor != null && vendor.getContactEmail().equals(session.getAttribute("email"))) {
             /** Logic for file upload */
             if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
+
+                String filePath = "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "");
+
                 //ensure that the directory exists
-                File dir = new File("public/images/" + vendor.getVendorName().toLowerCase().replace(" ", ""));
+                File dir = new File(filePath);
                 dir.mkdirs();
 
                 System.out.println(vendor);
@@ -98,7 +96,7 @@ public class ChuckWagonController {
                 FileOutputStream fos = new FileOutputStream(photoFile);
                 fos.write(profilePicture.getBytes());
 
-                vendor.setProfilePictureString(photoFile.getName());
+                vendor.setProfilePictureLocation(filePath + photoFile.getName());
                 vendorRepository.save(vendor);
                 return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
             } else {

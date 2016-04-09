@@ -37,7 +37,7 @@ public class Vendor {
     private String bio;
 
     @Column( name = "profile_picture")
-    private String profilePictureString;
+    private String profilePictureLocation;
 
     @Transient
     @JsonIgnore
@@ -127,12 +127,12 @@ public class Vendor {
         isActive = active;
     }
 
-    public String getProfilePictureString() {
-        return profilePictureString;
+    public String getProfilePictureLocation() {
+        return profilePictureLocation;
     }
 
-    public void setProfilePictureString(String profilePictureString) {
-        this.profilePictureString = profilePictureString;
+    public void setProfilePictureLocation(String profilePictureLocation) {
+        this.profilePictureLocation = profilePictureLocation;
     }
 
     public LocalDateTime getCreated() {

@@ -2,8 +2,8 @@ angular.module('starter.services', [])
 
 .factory('TruckService', function($http) {
   // Might use a resource here that returns a JSON array
-  var ip = "http://10.0.10.70:8080";
-
+//  var ip = "http://10.0.10.70:8080";  //hitting my machine
+  var ip = "http://localhost:8080";  //testing locally
   var loginUrl = ip + "/vendor/login";
 
   // Some fake testing data
