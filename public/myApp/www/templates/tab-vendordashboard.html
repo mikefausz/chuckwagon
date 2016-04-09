@@ -1,6 +1,8 @@
 <ion-view view-title="Vendor Dashboard">
   <ion-content class="padding">
+
     <h1>Welcome, {{sayMyName.data.vendorName}}</h1>
+    <a href="#/tab/home"><button class="button" ng-click="toggleVendorView()">LOGOUT</button></a>
     <!-- <form action="/vendor/{{truck.id}}" method="post">
       <input type="file" name="profilePicture">
       <button type="submit">Upload File</button>
