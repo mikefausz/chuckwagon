@@ -1,20 +1,32 @@
 angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state){
-  $scope.vendorView = false;
-  $scope.notVendor = true;
+  // Set default to user mode
+  $scope.vendorMode= false;
 
+  // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
-    if ($scope.notVendor){
-      $scope.vendorView = true;
-      $scope.notVendor = false;
-      $state.go('tab.vendorlogin');
-    } else {
-      $scope.vendorView = false;
-      $scope.notVendor = true;
+    // IF toggle clicked from vendor mode, switch to user mode
+    if ($scope.vendorMode){
       $state.go('tab.map');
+      $scope.vendorMode = false;
+    }
+    // IF toggle clicked from user mode, switch to vendor mode
+    else {
+      $state.go('tab.vendorlogin');
+      $scope.vendorMode = true;
     }
   };
+
+  // Return current mode
+  $scope.isVendor = function() {
+      if ($scope.vendorMode) {
+        return true;
+      }
+      return false;
+    };
+
+
 })
 
 .controller('VendorLoginCtrl', function($scope, $state, TruckService){
@@ -50,7 +62,7 @@ angular.module('starter.controllers', [])
     }, function(error){
       console.log("error: " + JSON.stringify(error));
     });
-  }
+  };
 })
 
 .controller('ListviewCtrl', function($scope, TruckService){
