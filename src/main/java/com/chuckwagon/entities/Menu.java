@@ -10,10 +10,10 @@ public class Menu {
 
     @Id
     @GeneratedValue
+    @Column(name = "menu_id")
     private Integer id;
 
     @ManyToOne
-    @Column(nullable = false, name = "vendor_id")
     private Vendor vendor;
 
     @Column(nullable = false)

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -18,6 +19,7 @@ public class Vendor {
 
     @Id
     @GeneratedValue
+    @Column(name = "vendor_id")
     private Integer id;
 
     @Column(nullable = false, name = "vendor_name", unique = true)
@@ -51,8 +53,15 @@ public class Vendor {
     @Column(name = "active")
     private boolean isActive;
 
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "mime")
+    @JsonIgnore
+    @Transient
     private List<Menu> menuList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tag_vendor", joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     public Vendor() {
     }
@@ -154,5 +163,13 @@ public class Vendor {
 
     public void setMenuList(List<Menu> menuList) {
         this.menuList = menuList;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }

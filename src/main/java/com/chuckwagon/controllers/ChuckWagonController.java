@@ -64,7 +64,7 @@ public class ChuckWagonController {
     public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
         //We are expecting an email address(id) a vendor name, and a password
         if (!EmailUtils.isValidEmailAddress(vendor.getContactEmail())) return new ResponseEntity<Object>("invalid email", HttpStatus.BAD_REQUEST);
-        //String regex = ".[$&+,:;=?@#|'<>.-^*()%!]";
+        //String regex = "[$&+,:;=?@#|'<>.-^*()%!]+";
         //if (vendor.getPassword().length() < 4 || !vendor.getPassword().matches(regex)) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
         if (vendor.getPassword().length() < 4) return new ResponseEntity<Object>("Invalid Password", HttpStatus.BAD_REQUEST);
 
@@ -124,10 +124,10 @@ public class ChuckWagonController {
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
-//       //Fake it till you make it -- take this out in production
-//        if (vendorRepository.findByContactEmail("email") == null) {
-//            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
-//        }
+       //Fake it till you make it -- take this out in production
+        if (vendorRepository.findByContactEmail("email") == null) {
+            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
+        }
 
         //make connection to logging in vendor and vendors in DB
         Vendor vendor = vendorRepository.findByContactEmail((String) data.get("contactEmail"));
