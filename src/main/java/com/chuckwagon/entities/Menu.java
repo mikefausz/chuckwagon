@@ -1,5 +1,7 @@
 package com.chuckwagon.entities;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 /**
@@ -26,10 +28,9 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(Vendor vendor, String name, String photoLocation) {
+    public Menu(Vendor vendor, String name) {
         this.vendor = vendor;
         this.name = name;
-        this.photoLocation = photoLocation;
     }
 
     public Vendor getVendor() {
@@ -54,5 +55,24 @@ public class Menu {
 
     public void setPhotoLocation(String photoLocation) {
         this.photoLocation = photoLocation;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id=" + id +
+                ", vendor=" + vendor +
+                ", name='" + name + '\'' +
+                ", photoLocation='" + photoLocation + '\'' +
+                '}';
     }
 }

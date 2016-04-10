@@ -1,5 +1,6 @@
 package com.chuckwagon;
 
+import com.chuckwagon.entities.Menu;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.VendorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,39 +39,39 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ChuckWagonApplicationTests {
 
-	private MockMvc mockMvc;  //makes mock requests
+    private MockMvc mockMvc;  //makes mock requests
 
-	@Autowired
-	private VendorRepository vendorRepository;
+    @Autowired
+    private VendorRepository vendorRepository;
 
-	@Autowired
-	WebApplicationContext wap;
-
-
-	@Before
-	public void before() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(wap).build();
-
-		//vendorRepository.deleteAll();
-	}
+    @Autowired
+    WebApplicationContext wap;
 
 
-	@Test
-	public void aCreateVendorTest() throws Exception {
+    @Before
+    public void before() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wap).build();
 
-		Vendor vendor = new Vendor("mail@mail.com", "Auto Bahn Mi", "password");
+        //vendorRepository.deleteAll();
+    }
 
-		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writeValueAsString(vendor);
 
-		mockMvc.perform(
-				MockMvcRequestBuilders.post("/vendor")
-						.content(json)
-						.contentType("application/json")
-		);
+    @Test
+    public void aCreateVendorTest() throws Exception {
+
+        Vendor vendor = new Vendor("mail@mail.com", "Auto Bahn Mi", "password");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(vendor);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/vendor")
+                        .content(json)
+                        .contentType("application/json")
+        );
         Assert.assertTrue(vendorRepository.findOne(1).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
         Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("password"));  //check to see if password got hashed.
-	}
+    }
 
     @Test
     public void bLoginTest() throws Exception {
@@ -90,28 +91,46 @@ public class ChuckWagonApplicationTests {
 
     }
 
-	@Test
-	public void cEditVendorFileUploadTest() throws Exception {
+    @Test
+    public void cEditVendorFileUploadTest() throws Exception {
         FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
-		MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
+        MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
 
 //        MockHttpSession session = new MockHttpSession();
 //        session.setAttribute("email", "mail@mail.com");
 
-		mockMvc.perform(
-				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
-		).andExpect(status().is(202));
-
-        System.out.println(vendorRepository.findOne(1).getProfilePictureLocation());
-    }
-
-	@Test
-	public void deleteVendorTest() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/vendor/1")
-                .sessionAttr("email", "mail@mail.com")
+                MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
         ).andExpect(status().is(202));
 
-	}
+    }
 
+    @Test
+    public void eCreateMenuTest() throws Exception {
+        FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
+        MockMultipartFile image = new MockMultipartFile("menuPicture", "imageFromClient.jpg", "image/jpeg", fis);
+
+//        Menu menu = new Menu(vendorRepository.findOne(1), "Monday Menu");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        String json = mapper.writeValueAsString(menu);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .fileUpload("/vendor/1/menu").file(image)
+                        .param("menuName", "Monday")
+                        .sessionAttr("email", "mail@mail.com")
+
+        ).andExpect(status().is(202));
+    }
+
+
+    @Test
+    public void zDeleteVendorTest() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/vendor/1")
+                        .sessionAttr("email", "mail@mail.com")
+        ).andExpect(status().is(202));
+
+    }
 }

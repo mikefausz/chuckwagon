@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.chuckwagon.entities.Location;
+import com.chuckwagon.entities.Menu;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.MenuRepository;
 import com.chuckwagon.services.VendorRepository;
@@ -22,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * Created by branden on 4/5/16 at 21:19.
@@ -59,6 +62,28 @@ public class ChuckWagonController {
     /** end DB viewing code */
 
 
+    @RequestMapping(value = "/vendor/{id}/menu", method = RequestMethod.POST)
+    public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName, HttpSession session) throws IOException {
+
+        Menu menu = new Menu(vendorRepository.findOne(id), menuName);
+
+        if (verifyVendor(session, vendorRepository.findOne(id))) {
+            if (menu != null ) {
+                photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
+                menuRepository.save(menu);
+                System.out.println(menu);
+                return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+    }
+
+
+
 
     //add a new vendor to DB
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
@@ -90,26 +115,13 @@ public class ChuckWagonController {
 
     //edit vendor in DB. currently just allows for a picture upload.
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture", required = false) MultipartFile profilePicture, HttpSession session) throws IOException {
 
         Vendor vendor = vendorRepository.findOne(id);
         //see if the vendor exists
         if (vendor != null && verifyVendor(session, vendor)) {
-            /** Logic for file upload */
-            if (profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
-
-                String filePath = "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "");
-
-                //ensure that the directory exists
-                File dir = new File(filePath);
-                dir.mkdirs();
-
-                //all this creates a random file name
-                File photoFile = File.createTempFile("image", profilePicture.getOriginalFilename(), dir);
-                FileOutputStream fos = new FileOutputStream(photoFile);
-                fos.write(profilePicture.getBytes());
-
-                vendor.setProfilePictureLocation(filePath + photoFile.getName());
+            if (profilePicture != null && profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
+                photoUpload(profilePicture, vendor, Optional.empty());
                 vendorRepository.save(vendor);
                 return new ResponseEntity<Object>("Updated", HttpStatus.ACCEPTED);
             } else {
@@ -172,6 +184,32 @@ public class ChuckWagonController {
         } else {
             return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
         }
+    }
+
+
+    //upload picture and house on server in a folder associated to Vendor name
+    public void photoUpload(MultipartFile photo, Vendor vendor, Optional<Menu> m) throws IOException {
+
+        String filePath = (m.isPresent())
+                ? "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "") + "/menus"
+                : "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "");
+
+        //ensure that the directory exists
+        File dir = new File(filePath);
+        dir.mkdirs();
+
+        //all this creates a random file name
+        File photoFile = File.createTempFile("image", photo.getOriginalFilename(), dir);
+        FileOutputStream fos = new FileOutputStream(photoFile);
+        fos.write(photo.getBytes());
+
+        if (m.isPresent()) {
+            m.get().setPhotoLocation(filePath + photoFile.getName());
+        } else {
+            vendor.setProfilePictureLocation(filePath + photoFile.getName());
+        }
+
+
     }
 
 

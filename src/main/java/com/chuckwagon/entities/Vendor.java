@@ -54,14 +54,13 @@ public class Vendor {
     private boolean isActive;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "mime")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor")
     @JsonIgnore
-    @Transient
     private List<Menu> menuList;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "tag_vendor", joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "tag_vendor", joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+//    private Set<Tag> tags;
 
     public Vendor() {
     }
@@ -165,11 +164,11 @@ public class Vendor {
         this.menuList = menuList;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
+//    public Set<Tag> getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(Set<Tag> tags) {
+//        this.tags = tags;
+//    }
 }
