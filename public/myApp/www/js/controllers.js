@@ -1,20 +1,32 @@
 angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state){
-  $scope.vendorView = false;
-  $scope.notVendor = true;
+  // Set default to user mode
+  $scope.vendorMode= false;
 
+  // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
-    if($scope.vendorView) {
-      $scope.vendorView = false;
-      $scope.notVendor = true;
+    // IF toggle clicked from vendor mode, switch to user mode
+    if ($scope.vendorMode){
       $state.go('tab.map');
-    } else {
-      $scope.vendorView = true;
-      $scope.notVendor = false;
+      $scope.vendorMode = false;
+    }
+    // IF toggle clicked from user mode, switch to vendor mode
+    else {
       $state.go('tab.vendorlogin');
+      $scope.vendorMode = true;
     }
   };
+
+  // Return current mode
+  $scope.isVendor = function() {
+      if ($scope.vendorMode) {
+        return true;
+      }
+      return false;
+    };
+
+
 })
 
 .controller('VendorLoginCtrl', function($scope, $state, TruckService){
@@ -23,6 +35,7 @@ angular.module('starter.controllers', [])
     TruckService.loginVendor(login).then(function(vendor){
       $state.go('tab.vendordashboard');
       console.log("VENDOR", vendor);
+      $scope.sayMyName = vendor;
     });
   };
 })
@@ -35,7 +48,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService){
-  $scope.currentVendor = TruckService.get('currentVendor');
+  $scope.currentVendor = TruckService.getCurrentVendor();
+  window.glob = $scope.currentVendor;
   $scope.upload = function(){
     var options = {
       fileKey: "avatar",
@@ -48,7 +62,7 @@ angular.module('starter.controllers', [])
     }, function(error){
       console.log("error: " + JSON.stringify(error));
     });
-  }
+  };
 })
 
 .controller('ListviewCtrl', function($scope, TruckService){

@@ -36,6 +36,7 @@ dependencies {
 	compile('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('com.h2database:h2')
+	compile('com.sun.mail:javax.mail:1.5.5')
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
