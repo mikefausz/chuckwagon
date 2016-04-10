@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">4</div>
+<div class="counter">5</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.381s</div>
+<div class="counter">1.390s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,23 +78,28 @@
 </tr>
 </thead>
 <tr>
-<td class="success">ACreateVendorTest</td>
-<td>0.867s</td>
+<td class="success">aCreateVendorTest</td>
+<td>0.784s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">BLoginTest</td>
-<td>0.418s</td>
+<td class="success">bLoginTest</td>
+<td>0.496s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">CEditVendorFileUploadTest</td>
-<td>0.089s</td>
+<td class="success">cEditVendorFileUploadTest</td>
+<td>0.059s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">contextLoads</td>
-<td>0.007s</td>
+<td class="success">eCreateMenuTest</td>
+<td>0.023s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">zDeleteVendorTest</td>
+<td>0.028s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -102,29 +107,29 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>16:35:05.370 [Test worker] DEBUG o.s.t.c.j.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.375 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-16:35:05.385 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-16:35:05.402 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.chuckwagon.ChuckWagonApplicationTests] from class [org.springframework.test.context.web.WebTestContextBootstrapper]
-16:35:05.443 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - Found explicit ContextLoader class [org.springframework.boot.test.SpringApplicationContextLoader] for context configuration attributes [ContextConfigurationAttributes@38201dad declaringClass = 'com.chuckwagon.ChuckWagonApplicationTests', classes = '{class com.chuckwagon.ChuckWagonApplication}', locations = '{}', inheritLocations = true, initializers = '{}', inheritInitializers = true, name = [null], contextLoaderClass = 'org.springframework.boot.test.SpringApplicationContextLoader']
-16:35:05.452 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.chuckwagon.ChuckWagonApplicationTests]: class path resource [com/chuckwagon/ChuckWagonApplicationTests-context.xml] does not exist
-16:35:05.453 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.chuckwagon.ChuckWagonApplicationTests]: class path resource [com/chuckwagon/ChuckWagonApplicationTestsContext.groovy] does not exist
-16:35:05.453 [Test worker] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [com.chuckwagon.ChuckWagonApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
-16:35:05.456 [Test worker] DEBUG o.s.t.c.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.459 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - @TestExecutionListeners is not present for class [com.chuckwagon.ChuckWagonApplicationTests]: using defaults.
-16:35:05.469 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-16:35:05.510 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@12facfcd, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@2cf52a93, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@2455607, org.springframework.test.context.support.DirtiesContextTestExecutionListener@73eaa358, org.springframework.test.context.transaction.TransactionalTestExecutionListener@372a8e4f, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@328e9b8b]
-16:35:05.516 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.518 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.521 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.521 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.530 [Test worker] DEBUG o.s.t.c.s.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@7f65cde4 testClass = ChuckWagonApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@15657702 testClass = ChuckWagonApplicationTests, locations = '{}', classes = '{class com.chuckwagon.ChuckWagonApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.SpringApplicationContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].
-16:35:05.531 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.531 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
-16:35:05.657 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
-16:35:05.658 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
-16:35:05.658 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
-16:35:05.660 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [integrationTest] PropertySource with search precedence immediately lower than [systemEnvironment]
+<pre>18:48:39.190 [Test worker] DEBUG o.s.t.c.j.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.200 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+18:48:39.205 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+18:48:39.223 [Test worker] DEBUG o.s.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.chuckwagon.ChuckWagonApplicationTests] from class [org.springframework.test.context.web.WebTestContextBootstrapper]
+18:48:39.252 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - Found explicit ContextLoader class [org.springframework.boot.test.SpringApplicationContextLoader] for context configuration attributes [ContextConfigurationAttributes@72a42099 declaringClass = 'com.chuckwagon.ChuckWagonApplicationTests', classes = '{class com.chuckwagon.ChuckWagonApplication}', locations = '{}', inheritLocations = true, initializers = '{}', inheritInitializers = true, name = [null], contextLoaderClass = 'org.springframework.boot.test.SpringApplicationContextLoader']
+18:48:39.267 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.chuckwagon.ChuckWagonApplicationTests]: class path resource [com/chuckwagon/ChuckWagonApplicationTests-context.xml] does not exist
+18:48:39.267 [Test worker] DEBUG o.s.t.c.s.AbstractContextLoader - Did not detect default resource location for test class [com.chuckwagon.ChuckWagonApplicationTests]: class path resource [com/chuckwagon/ChuckWagonApplicationTestsContext.groovy] does not exist
+18:48:39.267 [Test worker] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [com.chuckwagon.ChuckWagonApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+18:48:39.270 [Test worker] DEBUG o.s.t.c.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.275 [Test worker] DEBUG o.s.t.c.w.WebTestContextBootstrapper - @TestExecutionListeners is not present for class [com.chuckwagon.ChuckWagonApplicationTests]: using defaults.
+18:48:39.291 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+18:48:39.323 [Test worker] INFO  o.s.t.c.w.WebTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@8cad80a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@11d9f2dc, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@5893ba2b, org.springframework.test.context.support.DirtiesContextTestExecutionListener@aa542fb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@5471d12d, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@ae0866d]
+18:48:39.329 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.331 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.333 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.333 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.339 [Test worker] DEBUG o.s.t.c.s.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@6fda0829 testClass = ChuckWagonApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@12bcd0c7 testClass = ChuckWagonApplicationTests, locations = '{}', classes = '{class com.chuckwagon.ChuckWagonApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{}', resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.SpringApplicationContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].
+18:48:39.341 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.341 [Test worker] DEBUG o.s.t.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.chuckwagon.ChuckWagonApplicationTests]
+18:48:39.461 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+18:48:39.463 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+18:48:39.464 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+18:48:39.467 [Test worker] DEBUG o.s.core.env.StandardEnvironment - Adding [integrationTest] PropertySource with search precedence immediately lower than [systemEnvironment]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -134,55 +139,68 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::             (v1.4.0.M1)
 
-2016-04-08 16:35:06.081  INFO 7292 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : Starting ChuckWagonApplicationTests on OTR.local with PID 7292 (/Users/branden/ChuckWagon/build/classes/test started by branden in /Users/branden/ChuckWagon)
-2016-04-08 16:35:06.083  INFO 7292 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : No active profile set, falling back to default profiles: default
-2016-04-08 16:35:06.192  INFO 7292 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@68f625ec: startup date [Fri Apr 08 16:35:06 EDT 2016]; root of context hierarchy
-2016-04-08 16:35:07.378  INFO 7292 --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'beanNameViewResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter.class]]
-2016-04-08 16:35:08.143  INFO 7292 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$4941705a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2016-04-08 16:35:08.771  INFO 7292 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
-2016-04-08 16:35:08.819  INFO 7292 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+2016-04-10 18:48:40.206  INFO 20000 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : Starting ChuckWagonApplicationTests on OTR.local with PID 20000 (/Users/branden/ChuckWagon/build/classes/test started by branden in /Users/branden/ChuckWagon)
+2016-04-10 18:48:40.206  INFO 20000 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : No active profile set, falling back to default profiles: default
+2016-04-10 18:48:40.298  INFO 20000 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@75e6be99: startup date [Sun Apr 10 18:48:40 EDT 2016]; root of context hierarchy
+2016-04-10 18:48:41.299  INFO 20000 --- [    Test worker] o.s.b.f.s.DefaultListableBeanFactory     : Overriding bean definition for bean 'beanNameViewResolver' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter; factoryMethodName=beanNameViewResolver; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter.class]]
+2016-04-10 18:48:41.928  INFO 20000 --- [    Test worker] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$66ad59d8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2016-04-10 18:48:42.529  INFO 20000 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2016-04-10 18:48:42.565  INFO 20000 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
 	name: default
 	...]
-2016-04-08 16:35:08.917  INFO 7292 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
-2016-04-08 16:35:08.920  INFO 7292 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
-2016-04-08 16:35:08.926  INFO 7292 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
-2016-04-08 16:35:09.175  INFO 7292 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
-2016-04-08 16:35:09.520  INFO 7292 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
-2016-04-08 16:35:09.672  INFO 7292 --- [    Test worker] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
-2016-04-08 16:35:10.046  INFO 7292 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
-2016-04-08 16:35:10.046  INFO 7292 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000102: Fetching database metadata
-2016-04-08 16:35:10.050  INFO 7292 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000396: Updating schema
-2016-04-08 16:35:10.058  INFO 7292 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
-2016-04-08 16:35:10.065  INFO 7292 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
-2016-04-08 16:35:10.067  INFO 7292 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
-2016-04-08 16:35:10.084  INFO 7292 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000232: Schema update complete
-2016-04-08 16:35:11.255  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@68f625ec: startup date [Fri Apr 08 16:35:06 EDT 2016]; root of context hierarchy
-2016-04-08 16:35:11.361  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/login],methods=[POST]}&quot; onto org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.login(java.util.HashMap,javax.servlet.http.HttpSession) throws com.chuckwagon.utils.PasswordStorage$InvalidHashException,com.chuckwagon.utils.PasswordStorage$CannotPerformOperationException
-2016-04-08 16:35:11.367  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor],methods=[POST]}&quot; onto org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.addVendor(com.chuckwagon.entities.Vendor) throws com.chuckwagon.utils.PasswordStorage$CannotPerformOperationException
-2016-04-08 16:35:11.368  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}],methods=[POST]}&quot; onto org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.updateVendor(java.lang.Integer,org.springframework.web.multipart.MultipartFile,javax.servlet.http.HttpSession) throws java.io.IOException
-2016-04-08 16:35:11.368  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}],methods=[GET]}&quot; onto com.chuckwagon.entities.Vendor com.chuckwagon.controllers.ChuckWagonController.getVendor(java.lang.Integer)
-2016-04-08 16:35:11.369  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/{Location}],methods=[GET]}&quot; onto java.util.List&lt;com.chuckwagon.entities.Vendor&gt; com.chuckwagon.controllers.ChuckWagonController.vendorByLocation(com.chuckwagon.entities.Location)
-2016-04-08 16:35:11.371  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error]}&quot; onto public org.springframework.http.ResponseEntity&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt; org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
-2016-04-08 16:35:11.372  INFO 7292 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error],produces=[text/html]}&quot; onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
-2016-04-08 16:35:11.420  INFO 7292 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-04-08 16:35:11.420  INFO 7292 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-04-08 16:35:11.480  INFO 7292 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
-2016-04-08 16:35:11.879  INFO 7292 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : Started ChuckWagonApplicationTests in 6.209 seconds (JVM running for 7.531)
-2016-04-08 16:35:11.914  INFO 7292 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
-2016-04-08 16:35:11.915  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
-2016-04-08 16:35:11.937  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 22 ms
-After Perform: com.chuckwagon.entities.Vendor@16aa1a79
-2016-04-08 16:35:12.768  INFO 7292 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
-2016-04-08 16:35:12.769  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
-2016-04-08 16:35:12.774  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 5 ms
-2016-04-08 16:35:13.189  INFO 7292 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
-2016-04-08 16:35:13.190  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
-2016-04-08 16:35:13.200  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 3 ms
-com.chuckwagon.entities.Vendor@34742168
-mail@mail.com
-2016-04-08 16:35:13.280  INFO 7292 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
-2016-04-08 16:35:13.280  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
-2016-04-08 16:35:13.284  INFO 7292 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 4 ms
+2016-04-10 18:48:42.678  INFO 20000 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2016-04-10 18:48:42.682  INFO 20000 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2016-04-10 18:48:42.687  INFO 20000 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2016-04-10 18:48:43.089  INFO 20000 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2016-04-10 18:48:43.430  INFO 20000 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2016-04-10 18:48:43.693  INFO 20000 --- [    Test worker] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2016-04-10 18:48:44.001  INFO 20000 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2016-04-10 18:48:44.001  INFO 20000 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000102: Fetching database metadata
+2016-04-10 18:48:44.003  INFO 20000 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000396: Updating schema
+2016-04-10 18:48:44.012  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: menu
+2016-04-10 18:48:44.014  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag
+2016-04-10 18:48:44.014  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag_vendor
+2016-04-10 18:48:44.015  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
+2016-04-10 18:48:44.018  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: menu
+2016-04-10 18:48:44.021  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag
+2016-04-10 18:48:44.022  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag_vendor
+2016-04-10 18:48:44.023  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
+2016-04-10 18:48:44.025  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: menu
+2016-04-10 18:48:44.027  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag
+2016-04-10 18:48:44.029  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: tag_vendor
+2016-04-10 18:48:44.030  INFO 20000 --- [    Test worker] java.sql.DatabaseMetaData                : HHH000262: Table not found: vendor
+2016-04-10 18:48:44.055  INFO 20000 --- [    Test worker] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000232: Schema update complete
+2016-04-10 18:48:45.313  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@75e6be99: startup date [Sun Apr 10 18:48:40 EDT 2016]; root of context hierarchy
+2016-04-10 18:48:45.412  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/login],methods=[POST]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.login(java.util.HashMap,javax.servlet.http.HttpSession) throws com.chuckwagon.utils.PasswordStorage$InvalidHashException,com.chuckwagon.utils.PasswordStorage$CannotPerformOperationException
+2016-04-10 18:48:45.418  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}/logout],methods=[GET]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.logout(javax.servlet.http.HttpSession,java.lang.Integer)
+2016-04-10 18:48:45.420  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}/menu],methods=[POST]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.addMenuToVendor(java.lang.Integer,org.springframework.web.multipart.MultipartFile,java.lang.String,javax.servlet.http.HttpSession) throws java.io.IOException
+2016-04-10 18:48:45.421  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor],methods=[POST]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.addVendor(com.chuckwagon.entities.Vendor) throws com.chuckwagon.utils.PasswordStorage$CannotPerformOperationException
+2016-04-10 18:48:45.422  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}],methods=[GET]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.getVendor(java.lang.Integer)
+2016-04-10 18:48:45.422  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}],methods=[POST]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.updateVendor(java.lang.Integer,org.springframework.web.multipart.MultipartFile,javax.servlet.http.HttpSession) throws java.io.IOException
+2016-04-10 18:48:45.423  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/vendor/{id}],methods=[DELETE]}&quot; onto public org.springframework.http.ResponseEntity&lt;?&gt; com.chuckwagon.controllers.ChuckWagonController.deleteVendor(java.lang.Integer,javax.servlet.http.HttpSession)
+2016-04-10 18:48:45.424  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/{Location}],methods=[GET]}&quot; onto public java.util.List&lt;com.chuckwagon.entities.Vendor&gt; com.chuckwagon.controllers.ChuckWagonController.vendorByLocation(com.chuckwagon.entities.Location)
+2016-04-10 18:48:45.427  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error]}&quot; onto public org.springframework.http.ResponseEntity&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt; org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2016-04-10 18:48:45.428  INFO 20000 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;{[/error],produces=[text/html]}&quot; onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2016-04-10 18:48:45.464  INFO 20000 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-04-10 18:48:45.465  INFO 20000 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-04-10 18:48:45.521  INFO 20000 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2016-04-10 18:48:45.856  INFO 20000 --- [    Test worker] c.chuckwagon.ChuckWagonApplicationTests  : Started ChuckWagonApplicationTests in 6.379 seconds (JVM running for 7.713)
+2016-04-10 18:48:45.893  INFO 20000 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
+2016-04-10 18:48:45.893  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2016-04-10 18:48:45.911  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 18 ms
+2016-04-10 18:48:46.670  INFO 20000 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
+2016-04-10 18:48:46.670  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2016-04-10 18:48:46.674  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 4 ms
+2016-04-10 18:48:47.168  INFO 20000 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
+2016-04-10 18:48:47.169  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2016-04-10 18:48:47.175  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 6 ms
+2016-04-10 18:48:47.229  INFO 20000 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
+2016-04-10 18:48:47.229  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2016-04-10 18:48:47.233  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 4 ms
+Menu{id=1, vendor=com.chuckwagon.entities.Vendor@393b8d38, name='Monday', photoLocation='public/images/autobahnmi/menus/image4724925091081886681imageFromClient.jpg'}
+2016-04-10 18:48:47.251  INFO 20000 --- [    Test worker] o.s.b.test.SpringBootMockServletContext  : Initializing Spring FrameworkServlet ''
+2016-04-10 18:48:47.251  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization started
+2016-04-10 18:48:47.253  INFO 20000 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : FrameworkServlet '': initialization completed in 2 ms
 </pre>
 </span>
 </div>
@@ -194,7 +212,7 @@ mail@mail.com
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 2.9</a> at Apr 8, 2016 4:35:13 PM</p>
+<a href="http://www.gradle.org">Gradle 2.9</a> at Apr 10, 2016 6:48:47 PM</p>
 </div>
 </div>
 </body>
