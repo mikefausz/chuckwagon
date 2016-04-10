@@ -213,7 +213,6 @@ angular.module('starter.controllers', [])
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
   $scope.trucks = TruckService.all();
   $scope.remove = function(truck) {
     TruckService.remove(truck);
