@@ -60,6 +60,7 @@ public class ChuckWagonController {
 
 
 
+    //add a new vendor to DB
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
     public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
         //We are expecting an email address(id) a vendor name, and a password
@@ -76,7 +77,18 @@ public class ChuckWagonController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    //this is an edit vendor route
+    //request a single vendor.
+    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getVendor(@PathVariable("id") Integer id) {
+        Vendor vendor = vendorRepository.findOne(id);
+        if (vendor != null) {
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //edit vendor in DB. currently just allows for a picture upload.
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture") MultipartFile profilePicture, HttpSession session) throws IOException {
 
@@ -111,15 +123,16 @@ public class ChuckWagonController {
 
     }
 
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vendor.getId()).toUri()); //keep an eye on this now.
-
-
-    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
-    public Vendor getVendor(@PathVariable("id") Integer id) {
-        //validate
-        return vendorRepository.findOne(id);
+    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteVendor(@RequestParam("id") Integer id, HttpSession session) {
+        if (verifyVendor(session, vendorRepository.findOne(id))) {
+            vendorRepository.delete(id);
+            return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
+        }
     }
+
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
@@ -145,13 +158,12 @@ public class ChuckWagonController {
 
 
 
+
+
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
     public List<Vendor> vendorByLocation(@PathVariable Location locaton) {
         return vendorRepository.findByIsActive(true);
     }
-
-
-
 
 
     @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.GET)
