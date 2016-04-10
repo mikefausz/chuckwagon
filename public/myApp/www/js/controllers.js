@@ -1,39 +1,68 @@
 angular.module('starter.controllers', [])
 
-.controller('TabCtrl', function($scope){
-  $scope.vendorView = false;
-  $scope.notVendor = true;
+.controller('TabCtrl', function($scope, $state){
+  // Set default to user mode
+  $scope.vendorMode= false;
 
+  // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
-    if($scope.vendorView) {
-      $scope.vendorView = false;
-      $scope.notVendor = true;
-    } else {
-      $scope.vendorView = true;
-      $scope.notVendor = false;
+    // IF toggle clicked from vendor mode, switch to user mode
+    if ($scope.vendorMode){
+      $state.go('tab.map');
+      $scope.vendorMode = false;
     }
-  }
+    // IF toggle clicked from user mode, switch to vendor mode
+    else {
+      $state.go('tab.vendorlogin');
+      $scope.vendorMode = true;
+    }
+  };
+
+  // Return current mode
+  $scope.isVendor = function() {
+      if ($scope.vendorMode) {
+        return true;
+      }
+      return false;
+    };
+
+
 })
 
-.controller('VendorCtrl', function($scope){
-
-})
-
-.controller('VendorAccessCtrl', function($scope, TruckService){
-  $scope.vendor = {};
-
-  $scope.login = function(vendor){
+.controller('VendorLoginCtrl', function($scope, $state, TruckService){
+  $scope.loginVendor = function(login){
     console.log("LOGGING IN");
-    TruckService.login(vendor)
-  }
+    TruckService.loginVendor(login).then(function(vendor){
+      $state.go('tab.vendordashboard');
+      console.log("VENDOR", vendor);
+      $scope.sayMyName = vendor;
+    });
+  };
 })
 
-.controller('VendorsignupCtrl', function($scope){
-
+.controller('VendorsignupCtrl', function($scope, TruckService){
+  $scope.signup = function(vendor){
+    console.log("SIGN UP");
+    TruckService.signup(vendor);
+  };
 })
 
-.controller('VendordashboardCtrl', function($scope){
-
+.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService){
+  $scope.currentVendor = TruckService.getCurrentVendor();
+  window.glob = $scope.currentVendor;
+  $scope.upload = function(){
+    var options = {
+      fileKey: "avatar",
+      fileName: "image.png",
+      chunkedMode: "false",
+      mimeType: "image/png"
+    };
+    $cordovaFileTransfer.upload("http://tiny-tiny.herokuapp.com/collections/chuckwagon", "img/adam.jpg", options).then(function(result){
+      console.log("success: " + JSON.stringify(result.response));
+    }, function(error){
+      console.log("error: " + JSON.stringify(error));
+    });
+  };
 })
 
 .controller('ListviewCtrl', function($scope, TruckService){
@@ -53,9 +82,9 @@ angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
-
+  console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
+    console.log("RELOG POS");
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
     var mapOptions = {
@@ -65,6 +94,16 @@ angular.module('starter.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    // // Create the search box and link it to the UI element.
+    // var input = document.getElementById('map');
+    // var searchBox = new google.maps.places.SearchBox(input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    //
+    // // Bias the SearchBox results towards current map's viewport.
+    // map.addListener('bounds_changed', function() {
+    //   searchBox.setBounds(map.getBounds());
+    // });
 
     var marker = new google.maps.Marker({
       position: latLng,
@@ -90,6 +129,94 @@ angular.module('starter.controllers', [])
   });
 
 })
+.controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+  console.log("INITIALIZING MAP");
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    console.log("RELOG POS");
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("fav-map"), mapOptions);
+    console.log('map',$scope.map);
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: $scope.map,
+      title: 'You are here',
+      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+    });
+
+    marker.setMap($scope.map);
+
+    // $scope.trucks = TruckService.all();
+    TruckService.getTrucks().then(function(trucks) {
+      $scope.trucks = trucks;
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
+        });
+
+        marker.setMap($scope.map);
+      });
+    });
+
+    }, function(error){
+    console.log("Could not get location");
+  });
+})
+
+.controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+  console.log("INITIALIZING MAP");
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    console.log("RELOG POS");
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("search-map"), mapOptions);
+    console.log('map',$scope.map);
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: $scope.map,
+      title: 'You are here',
+      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+    });
+
+    marker.setMap($scope.map);
+
+    // $scope.trucks = TruckService.all();
+    TruckService.getTrucks().then(function(trucks) {
+      $scope.trucks = trucks;
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
+        });
+
+        marker.setMap($scope.map);
+      });
+    });
+
+    }, function(error){
+    console.log("Could not get location");
+  });
+})
+
 
 
 .controller('SearchCtrl', function($scope, TruckService) {
@@ -112,6 +239,7 @@ angular.module('starter.controllers', [])
   //   viewData.enableBack = true;
   // });
   $scope.truck = TruckService.get($stateParams.truckId);
+
   var mapOptions = {
     // center: {lat: -34.397, lng: 150.644},
     center: $scope.truck.location,
@@ -129,6 +257,10 @@ angular.module('starter.controllers', [])
   });
 
   marker.setMap($scope.map);
+})
+
+.controller('AdvSearchCtrl', function($scope) {
+
 })
 
 .controller('FavoritesCtrl', function($scope) {

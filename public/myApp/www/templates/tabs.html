@@ -4,44 +4,34 @@ Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
- <!-- Home Tab -->
-  <div ng-if="vendorView">
-    <ion-tab title="Home" ng-show="getVendorView" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/map">
-      <ion-nav-view name="tab-home"></ion-nav-view>
-    </ion-tab>
-     <!-- Add New Vendor -->
-     <ion-tab title="Edit Profile" ng-show="getVendorView" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/tab/vendor">
-       <ion-nav-view name="tab-vendor"></ion-nav-view>
-     </ion-tab>
+  <!-- USER MODE TABS -->
 
-    <!-- Advanced Search Tab -->
-    <ion-tab title="Logout" ng-show="getVendorView" ng-click="toggleVendorView()" icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
-      <ion-nav-view name="tab-search"></ion-nav-view>
-    </ion-tab>
-  </div>
+  <!-- Home Tab -->
+  <ion-tab title="Home" hidden="{{ isVendor() }}" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" ui-sref="tab.map">
+    <ion-nav-view name="tab-home"></ion-nav-view>
+  </ion-tab>
 
-  <div ng-if="notVendor">
-    <ion-tab title="Home" ng-show="getVendorView" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/map">
-      <ion-nav-view name="tab-home"></ion-nav-view>
-    </ion-tab>
+  <!-- Advanced Search Tab -->
+  <ion-tab title="Search" hidden="{{ isVendor() }}" icon-off="ion-ios-search" icon-on="ion-ios-search" ui-sref="tab.search">
+    <ion-nav-view name="tab-search"></ion-nav-view>
+  </ion-tab>
 
-    <!-- Favorites Tab -->
-    <ion-tab title="Favorites" ng-show="getVendorView" icon-off="ion-ios-heart-outline" icon-on="ion-ios-heart" href="#/tab/favorites">
-      <ion-nav-view name="tab-favorites"></ion-nav-view>
-    </ion-tab>
+  <!-- Favorites Tab -->
+  <ion-tab title="Favorites" hidden="{{ isVendor() }}" icon-off="ion-ios-heart-outline" icon-on="ion-ios-heart" ui-sref="tab.fav-map">
+    <ion-nav-view name="tab-favorites"></ion-nav-view>
+  </ion-tab>
 
-     <!-- Add New Vendor -->
-     <ion-tab title="Vendor" ng-show="getVendorView" ng-click="toggleVendorView()" icon-off="ion-ios-plus-outline" icon-on="ion-ios-plus" href="#/tab/vendor">
-       <ion-nav-view name="tab-vendor"></ion-nav-view>
-     </ion-tab>
+  <!-- VENDOR MODE TABS -->
 
-    <!-- Advanced Search Tab -->
-    <ion-tab title="Search" ng-show="getVendorView" icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
-      <ion-nav-view name="tab-search"></ion-nav-view>
-    </ion-tab>
+  <!-- Vendor Dashboard -->
+  <ion-tab title="Vendor Dashboard" hidden="{{ !isVendor() }}" icon-off="ion-ios-speedometer-outline" icon-on="ion-ios-speedometer" ui-sref="tab.vendordashboard">
+    <ion-nav-view name="tab-vendor"></ion-nav-view>
+  </ion-tab>
 
-  </div>
-
+  <!-- Edit Vendor Profile -->
+  <ion-tab title="Edit Profile" hidden="{{ !isVendor() }}" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ui-sref="tab.vendoredit">
+    <ion-nav-view name="tab-vendoredit"></ion-nav-view>
+  </ion-tab>
 
 
 </ion-tabs>
