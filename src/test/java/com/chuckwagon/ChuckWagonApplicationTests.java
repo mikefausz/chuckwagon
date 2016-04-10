@@ -56,7 +56,7 @@ public class ChuckWagonApplicationTests {
 
 
 	@Test
-	public void ACreateVendorTest() throws Exception {
+	public void aCreateVendorTest() throws Exception {
 
 		Vendor vendor = new Vendor("mail@mail.com", "Auto Bahn Mi", "password");
 
@@ -67,16 +67,13 @@ public class ChuckWagonApplicationTests {
 				MockMvcRequestBuilders.post("/vendor")
 						.content(json)
 						.contentType("application/json")
-
 		);
-
-        System.out.println("After Perform: " + vendorRepository.findOne(1));
         Assert.assertTrue(vendorRepository.findOne(1).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
         Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("password"));  //check to see if password got hashed.
 	}
 
     @Test
-    public void BLoginTest() throws Exception {
+    public void bLoginTest() throws Exception {
 
         HashMap m = new HashMap();
         m.put("contactEmail", "mail@mail.com");
@@ -94,7 +91,7 @@ public class ChuckWagonApplicationTests {
     }
 
 	@Test
-	public void CEditVendorFileUploadTest() throws Exception {
+	public void cEditVendorFileUploadTest() throws Exception {
         FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
 		MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
 
@@ -105,12 +102,16 @@ public class ChuckWagonApplicationTests {
 				MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
 		).andExpect(status().is(202));
 
-        System.out.println(vendorRepository.findOne(1).getContactEmail());
+        System.out.println(vendorRepository.findOne(1).getProfilePictureLocation());
     }
 
-
 	@Test
-	public void contextLoads() {
+	public void deleteVendorTest() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/vendor/1")
+                .sessionAttr("email", "mail@mail.com")
+        ).andExpect(status().is(202));
+
 	}
 
 }

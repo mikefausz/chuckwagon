@@ -104,8 +104,6 @@ public class ChuckWagonController {
                 File dir = new File(filePath);
                 dir.mkdirs();
 
-                System.out.println(vendor);
-
                 //all this creates a random file name
                 File photoFile = File.createTempFile("image", profilePicture.getOriginalFilename(), dir);
                 FileOutputStream fos = new FileOutputStream(photoFile);
@@ -120,14 +118,13 @@ public class ChuckWagonController {
         } else {
             return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
-
     }
 
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteVendor(@RequestParam("id") Integer id, HttpSession session) {
+    public ResponseEntity<?> deleteVendor(@PathVariable("id") Integer id, HttpSession session) {
         if (verifyVendor(session, vendorRepository.findOne(id))) {
             vendorRepository.delete(id);
-            return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
         }
