@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -135,6 +136,10 @@ public class ChuckWagonController {
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteVendor(@PathVariable("id") Integer id, HttpSession session) {
         if (verifyVendor(session, vendorRepository.findOne(id))) {
+
+            File path = new File("public/images/" + vendorRepository.findOne(id).getVendorName().toLowerCase().replace(" ", ""));
+            deleteFilesAndDirectory(path);
+
             vendorRepository.delete(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
@@ -191,8 +196,8 @@ public class ChuckWagonController {
     public void photoUpload(MultipartFile photo, Vendor vendor, Optional<Menu> m) throws IOException {
 
         String filePath = (m.isPresent())
-                ? "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "") + "/menus"
-                : "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "");
+                ? "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "") + "/menus/"
+                : "public/images/" + vendor.getVendorName().toLowerCase().replace(" ", "") + "/";
 
         //ensure that the directory exists
         File dir = new File(filePath);
@@ -210,6 +215,34 @@ public class ChuckWagonController {
         }
 
 
+    }
+
+
+    /**
+     *I was doing this manually previously but I found this walk through and decided to implement it.
+     * this method seems to run a bit faster
+     *http://www.mkyong.com/java/how-to-delete-directory-in-java/
+     */
+    public void deleteFilesAndDirectory(File path) {
+
+        if(path.isDirectory()) { //if the file is a directory
+            if(path.list().length == 0) { //if there are no files in the directory
+                path.delete(); //this wil delete the directory
+            } else { //if there are some files in the directory
+                String files[] = path.list();
+                for (String temp : files) {
+                    //point to the file
+                    File file = new File(path, temp);
+                    deleteFilesAndDirectory(file);  //recursive call to method
+                }
+                //check directory again
+                if (path.list().length == 0) {
+                    path.delete();  //delete directory if no files
+                }
+            }
+        } else { //if the file is not a directory and is a file
+            path.delete();
+        }
     }
 
 
