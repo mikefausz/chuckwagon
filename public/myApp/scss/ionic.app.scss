@@ -90,12 +90,22 @@ img.truck-toggle {
   left: 37%;
 }
 
-.search-items {
-  left: 0;
+.tag-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px auto;
+  .tag {
+    margin-bottom: 10px;
+  }
+  .checked {
+    background-color: #19579a !important;
+    color: white !important;
+  }
 }
 
-.tag.button {
-  margin-bottom: 5px;
+.search-items {
+  left: 0;
 }
 
 #chuckwagon-logo {
@@ -189,12 +199,7 @@ img.truck-toggle {
  border-width: 2px 12px 10px 0;
 }
 
-.tag-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px auto;
-}
+
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;

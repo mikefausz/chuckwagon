@@ -68,11 +68,19 @@ img.truck-toggle {
   bottom: 4%;
   left: 37%; }
 
+.tag-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px auto; }
+  .tag-wrap ul .tag {
+    margin-bottom: 10px; }
+  .tag-wrap ul .checked {
+    background-color: #19579a !important;
+    color: white !important; }
+
 .search-items {
   left: 0; }
-
-.tag.button {
-  margin-bottom: 5px; }
 
 #chuckwagon-logo {
   width: 60%;
@@ -154,12 +162,6 @@ img.truck-toggle {
 .ribbon .ribbon-content:after {
   right: 0;
   border-width: 2px 12px 10px 0; }
-
-.tag-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px auto; }
 
 /*!
   Ionicons, v2.0.1
