@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Vendor;
+import com.chuckwagon.services.MenuRepository;
 import com.chuckwagon.services.VendorRepository;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
@@ -32,10 +33,12 @@ public class ChuckWagonController {
 
     //set up method wide vars
     private final VendorRepository vendorRepository;
+    private final MenuRepository menuRepository;
     //Autowire in repos
     @Autowired
-    ChuckWagonController(VendorRepository vendorRepository) {
+    ChuckWagonController(VendorRepository vendorRepository, MenuRepository menuRepository) {
         this.vendorRepository = vendorRepository;
+        this.menuRepository = menuRepository;
     }
 
     /** this area is for viewing DB in web browser */

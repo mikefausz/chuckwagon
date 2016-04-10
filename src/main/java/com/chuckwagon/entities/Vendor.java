@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -48,6 +50,9 @@ public class Vendor {
 
     @Column(name = "active")
     private boolean isActive;
+
+    @OneToMany
+    private List<Menu> menuList;
 
     public Vendor() {
     }
@@ -141,5 +146,13 @@ public class Vendor {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
     }
 }

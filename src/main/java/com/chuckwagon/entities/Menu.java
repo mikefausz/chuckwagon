@@ -1,9 +1,6 @@
 package com.chuckwagon.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by branden on 4/8/16 at 17:14.
@@ -15,6 +12,10 @@ public class Menu {
     @GeneratedValue
     private Integer id;
 
+    @ManyToOne
+    @Column(nullable = false, name = "vendor_id")
+    private Vendor vendor;
+
     @Column(nullable = false)
     private String name;
 
@@ -22,8 +23,36 @@ public class Menu {
     private String photoLocation;
 
 
-    public Menu(String name, String photoLocation) {
+    public Menu() {
+    }
+
+    public Menu(Vendor vendor, String name, String photoLocation) {
+        this.vendor = vendor;
         this.name = name;
+        this.photoLocation = photoLocation;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhotoLocation() {
+        return photoLocation;
+    }
+
+    public void setPhotoLocation(String photoLocation) {
         this.photoLocation = photoLocation;
     }
 }
