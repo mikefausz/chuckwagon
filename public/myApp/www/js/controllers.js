@@ -1,13 +1,18 @@
 angular.module('starter.controllers', [])
 
-.controller('TabCtrl', function($scope, $state){
+.controller('TabCtrl', function($scope, $state, TruckService){
   // Set default to user mode
   $scope.vendorMode= false;
+
+  $scope.logoutVendor = function() {
+    TruckService.logoutVendor();
+  };
 
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
     if ($scope.vendorMode){
+      $scope.logoutVendor();
       $state.go('tab.map');
       $scope.vendorMode = false;
     }

@@ -5,6 +5,7 @@ angular.module('starter.services', [])
   // var ip = "http://10.0.10.70:8080";
   var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
+  var logoutUrl = ip + "/vendor/logout";
   var signupUrl = ip + "/vendor";
 
   function getTrucks() {
@@ -72,16 +73,27 @@ angular.module('starter.services', [])
     remove: function(truck) {
       trucks.splice(trucks.indexOf(truck), 1);
     },
-    loginVendor: function(login){
-      var currentVendor = $http.post(loginUrl, login);
-      cacheEngine.put('currentVendor',  currentVendor);
-      console.log("currentVendor", currentVendor)
-      return currentVendor;
-    },
     signup: function(vendor){
       var currentVendor = $http.post(signupUrl, vendor);
       cacheEngine.put('currentVendor',  currentVendor);
       return currentVendor;
+    },
+    loginVendor: function(login){
+      var currentVendor = $http.post(loginUrl, login);
+      cacheEngine.put('currentVendor',  currentVendor);
+      console.log("currentVendor", currentVendor);
+      return currentVendor;
+    },
+    logoutVendor: function(){
+      // Hit logout route
+      $http.post(logoutUrl).success(function(response) {
+        console.log("vendor logged out(post success)");
+      }).error(function(err) {
+        console.log("error", err);
+      });
+      // Clear currentVendor cache
+      cacheEngine.put('currentVendor',  '');
+      console.log("in cache: " + cacheEngine.get('currentVendor'));
     },
     getCurrentVendor: function(){
       return cacheEngine.get('currentVendor');
