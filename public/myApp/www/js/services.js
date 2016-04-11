@@ -2,10 +2,9 @@ angular.module('starter.services', [])
 
 .factory('TruckService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
-  // var ip = "http://10.0.10.70:8080";
-  var ip = "http://localhost:8080";
+  var ip = "http://10.0.10.70:8080";
+  // var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
-  var logoutUrl = ip + "/vendor/logout";
   var signupUrl = ip + "/vendor";
 
   function getTrucks() {
@@ -85,6 +84,7 @@ angular.module('starter.services', [])
       return currentVendor;
     },
     logoutVendor: function(){
+      var logoutUrl = "/vendor/" + cacheEngine.get('currentVendor.id') + "/logout";
       // Hit logout route
       $http.post(logoutUrl).success(function(response) {
         console.log("vendor logged out(post success)");

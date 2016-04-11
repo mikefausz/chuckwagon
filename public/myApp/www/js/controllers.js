@@ -12,9 +12,11 @@ angular.module('starter.controllers', [])
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
     if ($scope.vendorMode){
-      $scope.logoutVendor();
-      $state.go('tab.map');
-      $scope.vendorMode = false;
+      $scope.logoutVendor().then(function() {
+        $scope.vendorLoggedIn = true;
+        $state.go('tab.map');
+        $scope.vendorMode = false;
+      });
     }
     // IF toggle clicked from user mode, switch to vendor mode
     else {
@@ -31,6 +33,14 @@ angular.module('starter.controllers', [])
       return false;
     };
 
+  // Return current mode
+  $scope.isLoggedIn = function() {
+      if ($scope.vendorLoggedIn) {
+        return true;
+      }
+      return false;
+    };
+
 
 })
 
@@ -39,6 +49,7 @@ angular.module('starter.controllers', [])
     console.log("LOGGING IN");
     TruckService.loginVendor(login).then(function(vendor){
       $state.go('tab.vendordashboard');
+      // $rootScope.vendorLoggedIn = true;
       console.log("VENDOR", vendor);
       $scope.sayMyName = vendor;
     });
@@ -57,7 +68,7 @@ angular.module('starter.controllers', [])
 
   $scope.currentVendor = TruckService.getCurrentVendor()
   .then(function(vendorData){
-    defer.resolve(vendorData)
+    defer.resolve(vendorData);
     console.log('data', vendorData);
     $scope.vendorData = vendorData.data;
   });
