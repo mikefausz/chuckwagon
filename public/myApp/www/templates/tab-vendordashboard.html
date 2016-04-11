@@ -2,7 +2,7 @@
   <ion-content class="padding">
     <h1>Welcome, {{vendorData.vendorName}}</h1>
     <a href="#/tab/home"><button class="button" ng-click="toggleVendorView()">LOGOUT</button></a>
-    <!-- <form action="/vendor/{{truck.id}}" method="post">
+    <!-- <form action="/vendor/{{id}}" method="post">
       <input type="file" name="profilePicture">
       <button type="submit">Upload File</button>
     </form> -->
@@ -17,6 +17,6 @@
       <input type="text" placeholder="Type a message">
     </label>
 
-    <a href="#/tab/{{truck.id}}"><button class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
+    <a href="#/tab/{{vendorData.id}}"><button class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
   </ion-content>
 </ion-view>
