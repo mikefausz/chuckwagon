@@ -47,7 +47,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService, $q){
+.controller('VendordashboardCtrl', function($scope, TruckService, $q, $cordovaGeolocation){
   var defer = $q.defer();
 
   $scope.currentVendor = TruckService.getCurrentVendor()
@@ -55,23 +55,26 @@ angular.module('starter.controllers', [])
     defer.resolve(vendorData)
     console.log('data', vendorData);
     $scope.vendorData = vendorData.data;
+    return defer.promise;
   });
 
-  window.glob = $scope.currentVendor;
 
-  $scope.upload = function(){
-    var options = {
-      fileKey: "avatar",
-      fileName: "image.png",
-      chunkedMode: "false",
-      mimeType: "image/png"
-    };
-    $cordovaFileTransfer.upload("http://tiny-tiny.herokuapp.com/collections/chuckwagon", "img/adam.jpg", options).then(function(result){
-      console.log("success: " + JSON.stringify(result.response));
-    }, function(error){
-      console.log("error: " + JSON.stringify(error));
+  $scope.dropPin = function(post, vendorId){
+    $cordovaGeolocation.getCurrentPosition().then(function(position){
+      console.log("RELOG POS", position);
+      var id = $scope.vendorData.id
+      var post = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      TruckService.dropPin(post, id)
+      .success(function(data) {
+        console.log("YAY", data)
+      })
+      .error(function(err) {
+        console.log('err', err);  
+      })
     });
-    return defer.promise;
   };
 })
 

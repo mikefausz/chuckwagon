@@ -10,7 +10,7 @@
 
     <label class="item item-input item-select">
       <div class="input-label">&nbsp;</div>
-      <select class="lift-pin">
+      <select class="lift-pin" ng-model="post.expiresString">
         <option value="1">1 Hour</option>
         <option value="1.5">1.5 Hours</option>
         <option value="2">2 Hours</option>
@@ -41,6 +41,7 @@
       <input type="text" placeholder="Type a message">
     </label>
 
-    <a href="#/tab/{{vendorData.id}}"><button class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
+    <button ng-click="dropPin(post)" class="button button-block button-dark" type="button" name="button">DROP PIN</button>
+  <!-- <a href="#/tab/search-list/{{vendorData.id}}"></a> -->
   </ion-content>
 </ion-view>
