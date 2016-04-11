@@ -2,10 +2,14 @@ angular.module('starter.services', [])
 
 .factory('TruckService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
-  var ip = "http://10.0.10.70:8080";
-  // var ip = "http://localhost:8080";
+  // var ip = "http://10.0.10.70:8080";
+  var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
+
+  function getCurrentVendor(){
+    return cacheEngine.get('currentVendor');
+  }
 
   function getTrucks() {
       var defer = $q.defer();
@@ -18,7 +22,9 @@ angular.module('starter.services', [])
       // ELSE get vendors from server, put them in cache
       else {
         console.log('no trucks in cache. getting from service');
-        // var vendors = $http.get(ip + 'vendors');
+        // $http.get(ip + 'vendors').then(function(response) {
+        //  defer.resolve(response);
+      // });
         var vendors = trucks;
         cacheEngine.put('vendors',  vendors);
         defer.resolve(vendors);
@@ -35,7 +41,7 @@ angular.module('starter.services', [])
     location: {lat:32.788642, lng:-79.950876},
     profileImg: 'https://media-cdn.tripadvisor.com/media/photo-s/03/be/da/13/bon-banh-mi.jpg'
   }, {
-    id: 1,
+    id: 2020,
     name: 'The Immortal Lobster',
     tags: 'Seafood, Sandwiches',
     bio: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -66,38 +72,41 @@ angular.module('starter.services', [])
 
   return {
     getTrucks: getTrucks,
+    
     all: function() {
       return trucks;
     },
+
     remove: function(truck) {
       trucks.splice(trucks.indexOf(truck), 1);
     },
+
     signup: function(vendor){
       var currentVendor = $http.post(signupUrl, vendor);
       cacheEngine.put('currentVendor',  currentVendor);
       return currentVendor;
     },
+
     loginVendor: function(login){
-      var currentVendor = $http.post(loginUrl, login);
-      cacheEngine.put('currentVendor',  currentVendor);
-      console.log("currentVendor", currentVendor);
-      return currentVendor;
-    },
-    logoutVendor: function(){
-      var logoutUrl = "/vendor/" + cacheEngine.get('currentVendor.id') + "/logout";
-      // Hit logout route
-      $http.post(logoutUrl).success(function(response) {
-        console.log("vendor logged out(post success)");
-      }).error(function(err) {
-        console.log("error", err);
+      var defer = $q.defer();
+
+      $http.post(loginUrl, login).then(function(response) {
+        defer.resolve(response.data);
+        window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
       });
-      // Clear currentVendor cache
-      cacheEngine.put('currentVendor',  '');
-      console.log("in cache: " + cacheEngine.get('currentVendor'));
+
+      return defer.promise;
     },
-    getCurrentVendor: function(){
-      return cacheEngine.get('currentVendor');
+
+    logoutVendor: function(){
+      var vendor = JSON.parse(localStorage.currentVendor);
+      var logoutUrl = "/vendor/" + vendor.id + "/logout";
+      // Hit logout route
+      $http.post(logoutUrl);
+      localStorage.setItem('currentVendor', '');
+      console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
     },
+
     get: function(truckId) {
       for (var i = 0; i < trucks.length; i++) {
         if (trucks[i].id === parseInt(truckId)) {
