@@ -35,7 +35,7 @@ angular.module('starter.controllers', [])
 
   // Return current mode
   $scope.isLoggedIn = function() {
-      if ($scope.vendorLoggedIn) {
+      if (localStorage.vendorLoggedIn === "true") {
         return true;
       }
       return false;

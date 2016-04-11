@@ -72,7 +72,7 @@ angular.module('starter.services', [])
 
   return {
     getTrucks: getTrucks,
-    
+
     all: function() {
       return trucks;
     },
@@ -83,7 +83,8 @@ angular.module('starter.services', [])
 
     signup: function(vendor){
       var currentVendor = $http.post(signupUrl, vendor);
-      cacheEngine.put('currentVendor',  currentVendor);
+      window.localStorage.setItem( 'currentVendor', JSON.stringify(vendor) );
+      window.localStorage.setItem( 'vendorLoggedIn', true );
       return currentVendor;
     },
 
@@ -93,6 +94,7 @@ angular.module('starter.services', [])
       $http.post(loginUrl, login).then(function(response) {
         defer.resolve(response.data);
         window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
+        window.localStorage.setItem( 'vendorLoggedIn', true );
       });
 
       return defer.promise;
@@ -103,6 +105,7 @@ angular.module('starter.services', [])
       var logoutUrl = "/vendor/" + vendor.id + "/logout";
       // Hit logout route
       $http.post(logoutUrl);
+      window.localStorage.setItem( 'vendorLoggedIn', false );
       localStorage.setItem('currentVendor', '');
       console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
     },
