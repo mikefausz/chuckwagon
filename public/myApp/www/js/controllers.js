@@ -62,20 +62,21 @@ angular.module('starter.controllers', [])
   };
 })
 
-
-.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService, $q){
+.controller('VendordashboardCtrl', function($scope, TruckService, $q, $cordovaGeolocation){
+  var defer = $q.defer();
 
   $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+
   $scope.dropPin = function(post, vendorId){
     $cordovaGeolocation.getCurrentPosition().then(function(position){
       console.log("RELOG POS", position);
-      var id = $scope.vendorData.id
-      console.log("SHOW",post);
+      var id = $scope.currentVendor.id
+      console.log("SHOW", post);
         post.lat = position.coords.latitude,
         post.lng = position.coords.longitude
       TruckService.dropPin(post, id)
       .success(function(data) {
-        console.log("YAY", data)
+        console.log("YAY", data);
       })
       .error(function(err) {
         console.log('err', err);
