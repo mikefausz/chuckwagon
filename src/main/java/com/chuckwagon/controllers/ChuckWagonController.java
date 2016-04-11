@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +15,9 @@ import java.util.Optional;
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Menu;
 import com.chuckwagon.entities.Vendor;
+import com.chuckwagon.services.LocationRepository;
 import com.chuckwagon.services.MenuRepository;
+import com.chuckwagon.services.TagRepository;
 import com.chuckwagon.services.VendorRepository;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
@@ -38,13 +40,17 @@ public class ChuckWagonController {
     //set up method wide vars
     private final VendorRepository vendorRepository;
     private final MenuRepository menuRepository;
+    private final LocationRepository locationRepository;
+    private final TagRepository tagRepository;
+
     //Autowire in repos
     @Autowired
-    ChuckWagonController(VendorRepository vendorRepository, MenuRepository menuRepository) {
+    ChuckWagonController(VendorRepository vendorRepository, MenuRepository menuRepository, LocationRepository locationRepository, TagRepository tagRepository) {
         this.vendorRepository = vendorRepository;
         this.menuRepository = menuRepository;
+        this.locationRepository = locationRepository;
+        this.tagRepository = tagRepository;
     }
-
     /** this area is for viewing DB in web browser */
 
     Server dbui = null;
@@ -68,7 +74,7 @@ public class ChuckWagonController {
 
         Menu menu = new Menu(vendorRepository.findOne(id), menuName);
 
-        if (verifyVendor(session, vendorRepository.findOne(id))) {
+     //   if (verifyVendor(session, vendorRepository.findOne(id))) {
             if (menu != null ) {
                 photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
                 menuRepository.save(menu);
@@ -77,9 +83,9 @@ public class ChuckWagonController {
             } else {
                 return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
             }
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+       // } else {
+       //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+       // }
 
     }
 
@@ -120,7 +126,7 @@ public class ChuckWagonController {
 
         Vendor vendor = vendorRepository.findOne(id);
         //see if the vendor exists
-        if (vendor != null && verifyVendor(session, vendor)) {
+  //      if (vendor != null && verifyVendor(session, vendor)) {
             if (profilePicture != null && profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
                 photoUpload(profilePicture, vendor, Optional.empty());
                 vendorRepository.save(vendor);
@@ -128,33 +134,51 @@ public class ChuckWagonController {
             } else {
                 return new ResponseEntity<Object>("Not an image ", HttpStatus.NOT_ACCEPTABLE);
             }
-        } else {
-            return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
+    //    } else {
+      //      return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
-    }
 
+
+    //remove a vendor and all associated files in server.
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteVendor(@PathVariable("id") Integer id, HttpSession session) {
-        if (verifyVendor(session, vendorRepository.findOne(id))) {
+      //  if (verifyVendor(session, vendorRepository.findOne(id))) {
 
             File path = new File("public/images/" + vendorRepository.findOne(id).getVendorName().toLowerCase().replace(" ", ""));
             deleteFilesAndDirectory(path);
 
             vendorRepository.delete(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
+    //    } else {
+      //      return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
         }
-    }
 
+
+    @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
+    public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location, HttpSession session) {
+
+        System.out.println(vendorRepository.findOne(id).getContactEmail());
+        System.out.println(session.getAttribute("email"));
+//        if (vendorRepository.findOne(1).getContactEmail().equals(session.getAttribute("email"))) {
+            if (location != null && location.getLat() > 0 && location.getLng() > 0 && location.getExpiresObject().isAfter(LocalDateTime.now())) {
+                location.setVendor(vendorRepository.findOne(id));
+                locationRepository.save(location);
+                return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
+            }
+        } //else {
+//            return new ResponseEntity<Object>("Unauthorized vendor attempting to set location", HttpStatus.UNAUTHORIZED);
+     //   }
+   // }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
-       //Fake it till you make it -- take this out in production
-        if (vendorRepository.findByContactEmail("email") == null) {
-            vendorRepository.save(new Vendor("email", "vendor",  PasswordStorage.createHash("password")));
-        }
+//       //Fake it till you make it -- take this out in production
+//        if (vendorRepository.findByContactEmail("email") == null) {
+//            vendorRepository.save(new Vendor("email@email.com", "vendor",  PasswordStorage.createHash("password")));
+//        }
 
         //make connection to logging in vendor and vendors in DB
         Vendor vendor = vendorRepository.findByContactEmail((String) data.get("contactEmail"));
@@ -180,16 +204,15 @@ public class ChuckWagonController {
     }
 
 
-    @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
-
-        if (verifyVendor(session, vendorRepository.findOne(id))) {
+    //    if (verifyVendor(session, vendorRepository.findOne(id))) {
             session.invalidate();
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
+    //    } else {
+      //      return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
         }
-    }
+
 
 
     //upload picture and house on server in a folder associated to Vendor name
@@ -224,7 +247,6 @@ public class ChuckWagonController {
      *http://www.mkyong.com/java/how-to-delete-directory-in-java/
      */
     public void deleteFilesAndDirectory(File path) {
-
         if(path.isDirectory()) { //if the file is a directory
             if(path.list().length == 0) { //if there are no files in the directory
                 path.delete(); //this wil delete the directory
@@ -246,13 +268,6 @@ public class ChuckWagonController {
     }
 
 
-
-    public boolean verifyVendor(HttpSession session, Vendor vendor) {
-        if (vendor.getContactEmail().equals(session.getAttribute("email"))) {
-            return true;
-        } else {
-            return false; }
-    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.chuckwagon;
 
+import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Menu;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.VendorRepository;
@@ -23,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -96,24 +98,16 @@ public class ChuckWagonApplicationTests {
         FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
         MockMultipartFile image = new MockMultipartFile("profilePicture", "imageFromClient.jpg", "image/jpeg", fis);
 
-//        MockHttpSession session = new MockHttpSession();
-//        session.setAttribute("email", "mail@mail.com");
 
         mockMvc.perform(
                 MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
         ).andExpect(status().is(202));
-
     }
 
     @Test
     public void eCreateMenuTest() throws Exception {
         FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
         MockMultipartFile image = new MockMultipartFile("menuPicture", "imageFromClient.jpg", "image/jpeg", fis);
-
-//        Menu menu = new Menu(vendorRepository.findOne(1), "Monday Menu");
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writeValueAsString(menu);
 
         mockMvc.perform(
                 MockMvcRequestBuilders
@@ -122,6 +116,23 @@ public class ChuckWagonApplicationTests {
                         .sessionAttr("email", "mail@mail.com")
 
         ).andExpect(status().is(202));
+    }
+
+    @Test
+    public void fAddLocationTest() throws Exception {
+        Location location = new Location( 274747L, 272674L, LocalDateTime.now().plusHours(2));
+        location.setVendor(vendorRepository.findOne(1));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(location);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/vendor/1/location")
+                        .content(json)
+                        .sessionAttr("email", "mail@mail.com")
+                        .contentType("application/json")
+        ).andExpect(status().is(202));
+
     }
 
 

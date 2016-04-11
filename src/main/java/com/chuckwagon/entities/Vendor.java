@@ -53,14 +53,19 @@ public class Vendor {
     @Column(name = "active")
     private boolean isActive;
 
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Menu> menuList;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "tag_vendor", joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private Set<Tag> tags;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "tag_vendor", joinColumns = {
+//            @JoinColumn(name = "vendor_id", nullable = false, updatable = false) },
+//            inverseJoinColumns = { @JoinColumn(name = "tag_id",
+//                    nullable = false, updatable = false) })
+//    private Set<Tag> tags;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "vendor", cascade = CascadeType.ALL)
+    private Location location;
 
     public Vendor() {
     }
@@ -164,11 +169,19 @@ public class Vendor {
         this.menuList = menuList;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
+//    public Set<Tag> getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(Set<Tag> tags) {
+//        this.tags = tags;
+//    }
+
+    public Location getLocation() {
+        return location;
     }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
