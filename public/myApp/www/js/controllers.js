@@ -63,16 +63,15 @@ angular.module('starter.controllers', [])
     $cordovaGeolocation.getCurrentPosition().then(function(position){
       console.log("RELOG POS", position);
       var id = $scope.vendorData.id
-      var post = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+      console.log("SHOW",post);
+        post.lat = position.coords.latitude,
+        post.lng = position.coords.longitude
       TruckService.dropPin(post, id)
       .success(function(data) {
         console.log("YAY", data)
       })
       .error(function(err) {
-        console.log('err', err);  
+        console.log('err', err);
       })
     });
   };
