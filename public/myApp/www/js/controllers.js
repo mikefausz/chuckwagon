@@ -86,7 +86,13 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('EditCtrl', function($scope){
+.controller('EditCtrl', function($scope, $state, TruckService){
+  $scope.vendor = TruckService.getCurrentVendor();
+  console.log($scope.vendor, "VENDOR");
+  $scope.editVendor = function (editedVendor) {
+    TruckService.editVendor(editedVendor);
+    $state.go('tab.vendordashboard');
+    }
 
 })
 

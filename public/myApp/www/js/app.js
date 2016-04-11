@@ -204,7 +204,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // VENDOR EDIT TAB
   // Vendor profile edit form
   .state('tab.vendoredit', {
-    url: '/vendoredit',
+    url: '/vendoredit/:truckId',
     views: {
       'tab-vendoredit': {
         templateUrl: 'templates/tab-vendoredit.html',
