@@ -3,73 +3,73 @@
     <div class="list list-inset">
       <label class="item item-input">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Search by Truck Name">
+        <input ng-model="searchCriteria.keyword" type="text" placeholder="Search by Truck Name">
       </label>
       <div class="tag-wrap">
         <ul>
           <li>
-             <label ng-class="{'checked': tag1}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag1" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag1}" class="tag button button-outline button-positive button-large">
+               <input value="tag1" ng-model="searchCriteria.tag1" style="display:none;" type="checkbox">
                Burritos
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag2}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag2" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag2}" class="tag button button-outline button-positive button-large">
+               <input value="tag2" ng-model="searchCriteria.tag2" style="display:none;" type="checkbox">
                Seafood
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag3}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag3" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag3}" class="tag button button-outline button-positive button-large">
+               <input value="tag3" ng-model="searchCriteria.tag3" style="display:none;" type="checkbox">
                BBQ
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag4}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag4" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag4}" class="tag button button-outline button-positive button-large">
+               <input value="tag4" ng-model="searchCriteria.tag4" style="display:none;" type="checkbox">
                Pizza
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag5}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag5" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag5}" class="tag button button-outline button-positive button-large">
+               <input value="tag5" ng-model="searchCriteria.tag5" style="display:none;" type="checkbox">
                Coffee
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag6}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag6" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag6}" class="tag button button-outline button-positive button-large">
+               <input value="tag6" ng-model="searchCriteria.tag6" ng-model="tag" style="display:none;" type="checkbox">
                Ice Cream
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag7}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag7" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag7}" class="tag button button-outline button-positive button-large">
+               <input value="tag7" ng-model="searchCriteria.tag7" style="display:none;" type="checkbox">
                Tacos
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag8}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag8" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag8}" class="tag button button-outline button-positive button-large">
+               <input value="tag8" ng-model="searchCriteria.tag8" style="display:none;" type="checkbox">
                Salads
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag9}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag9" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag9}" class="tag button button-outline button-positive button-large">
+               <input value="tag9" ng-model="searchCriteria.tag9" style="display:none;" type="checkbox">
                Stir Fry
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag10}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag10" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag10}" class="tag button button-outline button-positive button-large">
+               <input value="tag10" ng-model="searchCriteria.tag10" style="display:none;" type="checkbox">
                Breakfast
              </label>
           </li>
           <li>
-             <label ng-class="{'checked': tag11}" class="tag button button-outline button-positive button-large">
-               <input ng-model="tag11" style="display:none;" type="checkbox">
+             <label ng-class="{'checked': searchCriteria.tag11}" class="tag button button-outline button-positive button-large">
+               <input value="tag11" ng-model="searchCriteria.tag11" style="display:none;" type="checkbox">
                Juice & Smoothies
              </label>
           </li>
@@ -77,14 +77,14 @@
       </div>
     <label class="item item-input item-select">
       <div class="input-label">&nbsp;</div>
-      <select class="search-items">
+      <select ng-model="searchCriteria.radius" class="search-items">
         <option value="1">1 Mile</option>
         <option value="5">5 Miles</option>
         <option value="10">10 Miles</option>
         <option value="25">25 Miles</option>
       </select>
     </label>
-    <a href="#/tab/search-map"><button class="button button-block button-dark" type="submit" name="button">SUBMIT</button></a>
+    <a ng-click="sendSearchCriteria(searchCriteria)" href="#/tab/search-map"><button class="button button-block button-dark" type="submit" name="button">SUBMIT</button></a>
   </div>
   </ion-content>
 </ion-view>

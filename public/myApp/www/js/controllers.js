@@ -227,6 +227,19 @@ angular.module('starter.controllers', [])
 
 .controller('SearchCtrl', function($scope, TruckService) {
   $scope.trucks = TruckService.all();
+  $scope.sendSearchCriteria = function(searchCriteria) {
+    // var searchCriteria = {keyword: keyword};
+    // searchCriteria.tags = new Array();
+    // $.each($("input[type='checkbox']:checked"), function() {
+    //   searchCriteria.tags.push($(this).val());
+    // // or you can do something to the actual checked checkboxes by working directly with  'this'
+    // // something like $(this).hide() (only something useful, probably) :P
+    // searchCriteria.radius = $('select').val();
+    // });
+    console.log('searchCriteria: ' + searchCriteria);
+    window.search = searchCriteria;
+  };
+
   $scope.remove = function(truck) {
     TruckService.remove(truck);
   };
