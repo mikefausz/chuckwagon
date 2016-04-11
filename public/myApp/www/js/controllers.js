@@ -52,9 +52,18 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService){
-  $scope.currentVendor = TruckService.getCurrentVendor();
+.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService, $q){
+  var defer = $q.defer();
+
+  $scope.currentVendor = TruckService.getCurrentVendor()
+  .then(function(vendorData){
+    defer.resolve(vendorData)
+    console.log('data', vendorData);
+    $scope.vendorData = vendorData.data;
+  });
+
   window.glob = $scope.currentVendor;
+
   $scope.upload = function(){
     var options = {
       fileKey: "avatar",
@@ -67,6 +76,7 @@ angular.module('starter.controllers', [])
     }, function(error){
       console.log("error: " + JSON.stringify(error));
     });
+    return defer.promise;
   };
 })
 

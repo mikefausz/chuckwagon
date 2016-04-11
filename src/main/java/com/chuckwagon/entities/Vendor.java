@@ -5,6 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -16,6 +19,7 @@ public class Vendor {
 
     @Id
     @GeneratedValue
+    @Column(name = "vendor_id")
     private Integer id;
 
     @Column(nullable = false, name = "vendor_name", unique = true)
@@ -37,7 +41,7 @@ public class Vendor {
     private String bio;
 
     @Column( name = "profile_picture")
-    private String profilePictureString;
+    private String profilePictureLocation;
 
     @Transient
     @JsonIgnore
@@ -48,6 +52,15 @@ public class Vendor {
 
     @Column(name = "active")
     private boolean isActive;
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor")
+    @JsonIgnore
+    private List<Menu> menuList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tag_vendor", joinColumns = @JoinColumn(name = "vendor_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     public Vendor() {
     }
@@ -127,12 +140,12 @@ public class Vendor {
         isActive = active;
     }
 
-    public String getProfilePictureString() {
-        return profilePictureString;
+    public String getProfilePictureLocation() {
+        return profilePictureLocation;
     }
 
-    public void setProfilePictureString(String profilePictureString) {
-        this.profilePictureString = profilePictureString;
+    public void setProfilePictureLocation(String profilePictureLocation) {
+        this.profilePictureLocation = profilePictureLocation;
     }
 
     public LocalDateTime getCreated() {
@@ -141,5 +154,21 @@ public class Vendor {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }
