@@ -38,6 +38,10 @@ angular
       };
     })
 
+    .controller('VendordashdetailCtrl', function($scope, TruckService){
+
+    })
+
     .controller('EditCtrl', function($scope){
       $scope.edit = function(vendor) {
         console.log(vendor);
