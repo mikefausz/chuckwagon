@@ -25,10 +25,12 @@ public class Location {
     private Integer id;
 
     @Column(nullable = false)
-    private Long lat;
+    private Float lat;
 
     @Column(nullable = false)
-    private Long lng;
+    private Float lng;
+
+    private String tweet;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -38,6 +40,7 @@ public class Location {
     private String expiresString;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
 //    @JoinColumn(name = "location_id")
     @PrimaryKeyJoinColumn
     private Vendor vendor;
@@ -47,26 +50,25 @@ public class Location {
     public Location() {
     }
 
-    public Location(Long lat, Long lng, LocalDateTime expiresObject) {
+    public Location(Float lat, Float lng, String expiresString) {
         this.lat = lat;
         this.lng = lng;
-        this.expiresObject = expiresObject;
-        this.expiresString = expiresObject.toString();
+        this.expiresString = expiresString;
     }
 
-    public Long getLat() {
+    public Float getLat() {
         return lat;
     }
 
-    public void setLat(Long lat) {
+    public void setLat(Float lat) {
         this.lat = lat;
     }
 
-    public Long getLng() {
+    public Float getLng() {
         return lng;
     }
 
-    public void setLng(Long lng) {
+    public void setLng(Float lng) {
         this.lng = lng;
     }
 
@@ -84,7 +86,7 @@ public class Location {
 
     public void setExpiresString(String expiresString) {
         this.expiresString = expiresString;
-        this.expiresObject = LocalDateTime.parse(expiresString);
+      //  this.expiresObject = LocalDateTime.parse(expiresString);
     }
 
     public Vendor getVendor() {
@@ -99,9 +101,24 @@ public class Location {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getTweet() {
+        return tweet;
     }
 
+    public void setTweet(String tweet) {
+        this.tweet = tweet;
+    }
 
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", tweet='" + tweet + '\'' +
+                ", expiresObject=" + expiresObject +
+                ", expiresString='" + expiresString + '\'' +
+                ", vendor=" + vendor +
+                '}';
+    }
 }
