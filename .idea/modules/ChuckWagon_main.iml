@@ -11,7 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-devtools:1.4.0.M1" level="project" />
-    <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.16.6" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.191" level="project" />
     <orderEntry type="library" name="Gradle: com.sun.mail:javax.mail:1.5.5" level="project" />

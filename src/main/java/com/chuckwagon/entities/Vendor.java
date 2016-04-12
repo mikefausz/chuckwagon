@@ -64,9 +64,9 @@ public class Vendor {
 //                    nullable = false, updatable = false) })
 //    private Set<Tag> tags;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "vendor", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore
-    private Location location;
+    private List<Location> location;
 
     public Vendor() {
     }
@@ -178,13 +178,12 @@ public class Vendor {
 //        this.tags = tags;
 //    }
 
-    public Location getLocation() {
+
+    public List<Location> getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(List<Location> location) {
         this.location = location;
     }
-
-
 }
