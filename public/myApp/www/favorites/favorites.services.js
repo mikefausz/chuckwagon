@@ -5,33 +5,9 @@ angular
       // var ip = "http://10.0.10.70:8080";
       var ip = "http://localhost:8080";
 
-      function all() {
-        return trucks;
-      }
-
-      function remove(truck) {
-        trucks.splice(trucks.indexOf(truck), 1);
-      }
-
-      function signup(vendor){
-        var currentVendor = $http.post(signupUrl, vendor);
-        window.localStorage.setItem( 'currentVendor', JSON.stringify(vendor) );
-        window.localStorage.setItem( 'vendorLoggedIn', true );
-        return currentVendor;
-      }
-
-      function get(truckId) {
-        for (var i = 0; i < trucks.length; i++) {
-          if (trucks[i].id === parseInt(truckId)) {
-            return trucks[i];
-          }
-        }
-        return null;
-      }
-
-      function getTrucks() {
+      function getFavoriteTrucks() {
           var defer = $q.defer();
-          var cache = cacheEngine.get('vendors');
+          var cache = cacheEngine.get('favoriteVendors');
           // IF cache already contains vendors, use those
           if(cache) {
             console.log('found trucks in the cache');
@@ -40,14 +16,43 @@ angular
           // ELSE get vendors from server, put them in cache
           else {
             console.log('no trucks in cache. getting from service');
-            // $http.get(ip + 'vendors').then(function(response) {
+            // $http.get(vendorsURL).then(function(response) {
+            //  cacheEngine.put('vendors',  response);
             //  defer.resolve(response);
-          // });
-            var vendors = trucks;
-            cacheEngine.put('vendors',  vendors);
-            defer.resolve(vendors);
+            // });
+
+            var favoriteVendors;
+            // FILTER TRUCKS BY FAVORITES IDs IN LOCAL STORAGE
+            window.localStorage.setItem('favoriteVendors', '10, 2020, 25');
+            console.log(localStorage.favorites);
+            window.favs = localStorage.favorites;
+
+            var stringFavArr = window.localStorage.getItem('favoriteVendors');
+            var splitFavArr = stringFavArr.split(", ");
+            var favIntArr = [];
+            splitFavArr.forEach(function(favorite) {
+              favIntArr.push(parseInt(favorite));
+            });
+            console.log(favIntArr);
+            favoriteVendors = trucks.filter(function(truck) {
+              return favIntArr.indexOf(truck.id) > -1;
+            });
+            console.log(favoriteVendors);
+
+            cacheEngine.put('favoriteVendors',  favoriteVendors);
+            defer.resolve(favoriteVendors);
+            //
           }
           return defer.promise;
+      }
+
+      function getFavoriteTruck(truckId) {
+        for (var i = 0; i < trucks.length; i++) {
+          if (trucks[i].id === parseInt(truckId)) {
+            return trucks[i];
+          }
+        }
+        return null;
       }
 
       // Dummy data for development
@@ -89,10 +94,7 @@ angular
       }];
 
       return {
-        getTrucks: getTrucks,
-        all: all,
-        remove: remove,
-        signup: signup,
-        get: get,
+        getFavoriteTrucks: getFavoriteTrucks,
+        getFavoriteTruck: getFavoriteTruck,
       };
     });

@@ -1,12 +1,12 @@
 angular.module('starter.controllers', [])
 
-.controller('TabCtrl', function($scope, $state, TruckService){
+.controller('TabCtrl', function($scope, $state, HomeService){
   // Set default to user mode
   $scope.vendorMode= false;
   $scope.vendorLoggedIn= false;
 
   $scope.logoutVendor = function() {
-    TruckService.logoutVendor();
+    HomeService.logoutVendor();
   };
 
   // Toggles between user and vendor modes on click
@@ -42,7 +42,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, HomeService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -66,36 +66,36 @@ angular.module('starter.controllers', [])
 
     marker.setMap($scope.map);
 
-    $scope.trucks = TruckService.all();
-    $scope.trucks.forEach(function(truck) {
-      var marker = new google.maps.Marker({
-        position: truck.location,
-        map: $scope.map,
-        title: truck.name,
+    HomeService.getTrucks().then(function(response) {
+      $scope.trucks = response;
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+        });
+        marker.setMap($scope.map);
       });
-
-      marker.setMap($scope.map);
+    }, function(error){
+        console.log("Could not get location");
     });
-  }, function(error){
-    console.log("Could not get location");
   });
 })
 
-.controller('ListviewCtrl', function($scope, TruckService){
-  $scope.trucks = TruckService.all();
+.controller('ListviewCtrl', function($scope, HomeService){
+  $scope.trucks = HomeService.getTrucks();
   $scope.remove = function(truck) {
-    TruckService.remove(truck);
+    HomeService.remove(truck);
   };
 })
 
-.controller('DetailviewCtrl', function($scope, $stateParams, TruckService) {
+.controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {
   // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
   //   viewData.enableBack = true;
   // });
-  $scope.truck = TruckService.get($stateParams.truckId);
+  $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   var mapOptions = {
-    // center: {lat: -34.397, lng: 150.644},
     center: $scope.truck.location,
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -105,7 +105,6 @@ angular.module('starter.controllers', [])
 
   var marker = new google.maps.Marker({
     position: $scope.truck.location,
-    // position: {lat: -34.397, lng: 150.644},
     map: $scope.map,
     title: 'Truck name'
   });
