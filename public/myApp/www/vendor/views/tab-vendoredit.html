@@ -1,0 +1,36 @@
+<ion-view view-title="Edit Vendor Profile">
+  <ion-content class="padding">
+  <div class="list">
+    <h3>Bon Banh Mi</h3>
+    <h3>bonbon@bonbanhmi.biz</h3>
+    <!-- <h3>{{ vendor.truckname }}</h3>
+    <h3>{{ vendor.email }}</h3> -->
+    <input ng-model="vendor.profImg" type="file" name="name" value="">
+    <label class="item item-input">
+      <span class="input-label">password</span>
+      <input type="text" ng-model="vendor.password" value="password">
+    </label>
+    <label class="item item-input">
+      <span class="input-label">Lorem ipsum dolor blah blah blah blah blah blah work work work work work work</span>
+      <input type="text" ng-model="vendor.bio" value="Lorem ipsum dolor blah blah blah blah blah blah work work work work work work">
+    </label>
+    <div class="button-box">
+      <button class="tag button button-assertive button-outline activated" type="button" name="button">Sandwiches</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">BBQ</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Stir Fry</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Pizza</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Coffee</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Ice Cream</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Tacos</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Salads</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Seafood</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Breakfast</button>
+      <button class="tag button button-assertive button-outline" type="button" name="button">Juice & Smoothies</button>
+    </div>
+  </div>
+
+  <button ng-click="edit(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
+  <button class="button button-block button-calm" type="submit" name="button">CANCEL</button>
+
+  </ion-content>
+</ion-view>
