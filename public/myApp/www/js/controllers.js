@@ -42,64 +42,6 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('VendorLoginCtrl', function($scope, $q, $rootScope, $state, TruckService){
-  $scope.loginVendor = function(login){
-
-    console.log("LOGGING IN");
-    TruckService.loginVendor(login).then(function(vendor){
-      $state.go('tab.vendordashboard');
-
-      // $rootScope.vendorLoggedIn = true;
-      console.log("VENDOR logged in", vendor);
-    });
-  };
-})
-
-.controller('VendorsignupCtrl', function($scope, TruckService){
-  $scope.signup = function(vendor){
-    console.log("SIGN UP");
-    TruckService.signup(vendor);
-  };
-})
-
-.controller('VendordashboardCtrl', function($scope, TruckService, $q, $cordovaGeolocation){
-  var defer = $q.defer();
-
-  $scope.currentVendor = JSON.parse(localStorage.currentVendor);
-
-  $scope.dropPin = function(post, vendorId){
-    $cordovaGeolocation.getCurrentPosition().then(function(position){
-      console.log("RELOG POS", position);
-      var id = $scope.currentVendor.id
-      console.log("SHOW", post);
-        post.lat = position.coords.latitude,
-        post.lng = position.coords.longitude
-      TruckService.dropPin(post, id)
-      .success(function(data) {
-        console.log("YAY", data);
-      })
-      .error(function(err) {
-        console.log('err', err);
-      })
-    });
-  };
-})
-
-.controller('ListviewCtrl', function($scope, TruckService){
-  $scope.trucks = TruckService.all();
-  $scope.remove = function(truck) {
-    TruckService.remove(truck);
-  };
-})
-
-.controller('HomeCtrl', function($scope){
-
-})
-
-.controller('EditCtrl', function($scope){
-
-})
-
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
@@ -139,97 +81,7 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
-  var options = {timeout: 10000, enableHighAccuracy: true};
-  console.log("INITIALIZING MAP");
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    console.log("RELOG POS");
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    $scope.map = new google.maps.Map(document.getElementById("fav-map"), mapOptions);
-    console.log('map',$scope.map);
-    var marker = new google.maps.Marker({
-      position: latLng,
-      map: $scope.map,
-      title: 'You are here',
-      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
-    });
-
-    marker.setMap($scope.map);
-
-    // $scope.trucks = TruckService.all();
-    TruckService.getTrucks().then(function(trucks) {
-      $scope.trucks = trucks;
-      $scope.trucks.forEach(function(truck) {
-        var marker = new google.maps.Marker({
-          position: truck.location,
-          map: $scope.map,
-          title: truck.name,
-          // icon: 'image4388.png',
-        });
-
-        marker.setMap($scope.map);
-      });
-    });
-
-    }, function(error){
-    console.log("Could not get location");
-  });
-})
-
-.controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
-  var options = {timeout: 10000, enableHighAccuracy: true};
-  console.log("INITIALIZING MAP");
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    console.log("RELOG POS");
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    $scope.map = new google.maps.Map(document.getElementById("search-map"), mapOptions);
-    console.log('map',$scope.map);
-    var marker = new google.maps.Marker({
-      position: latLng,
-      map: $scope.map,
-      title: 'You are here',
-      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
-    });
-
-    marker.setMap($scope.map);
-
-    // $scope.trucks = TruckService.all();
-    TruckService.getTrucks().then(function(trucks) {
-      $scope.trucks = trucks;
-      $scope.trucks.forEach(function(truck) {
-        var marker = new google.maps.Marker({
-          position: truck.location,
-          map: $scope.map,
-          title: truck.name,
-          // icon: 'image4388.png',
-        });
-
-        marker.setMap($scope.map);
-      });
-    });
-
-    }, function(error){
-    console.log("Could not get location");
-  });
-})
-
-
-
-.controller('SearchCtrl', function($scope, TruckService) {
+.controller('ListviewCtrl', function($scope, TruckService){
   $scope.trucks = TruckService.all();
   $scope.remove = function(truck) {
     TruckService.remove(truck);
@@ -259,8 +111,4 @@ angular.module('starter.controllers', [])
   });
 
   marker.setMap($scope.map);
-})
-
-.controller('FavoritesCtrl', function($scope) {
-
 });
