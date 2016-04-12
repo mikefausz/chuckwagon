@@ -7,10 +7,6 @@ angular.module('starter.services', [])
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
 
-  function getCurrentVendor(){
-    return cacheEngine.get('currentVendor');
-  }
-
   function getTrucks() {
       var defer = $q.defer();
       var cache = cacheEngine.get('vendors');
