@@ -5,6 +5,7 @@
     <h3>bonbon@bonbanhmi.biz</h3>
     <!-- <h3>{{ vendor.truckname }}</h3>
     <h3>{{ vendor.email }}</h3> -->
+    <input ng-model="vendor.profImg" type="file" name="name" value="">
     <label class="item item-input">
       <span class="input-label">password</span>
       <input type="text" ng-model="vendor.password" value="password">
@@ -28,7 +29,7 @@
     </div>
   </div>
 
-  <button class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
+  <button ng-click="edit(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
   <button class="button button-block button-calm" type="submit" name="button">CANCEL</button>
 
   </ion-content>
