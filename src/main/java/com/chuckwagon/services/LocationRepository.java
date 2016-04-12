@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface LocationRepository extends CrudRepository<Location, Integer> {
     Location findByVendor(Vendor vendor);
+
+
 }

@@ -57,11 +57,17 @@ public class Vendor {
     @JsonIgnore
     private List<Menu> menuList;
 
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "tag")
+    @Transient
+    @JsonIgnore
+    Set<Tag> tags;
+
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "tag_vendor", joinColumns = {
-//            @JoinColumn(name = "vendor_id", nullable = false, updatable = false) },
-//            inverseJoinColumns = { @JoinColumn(name = "tag_id",
-//                    nullable = false, updatable = false) })
+//    @JoinTable(name = "tag_vendor",
+//            joinColumns = @JoinColumn(name = "vendor_id"),
+//            inverseJoinColumns = @JoinColumn(name = "tag_id"))
 //    private Set<Tag> tags;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
@@ -170,13 +176,13 @@ public class Vendor {
         this.menuList = menuList;
     }
 
-//    public Set<Tag> getTags() {
-//        return tags;
-//    }
-//
-//    public void setTags(Set<Tag> tags) {
-//        this.tags = tags;
-//    }
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
 
     public List<Location> getLocation() {
