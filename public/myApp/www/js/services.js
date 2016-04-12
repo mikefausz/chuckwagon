@@ -88,6 +88,7 @@ angular.module('starter.services', [])
       window.localStorage.setItem( 'vendorLoggedIn', true );
       return currentVendor;
     },
+
     dropPin: function(post, vendorId){
       var url = ip + "/vendor/" + vendorId + "/location";
       // post.expiresString =  new Date().toISOString().slice(0, 19);
@@ -97,13 +98,11 @@ angular.module('starter.services', [])
 
     loginVendor: function(login){
       var defer = $q.defer();
-
       $http.post(loginUrl, login).then(function(response) {
         defer.resolve(response.data);
         window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
         window.localStorage.setItem( 'vendorLoggedIn', true );
       });
-
       return defer.promise;
     },
 

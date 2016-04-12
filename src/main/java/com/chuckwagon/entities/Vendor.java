@@ -65,6 +65,7 @@ public class Vendor {
 //    private Set<Tag> tags;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "vendor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Location location;
 
     public Vendor() {
@@ -184,4 +185,6 @@ public class Vendor {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+
 }
