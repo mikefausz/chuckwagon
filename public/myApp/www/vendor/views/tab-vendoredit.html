@@ -7,25 +7,81 @@
     <h3>{{ vendor.email }}</h3> -->
     <input ng-model="vendor.profImg" type="file" name="name" value="">
     <label class="item item-input">
-      <span class="input-label">password</span>
-      <input type="text" ng-model="vendor.password" value="password">
+      <input type="text" ng-model="editedVendor.bio" value="vendor.bio">
     </label>
     <label class="item item-input">
-      <span class="input-label">Lorem ipsum dolor blah blah blah blah blah blah work work work work work work</span>
-      <input type="text" ng-model="vendor.bio" value="Lorem ipsum dolor blah blah blah blah blah blah work work work work work work">
+      <input type="text" ng-model="editedVendor.profilePictureLocation" value="vendor.profilePictureLocation">
     </label>
-    <div class="button-box">
-      <button class="tag button button-assertive button-outline activated" type="button" name="button">Sandwiches</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">BBQ</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Stir Fry</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Pizza</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Coffee</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Ice Cream</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Tacos</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Salads</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Seafood</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Breakfast</button>
-      <button class="tag button button-assertive button-outline" type="button" name="button">Juice & Smoothies</button>
+    </form>
+    <div class="tag-wrap">
+      <ul>
+        <li>
+           <label ng-class="{'checked': tag1}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag1" style="display:none;" type="checkbox">
+             Burritos
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag2}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag2" style="display:none;" type="checkbox">
+             Seafood
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag3}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag3" style="display:none;" type="checkbox">
+             BBQ
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag4}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag4" style="display:none;" type="checkbox">
+             Pizza
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag5}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag5" style="display:none;" type="checkbox">
+             Coffee
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag6}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag6" style="display:none;" type="checkbox">
+             Ice Cream
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag7}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag7" style="display:none;" type="checkbox">
+             Tacos
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag8}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag8" style="display:none;" type="checkbox">
+             Salads
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag9}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag9" style="display:none;" type="checkbox">
+             Stir Fry
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag10}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag10" style="display:none;" type="checkbox">
+             Breakfast
+           </label>
+        </li>
+        <li>
+           <label ng-class="{'checked': tag11}" class="tag button button-outline button-positive button-large">
+             <input ng-model="tag11" style="display:none;" type="checkbox">
+             Juice & Smoothies
+           </label>
+        </li>
+      </ul>
     </div>
   </div>
 
