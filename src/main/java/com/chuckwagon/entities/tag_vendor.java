@@ -47,4 +47,14 @@ public class tag_vendor {
     public Integer getId() {
         return id;
     }
+
+
+    @Override
+    public String toString() {
+        return "tag_vendor{" +
+                "id=" + id +
+                ", tag=" + tag +
+                ", vendor=" + vendor +
+                '}';
+    }
 }

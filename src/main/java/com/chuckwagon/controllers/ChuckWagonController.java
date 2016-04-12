@@ -109,6 +109,12 @@ public class ChuckWagonController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    //get all vendors
+    @RequestMapping(value = "/vendor", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllVendors() {
+        return new ResponseEntity<Object>(vendorRepository.findAll(), HttpStatus.OK);
+    }
+
     //request a single vendor.
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getVendor(@PathVariable("id") Integer id) {
@@ -140,14 +146,31 @@ public class ChuckWagonController {
 
     //update a vendor and add tags
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap<String, Object> json) {
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap data) {
 
         Vendor vendor = vendorRepository.findOne(id);
+        Set<Tag> tagSet = new HashSet<>();
+        //grab the tags
+        String[] tags = (data.get("tags").toString().split(","));
 
-        Set<Tag> tags = (Set<Tag>) json.get("tags");
+        //add all the tags into the set
+        for (String t : tags) {
+            Tag tag = new Tag(t);
+            //check to see if tag does is not in DB at some point here.
+            tagSet.add(tag);
+        }
 
-        System.out.println(json);
-       // vendorRepository.save(vendor);
+        vendor.setBio((String) data.get("bio"));
+        vendor.setProfilePictureLocation((String) data.get("profilePictureURL"));
+        vendor.setTags(tagSet);
+
+        for (Tag t : tagSet) {
+            System.out.println(t.getTag());
+        }
+        System.out.println(tagSet);
+
+        vendorRepository.save(vendor);
+
         return new ResponseEntity<Object>("updated", HttpStatus.ACCEPTED);
     }
 
@@ -192,6 +215,7 @@ public class ChuckWagonController {
    // }
 
     //return all vendor locations
+    //actually need to return all the vendors that have a location
     @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
     public ResponseEntity<?> getVendorLocations() {
         List<Location> locationList;
@@ -207,7 +231,7 @@ public class ChuckWagonController {
 //                .filter(location ->  (location.getExpiresObject().isBefore(LocalDateTime.now())))
 //                .collect(Collectors.toCollection(ArrayList<Location>::new));
 
-        return  new ResponseEntity<Object>(locationList, HttpStatus.ACCEPTED);
+        return  new ResponseEntity<Object>(locationList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)

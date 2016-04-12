@@ -122,6 +122,7 @@ public class Location {
                 "id=" + id +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", tweet='" + tweet + '\'' +
                 ", expiresObject=" + expiresObject +
                 ", expiresString='" + expiresString + '\'' +

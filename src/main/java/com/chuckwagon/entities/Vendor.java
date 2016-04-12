@@ -192,4 +192,7 @@ public class Vendor {
     public void setLocation(List<Location> location) {
         this.location = location;
     }
+
+
+
 }
