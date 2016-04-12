@@ -201,6 +201,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  // SEARCH DETAIL VIEW TAB
+  // Detailed profile view of selected truck that fits search criteria
+  .state('tab.dashboard-detailview', {
+    url: '/vendordashboard/:truckId',
+    views: {
+      'tab-vendor': {
+        templateUrl: 'templates/tab-dashdetail.html',
+        controller: 'VendordashdetailCtrl'
+      }
+    }
+  })
+
   // VENDOR EDIT TAB
   // Vendor profile edit form
   .state('tab.vendoredit', {

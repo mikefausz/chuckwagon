@@ -85,6 +85,10 @@ angular.module('starter.controllers', [])
   };
 })
 
+.controller('VendordashdetailCtrl', function($scope, TruckService){
+
+})
+
 .controller('ListviewCtrl', function($scope, TruckService){
   $scope.trucks = TruckService.all();
   $scope.remove = function(truck) {
