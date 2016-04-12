@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 /**
  * Created by branden on 4/8/16 at 17:14.
+ *
+ * Allows vendors to upload and name menus
  */
 @Entity
 public class Menu {
@@ -15,7 +17,7 @@ public class Menu {
     @Column(name = "menu_id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vendor vendor;
 
     @Column(nullable = false)

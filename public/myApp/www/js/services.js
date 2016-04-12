@@ -7,6 +7,10 @@ angular.module('starter.services', [])
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
 
+  function getCurrentVendor(){
+    return cacheEngine.get('currentVendor');
+  }
+
   function getTrucks() {
       var defer = $q.defer();
       var cache = cacheEngine.get('vendors');
@@ -18,7 +22,9 @@ angular.module('starter.services', [])
       // ELSE get vendors from server, put them in cache
       else {
         console.log('no trucks in cache. getting from service');
-        // var vendors = $http.get(ip + 'vendors');
+        // $http.get(ip + 'vendors').then(function(response) {
+        //  defer.resolve(response);
+      // });
         var vendors = trucks;
         cacheEngine.put('vendors',  vendors);
         defer.resolve(vendors);
@@ -35,7 +41,8 @@ angular.module('starter.services', [])
     location: {lat:32.788642, lng:-79.950876},
     profileImg: 'https://media-cdn.tripadvisor.com/media/photo-s/03/be/da/13/bon-banh-mi.jpg'
   }, {
-    id: 1001,
+
+    id: 2020,
     name: 'The Immortal Lobster',
     tags: 'Seafood, Sandwiches',
     bio: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -66,26 +73,46 @@ angular.module('starter.services', [])
 
   return {
     getTrucks: getTrucks,
+
     all: function() {
       return trucks;
     },
+
     remove: function(truck) {
       trucks.splice(trucks.indexOf(truck), 1);
     },
-    loginVendor: function(login){
-      var currentVendor = $http.post(loginUrl, login);
-      console.log("currentVendor", currentVendor)
-      cacheEngine.put('currentVendor',  currentVendor);
-      return currentVendor;
-    },
+
     signup: function(vendor){
       var currentVendor = $http.post(signupUrl, vendor);
-      cacheEngine.put('currentVendor',  currentVendor);
+      window.localStorage.setItem( 'currentVendor', JSON.stringify(vendor) );
+      window.localStorage.setItem( 'vendorLoggedIn', true );
       return currentVendor;
     },
-    getCurrentVendor: function(){
-      return cacheEngine.get('currentVendor');
+
+    loginVendor: function(login){
+      var defer = $q.defer();
+
+      $http.post(loginUrl, login).then(function(response) {
+        defer.resolve(response.data);
+        window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
+        window.localStorage.setItem( 'vendorLoggedIn', true );
+      });
+
+      return defer.promise;
     },
+
+    logoutVendor: function(){
+      console.log(localStorage);
+      var vendor = JSON.parse(localStorage.currentVendor);
+      console.log(vendor, "VENDOR");
+      var logoutUrl = "/vendor/" + vendor.id + "/logout";
+      // Hit logout route
+      $http.post(logoutUrl);
+      window.localStorage.setItem( 'vendorLoggedIn', false );
+      localStorage.setItem('currentVendor', '');
+      console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
+    },
+
     get: function(truckId) {
       for (var i = 0; i < trucks.length; i++) {
         if (trucks[i].id === parseInt(truckId)) {
@@ -95,8 +122,26 @@ angular.module('starter.services', [])
       return null;
     },
     editVendor: function (editedVendor) {
-      var editUrl = "/vendor/" + cacheEngine.get('currentVendor.id');
+      var vendor = JSON.parse(localStorage.currentVendor);
+      var editUrl = "/vendor/" + vendor.id;
       $http.post(editUrl, editedVendor)
-    }
+    },
+    getImage: function () {
+            // Retrieve image file location from specified source
+      navigator.camera.getPicture(uploadPhoto, function(message) {
+			console.log('get picture failed');
+		},
+    {
+			quality: 50,
+			destinationType: navigator.camera.DestinationType.FILE_URI,
+			sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+		}
+            );
+
+        }
+
+
+
+
   };
 });

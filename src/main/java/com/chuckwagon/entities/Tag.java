@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 /**
  * Created by branden on 4/10/16 at 13:17.
+ *
+ * Will contain global tags that can be attached to trucks
  */
 @Entity
 public class Tag {
@@ -19,4 +21,27 @@ public class Tag {
     @Column(nullable = false)
     private String tag;
 
+
+    public Tag() {
+    }
+
+    public Tag(String tag) {
+        this.tag = tag;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }

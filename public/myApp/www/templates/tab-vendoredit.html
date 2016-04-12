@@ -3,17 +3,15 @@
   <div class="list">
     <!-- <h3>Bon Banh Mi</h3> -->
     <!-- <h3>bonbon@bonbanhmi.biz</h3> -->
-    <h3>{{ vendor.truckname }} TRUCKNAME</h3>
-    <h3>{{ vendor.email }} EMAIL</h3>
+    <h3>{{ vendor.vendorName }} </h3>
+    <h3>{{ vendor.contactEmail }} </h3>
     <label class="item item-input">
-      <!-- <span class="input-label">password</span> -->
-      <input type="text" ng-model="editedVendor.password" value="password">
+      <input type="text" ng-model="editedVendor.bio" value="vendor.bio">
     </label>
     <label class="item item-input">
-      <!-- <span class="input-label">Lorem ipsum dolor blah blah blah blah blah blah work work work work work work</span> -->
-      <input type="text" ng-model="editedVendor.bio" value="{{vendor.bio}}">
+      <input type="text" ng-model="editedVendor.profilePictureLocation" value="vendor.profilePictureLocation">
     </label>
-    <input type="file" ng-model="editedVendor.profilePicture">
+    </form>
     <div class="tag-wrap">
       <ul>
         <li>

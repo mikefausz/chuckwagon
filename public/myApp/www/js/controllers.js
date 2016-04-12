@@ -1,15 +1,23 @@
 angular.module('starter.controllers', [])
 
-.controller('TabCtrl', function($scope, $state){
+.controller('TabCtrl', function($scope, $state, TruckService){
   // Set default to user mode
   $scope.vendorMode= false;
+  $scope.vendorLoggedIn= false;
+
+  $scope.logoutVendor = function() {
+    TruckService.logoutVendor();
+    $scope.toggleVendorView;
+  };
 
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
     if ($scope.vendorMode){
-      $state.go('tab.map');
-      $scope.vendorMode = false;
+      // $scope.logoutVendor();
+        $scope.vendorLoggedIn = false;
+        $scope.vendorMode = false;
+        $state.go('tab.map');
     }
     // IF toggle clicked from user mode, switch to vendor mode
     else {
@@ -22,20 +30,30 @@ angular.module('starter.controllers', [])
   $scope.isVendor = function() {
       if ($scope.vendorMode) {
         return true;
+      } else {
+        return false;
       }
-      return false;
     };
 
-
+  // Return current mode
+  $scope.isLoggedIn = function() {
+      if (localStorage.vendorLoggedIn === "true") {
+        return true;
+      } else {
+        return false;
+      }
+    };
 })
 
-.controller('VendorLoginCtrl', function($scope, $state, TruckService){
+.controller('VendorLoginCtrl', function($scope, $q, $rootScope, $state, TruckService){
   $scope.loginVendor = function(login){
+
     console.log("LOGGING IN");
     TruckService.loginVendor(login).then(function(vendor){
       $state.go('tab.vendordashboard');
-      console.log("VENDOR", vendor);
-      $scope.sayMyName = vendor;
+
+      // $rootScope.vendorLoggedIn = true;
+      console.log("VENDOR logged in", vendor);
     });
   };
 })
@@ -47,17 +65,11 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService, $q){
-  var defer = $q.defer();
+.controller('VendordashboardCtrl', function($scope, $cordovaFileTransfer, TruckService, $q, $cordovaFileTransfer){
 
-  $scope.currentVendor = TruckService.getCurrentVendor()
-  .then(function(vendorData){
-    defer.resolve(vendorData)
-    console.log('data', vendorData);
-    $scope.vendorData = vendorData.data;
-  });
+  $scope.currentVendor = JSON.parse(localStorage.currentVendor);
 
-  window.glob = $scope.currentVendor;
+
 
   $scope.upload = function(){
     var options = {
@@ -71,7 +83,6 @@ angular.module('starter.controllers', [])
     }, function(error){
       console.log("error: " + JSON.stringify(error));
     });
-    return defer.promise;
   };
 })
 
@@ -80,6 +91,14 @@ angular.module('starter.controllers', [])
   $scope.remove = function(truck) {
     TruckService.remove(truck);
   };
+
+  ////////SCRATCHPAD FOR LOCAL STORAGE FAVORITES
+
+  $scope.addFavorites = function () {
+  var favStr = "this is the string in the array"
+  window.localStorage.setItem("favorites", favStr)
+
+}
 })
 
 .controller('HomeCtrl', function($scope){
@@ -87,13 +106,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('EditCtrl', function($scope, $state, TruckService){
-  $scope.vendor = TruckService.getCurrentVendor();
+  $scope.vendor = JSON.parse(localStorage.currentVendor);
   console.log($scope.vendor, "VENDOR");
   $scope.editVendor = function (editedVendor) {
     TruckService.editVendor(editedVendor);
+    console.log(editedVendor, "EDITED VENDOR");
     $state.go('tab.vendordashboard');
     }
-
+  window.glob = $scope.editVendor;
 })
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
@@ -111,16 +131,6 @@ angular.module('starter.controllers', [])
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    // // Create the search box and link it to the UI element.
-    // var input = document.getElementById('map');
-    // var searchBox = new google.maps.places.SearchBox(input);
-    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    //
-    // // Bias the SearchBox results towards current map's viewport.
-    // map.addListener('bounds_changed', function() {
-    //   searchBox.setBounds(map.getBounds());
-    // });
-
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,
@@ -129,6 +139,8 @@ angular.module('starter.controllers', [])
     });
 
     marker.setMap($scope.map);
+
+    // TruckService.getTrucks().then()
 
     $scope.trucks = TruckService.all();
     $scope.trucks.forEach(function(truck) {
@@ -143,8 +155,8 @@ angular.module('starter.controllers', [])
   }, function(error){
     console.log("Could not get location");
   });
-
 })
+
 .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, TruckService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
@@ -171,6 +183,9 @@ angular.module('starter.controllers', [])
 
     // $scope.trucks = TruckService.all();
     TruckService.getTrucks().then(function(trucks) {
+
+
+
       $scope.trucks = trucks;
       $scope.trucks.forEach(function(truck) {
         var marker = new google.maps.Marker({
@@ -266,7 +281,3 @@ angular.module('starter.controllers', [])
 
   marker.setMap($scope.map);
 })
-
-.controller('FavoritesCtrl', function($scope) {
-
-});

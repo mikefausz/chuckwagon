@@ -29,7 +29,8 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- Edit Vendor Profile -->
-  <ion-tab title="Edit Profile" hidden="{{ !isVendor() }}" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ui-sref="tab.vendoredit({truckId:vendor.id})">
+
+  <ion-tab title="Edit Profile" hidden="{{ !isLoggedIn() }}" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" ui-sref="tab.vendoredit">
     <ion-nav-view name="tab-vendoredit"></ion-nav-view>
   </ion-tab>
 
