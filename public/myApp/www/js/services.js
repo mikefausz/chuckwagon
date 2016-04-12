@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.factory('TruckService', function($http, $q, $cacheFactory) {
+.factory('HomeService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
   // var ip = "http://10.0.10.70:8080";
   var ip = "http://localhost:8080";
@@ -125,8 +125,6 @@ angular.module('starter.services', [])
       var vendor = JSON.parse(localStorage.currentVendor);
       var editUrl = "/vendor/" + vendor.id;
       $http.post(editUrl, editedVendor)
-    },
-    addFavorites: function ()
-
-  };
+    }
+  }
 });
