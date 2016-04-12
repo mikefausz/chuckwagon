@@ -1,25 +1,24 @@
 package com.chuckwagon.utils;
 
-import com.chuckwagon.controllers.ChuckWagonController;
 import com.chuckwagon.entities.Location;
+import com.chuckwagon.entities.Tag;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.LocationRepository;
-import com.chuckwagon.services.MenuRepository;
 import com.chuckwagon.services.TagRepository;
 import com.chuckwagon.services.VendorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by branden on 4/12/16 at 11:14.
  */
 public class PopulateDB {
 
-    public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository) throws PasswordStorage.CannotPerformOperationException {
+    public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository, TagRepository tagRepository) throws PasswordStorage.CannotPerformOperationException {
 
         if (vendorRepository.count() <= 1) {
-
             Vendor bon = (new Vendor("bon@bon.com", "Bon Banh Mi", "password"));
             bon.setPassword(PasswordStorage.createHash(bon.getPassword()));
             bon.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -41,7 +40,7 @@ public class PopulateDB {
             Vendor lobster = (new Vendor("lob@lob.com", "The Immortal Lobster", "password"));
             lobster.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             lobster.setPassword(PasswordStorage.createHash(lobster.getPassword()));
-            Location lobLoc = new Location(788097f, -937689f, "48");
+            Location lobLoc = new Location(32.786300f, -79.94384f, "48");
             lobLoc.setExpiresObject(LocalDateTime.now().plusDays(2));
             lobLoc.setVendor(lobster);
             vendorRepository.save(lobster);
@@ -55,6 +54,15 @@ public class PopulateDB {
             autobLoc.setVendor(autob);
             vendorRepository.save(autob);
             locationRepository.save(autobLoc);
+        }
+
+
+        /** Hard Coded Tags */
+        String[] tagStrings = {"BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies"};
+        ArrayList<Tag> tags = (ArrayList<Tag>) tagRepository.findAll();
+        for (String s : tagStrings) {
+            Tag tag = new Tag(s);
+            if (!tags.contains(tag)) tagRepository.save(tag);
         }
     }
 

@@ -71,8 +71,8 @@ public class ChuckWagonApplicationTests {
                         .content(json)
                         .contentType("application/json")
         );
-        Assert.assertTrue(vendorRepository.findOne(1).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
-        Assert.assertFalse(vendorRepository.findOne(1).getPassword().equals("password"));  //check to see if password got hashed.
+        Assert.assertTrue(vendorRepository.findOne(5).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
+        Assert.assertFalse(vendorRepository.findOne(5).getPassword().equals("password"));  //check to see if password got hashed.
     }
 
     @Test
@@ -121,7 +121,7 @@ public class ChuckWagonApplicationTests {
     @Test
     public void fAddLocationTest() throws Exception {
         Location location = new Location( 274747.333F, 272674.33F, "2.5");
-        location.setVendor(vendorRepository.findOne(1));
+        location.setVendor(vendorRepository.findOne(5));
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(location);
@@ -137,7 +137,7 @@ public class ChuckWagonApplicationTests {
     @Test
     public void gEditLocationTest() throws Exception {
         Location location = new Location(38.5848f, 483.3759f, "2.5");
-        location.setVendor(vendorRepository.findOne(1));
+        location.setVendor(vendorRepository.findOne(5));
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(location);
