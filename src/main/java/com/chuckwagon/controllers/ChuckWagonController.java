@@ -2,6 +2,7 @@ package com.chuckwagon.controllers;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +22,7 @@ import com.chuckwagon.services.TagRepository;
 import com.chuckwagon.services.VendorRepository;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
+import com.chuckwagon.utils.PopulateDB;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,8 +58,9 @@ public class ChuckWagonController {
     Server dbui = null;
 
     @PostConstruct
-    public void init() throws SQLException {
+    public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbui = Server.createWebServer().start();
+        PopulateDB.populate(vendorRepository, locationRepository);
     }
 
     @PreDestroy
@@ -120,9 +123,9 @@ public class ChuckWagonController {
         }
     }
 
-    //edit vendor in DB. currently just allows for a picture upload.
-    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture", required = false) MultipartFile profilePicture, HttpSession session) throws IOException {
+    //upload vendor profile photo
+    @RequestMapping(value = "/vendor/{id}/photo", method = RequestMethod.POST)
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture", required = false) MultipartFile profilePicture) throws IOException {
 
         Vendor vendor = vendorRepository.findOne(id);
         //see if the vendor exists
@@ -137,6 +140,16 @@ public class ChuckWagonController {
     //    } else {
       //      return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
+
+    //update a vendor and add tags
+    @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap<String, String> json) {
+
+
+        System.out.println(json);
+       // vendorRepository.save(vendor);
+        return new ResponseEntity<Object>("updated", HttpStatus.ACCEPTED);
+    }
 
 
     //remove a vendor and all associated files in server.
@@ -155,13 +168,20 @@ public class ChuckWagonController {
 
 
     @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
-    public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location, HttpSession session) {
+    public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
 
-        System.out.println(vendorRepository.findOne(id).getContactEmail());
-        System.out.println(session.getAttribute("email"));
+        //here is what is being sent, 1, 1.5, 2 etc
 //        if (vendorRepository.findOne(1).getContactEmail().equals(session.getAttribute("email"))) {
-            if (location != null && location.getLat() > 0 && location.getLng() > 0 && location.getExpiresObject().isAfter(LocalDateTime.now())) {
+            if (location != null && (location.getLat() >= 0 || location.getLat() <= 0 ) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
+                Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
+                Location existingLocation = locationRepository.findByVendor(vendor); //possible preexisiting location set by vendor
+
+                if (existingLocation != null) { locationRepository.delete(existingLocation); }
+
                 location.setVendor(vendorRepository.findOne(id));
+                double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
+                hours = hours * 60 * 60; //convert hours to seconds
+                location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
                 locationRepository.save(location);
                 return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
             } else {
@@ -173,7 +193,7 @@ public class ChuckWagonController {
    // }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestBody HashMap data, HttpSession session) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
+    public ResponseEntity<?> login(@RequestBody HashMap data) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
 
 //       //Fake it till you make it -- take this out in production
 //        if (vendorRepository.findByContactEmail("email") == null) {
@@ -185,11 +205,9 @@ public class ChuckWagonController {
 
         //check to see if vendor exists in DB, and that password matches.
         if (vendor != null && PasswordStorage.verifyPassword((String) data.get("password"), vendor.getPassword())) {
-            session.setAttribute("email", vendor.getContactEmail());
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
-
         }
        // httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
     }
@@ -207,6 +225,7 @@ public class ChuckWagonController {
     @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
     //    if (verifyVendor(session, vendorRepository.findOne(id))) {
+        //
             session.invalidate();
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
     //    } else {
@@ -236,8 +255,6 @@ public class ChuckWagonController {
         } else {
             vendor.setProfilePictureLocation(filePath + photoFile.getName());
         }
-
-
     }
 
 
@@ -265,6 +282,18 @@ public class ChuckWagonController {
         } else { //if the file is not a directory and is a file
             path.delete();
         }
+    }
+
+    /**
+     *
+     *Catch all route for request method options
+     */
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+    public void manageOptions(HttpServletResponse response) {
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+
     }
 
 

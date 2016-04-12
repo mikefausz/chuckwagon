@@ -126,22 +126,7 @@ angular.module('starter.services', [])
       var editUrl = "/vendor/" + vendor.id;
       $http.post(editUrl, editedVendor)
     },
-    getImage: function () {
-            // Retrieve image file location from specified source
-      navigator.camera.getPicture(uploadPhoto, function(message) {
-			console.log('get picture failed');
-		},
-    {
-			quality: 50,
-			destinationType: navigator.camera.DestinationType.FILE_URI,
-			sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-		}
-            );
-
-        }
-
-
-
+    addFavorites: function ()
 
   };
 });

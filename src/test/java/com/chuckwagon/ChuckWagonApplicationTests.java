@@ -100,7 +100,7 @@ public class ChuckWagonApplicationTests {
 
 
         mockMvc.perform(
-                MockMvcRequestBuilders.fileUpload("/vendor/1").file(image).sessionAttr("email", "mail@mail.com")
+                MockMvcRequestBuilders.fileUpload("/vendor/1/photo").file(image).sessionAttr("email", "mail@mail.com")
         ).andExpect(status().is(202));
     }
 
@@ -120,7 +120,7 @@ public class ChuckWagonApplicationTests {
 
     @Test
     public void fAddLocationTest() throws Exception {
-        Location location = new Location( 274747L, 272674L, LocalDateTime.now().plusHours(2));
+        Location location = new Location( 274747.333F, 272674.33F, "2.5");
         location.setVendor(vendorRepository.findOne(1));
 
         ObjectMapper mapper = new ObjectMapper();
@@ -129,10 +129,24 @@ public class ChuckWagonApplicationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/vendor/1/location")
                         .content(json)
-                        .sessionAttr("email", "mail@mail.com")
                         .contentType("application/json")
         ).andExpect(status().is(202));
 
+    }
+
+    @Test
+    public void gEditLocationTest() throws Exception {
+        Location location = new Location(38.5848f, 483.3759f, "2.5");
+        location.setVendor(vendorRepository.findOne(1));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(location);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/vendor/1/location")
+                        .content(json)
+                        .contentType("application/json")
+        ).andExpect(status().is(202));
     }
 
 
