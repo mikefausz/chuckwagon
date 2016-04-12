@@ -62,12 +62,12 @@ angular
     });
   })
 
-  .controller('ListviewCtrl', function($scope, SearchService){
+  .controller('SearchListviewCtrl', function($scope, SearchService){
     $scope.trucks = SearchService.all();
 
   })
 
-  .controller('DetailviewCtrl', function($scope, $stateParams, SearchService) {
+  .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService) {
     // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     //   viewData.enableBack = true;
     // });

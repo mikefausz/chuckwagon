@@ -85,11 +85,18 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('ListviewCtrl', function($scope, HomeService){
-  $scope.trucks = HomeService.getTrucks();
+.controller('ListviewCtrl', function($scope, HomeService, FavoritesService){
+  HomeService.getTrucks().then(function (truckys) {
+    console.log(truckys);
+    $scope.trucks = truckys;
+  });
+  console.log('trucks', $scope.trucks);
   $scope.remove = function(truck) {
     HomeService.remove(truck);
   };
+  $scope.addFavoriteTruck = function (truckId) {
+    FavoritesService.addFavoriteTruck(truckId)
+};
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {

@@ -26,38 +26,38 @@ angular
 
       marker.setMap($scope.map);
 
-      FavoritesService.getFavoriteTrucks().then(function(trucks) {
-      // $scope.trucks = FavoritesService.getFavoriteTrucks().then(function(trucks) {
+      $scope.trucks = FavoritesService.getFavoriteTrucks();
 
-        $scope.trucks = trucks;
-        $scope.trucks.forEach(function(truck) {
-          var marker = new google.maps.Marker({
-            position: truck.location,
-            map: $scope.map,
-            title: truck.name,
-            // icon: 'image4388.png',
-          });
 
-          marker.setMap($scope.map);
+
+
+
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
         });
-      });
 
+        marker.setMap($scope.map);
+      });
       }, function(error){
       console.log("Could not get location");
     });
   })
 
-  .controller('ListviewCtrl', function($scope, FavoritesService){
-    FavoritesService.getFavoriteTrucks().then(function(favorites) {
-      $scope.trucks = favorites;
+  .controller('FavListviewCtrl', function($scope, FavoritesService){
+
+      $scope.trucks = FavoritesService.getFavoriteTrucks();
       console.log($scope.trucks);
       window.favorits = $scope.trucks;
-    });
-    // $scope.trucks = FavoritesService.getFavoriteTrucks();
-
+      $scope.$on('favorite:added', function () {
+        $scope.trucks = FavoritesService.getFavoriteTrucks();
+      })
   })
 
-  .controller('DetailviewCtrl', function($scope, $stateParams, FavoritesService) {
+  .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService) {
     // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     //   viewData.enableBack = true;
     // });
