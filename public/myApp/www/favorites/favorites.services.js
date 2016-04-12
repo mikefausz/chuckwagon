@@ -2,8 +2,8 @@ angular
     .module('favorites')
     .factory('FavoritesService', function($http, $q, $cacheFactory) {
       var cacheEngine = $cacheFactory('favorites');
-      // var ip = "http://10.0.10.70:8080";
-      var ip = "http://localhost:8080";
+      var ip = "http://10.0.10.70:8080";
+      // var ip = "http://localhost:8080";
 
       function getFavoriteTrucks() {
           var defer = $q.defer();
