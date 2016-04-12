@@ -3,9 +3,9 @@
     <h1>Welcome, {{currentVendor.vendorName}}</h1>
     <a href="#/tab/home"><button class="button" ng-click="toggleVendorView()">LOGOUT</button></a>
 
-    <!-- <label class="item item-input item-stacked-label">
-      <input type="text" name="name" placeholder="Upload Image" ng-model="post.Image">
-    </label> -->
+    <label class="item item-input item-stacked-label">
+      <input type="text" name="name" placeholder="Upload Image" ng-model="post.imageUrl">
+    </label>
 
     <label class="item item-input item-select">
       <div class="input-label">&nbsp;</div>
@@ -40,7 +40,6 @@
       <input type="text" placeholder="Type a message" ng-model="post.tweet">
     </label>
 
-<button ng-click="dropPin(post)" class="button button-block button-dark" type="button" name="button">DROP PIN</button>
-<!-- <a href="#/tab/search-list/{{vendorData.id}}"></a> -->
+<a href="#/tab/vendordashboard/{{currentVendor.id}}"><button ng-click="dropPin(post)" class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
   </ion-content>
 </ion-view>
