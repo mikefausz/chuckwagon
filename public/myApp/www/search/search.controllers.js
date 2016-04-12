@@ -1,16 +1,23 @@
 angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
-    $scope.trucks = SearchService.all();
-    $scope.sendSearchCriteria = function(searchCriteria) {
-      console.log('searchCriteria: ' + searchCriteria);
-      window.search = searchCriteria;
-    };
+    console.log('searchOptions: ' + searchOptions);
+    window.search = searchOptions;
 
-    $scope.remove = function(truck) {
-      SearchService.remove(truck);
-    };
+    // CUT THIS:
+    $scope.trucks = SearchService.all();
+
+    // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
+    // $scope.sendsearchOptions = function(searchOptions) {
+    //   SearchService.sendsearchOptions(searchOptions).then(function(response) {
+    //     $scope.trucks = response;
+    //   }, function(error) {
+    //     console.log("ERROR", error);
+    //   });
+    // };
+
   })
+
   .controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, SearchService) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
@@ -35,7 +42,7 @@ angular
 
       marker.setMap($scope.map);
 
-      // $scope.trucks = SearchService.all();
+      // SEARCH VENDORS SHOULD BE IN CACHE
       SearchService.getTrucks().then(function(trucks) {
         $scope.trucks = trucks;
         $scope.trucks.forEach(function(truck) {
@@ -53,35 +60,32 @@ angular
       }, function(error){
       console.log("Could not get location");
     });
-    })
-    .controller('ListviewCtrl', function($scope, SearchService){
-      $scope.trucks = SearchService.all();
-      $scope.remove = function(truck) {
-        SearchService.remove(truck);
-      };
-    })
+  })
 
-    .controller('DetailviewCtrl', function($scope, $stateParams, SearchService) {
-      // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-      //   viewData.enableBack = true;
-      // });
-      $scope.truck = SearchService.get($stateParams.truckId);
+  .controller('ListviewCtrl', function($scope, SearchService){
+    $scope.trucks = SearchService.all();
 
-      var mapOptions = {
-        // center: {lat: -34.397, lng: 150.644},
-        center: $scope.truck.location,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+  })
 
-      $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+  .controller('DetailviewCtrl', function($scope, $stateParams, SearchService) {
+    // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    //   viewData.enableBack = true;
+    // });
+    $scope.truck = SearchService.get($stateParams.truckId);
 
-      var marker = new google.maps.Marker({
-        position: $scope.truck.location,
-        // position: {lat: -34.397, lng: 150.644},
-        map: $scope.map,
-        title: 'Truck name'
-      });
+    var mapOptions = {
+      center: $scope.truck.location,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
-      marker.setMap($scope.map);
+    $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+    var marker = new google.maps.Marker({
+      position: $scope.truck.location,
+      map: $scope.map,
+      title: 'Truck name'
     });
+
+    marker.setMap($scope.map);
+  });
