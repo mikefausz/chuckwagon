@@ -29,9 +29,12 @@ public class Location {
     @Column(nullable = false)
     private Float lng;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     private String tweet;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "expires_object")
     @JsonIgnore
     private LocalDateTime expiresObject;
 
@@ -105,7 +108,13 @@ public class Location {
         this.tweet = tweet;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @Override
     public String toString() {
