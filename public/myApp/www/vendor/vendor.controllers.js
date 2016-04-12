@@ -39,7 +39,8 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, TruckService){
-
+      
+      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
     })
 
     .controller('EditCtrl', function($scope){
