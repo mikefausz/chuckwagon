@@ -26,7 +26,7 @@ angular
         views: {
           'tab-favorites': {
             templateUrl: 'favorites/views/tab-favorites-listview.html',
-            controller: 'ListviewCtrl'
+            controller: 'FavListviewCtrl'
           }
         }
       })
@@ -38,7 +38,7 @@ angular
         views: {
           'tab-favorites': {
             templateUrl: 'favorites/views/tab-favorites-detailview.html',
-            controller: 'DetailviewCtrl'
+            controller: 'FavDetailviewCtrl'
           }
         }
       });

@@ -1,15 +1,15 @@
 <ion-view view-title="Favorites List">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap" href="#/tab/fav-list/{{truck.id}}">
-        <img ng-src="{{truck.profileImg}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap">
+        <a ng-href="#/tab/fav-list/{{truck.id}}">
+          <img class="search-img" ng-src="{{truck.profileImg}}">
         <h2>{{truck.name}}</h2>
         <p>{{truck.tags}}</p>
+      </a>
         <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="button-assertive" ng-click="remove(truck)">
-          Delete
-        </ion-option-button>
+        
       </ion-item>
     </ion-list>
   </ion-content>

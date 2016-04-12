@@ -35,7 +35,7 @@ angular
         views: {
           'tab-search': {
             templateUrl: 'search/views/tab-search-listview.html',
-            controller: 'ListviewCtrl'
+            controller: 'SearchListviewCtrl'
           }
         }
       })
@@ -47,7 +47,7 @@ angular
         views: {
           'tab-search': {
             templateUrl: 'search/views/tab-search-detailview.html',
-            controller: 'DetailviewCtrl'
+            controller: 'SearchDetailviewCtrl'
           }
         }
       });
