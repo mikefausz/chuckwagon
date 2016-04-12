@@ -2,17 +2,24 @@ angular
     .module('favorites')
     .factory('FavoritesService', function($http, $q, $cacheFactory) {
       var cacheEngine = $cacheFactory('favorites');
-      // var ip = "http://10.0.10.70:8080";
-      var ip = "http://localhost:8080";
+      var ip = "http://10.0.10.70:8080";
+      // var ip = "http://localhost:8080";
 
       function getFavoriteTrucks() {
           var defer = $q.defer();
           var cache = cacheEngine.get('favoriteVendors');
-          // IF cache already contains vendors, use those
+          var cacheAll = cacheEngine.get('vendors');
+          // IF cache already contains favorite vendors, use those
           if(cache) {
             console.log('found trucks in the cache');
             defer.resolve(cache);
           }
+
+          // ELSE IF cache already contains all vendors, use those
+          // else if(cacheAll) {
+          //   console.log('found trucks in the cache');
+          //   defer.resolve(cacheAll);
+          // }
           // ELSE get vendors from server, put them in cache
           else {
             console.log('no trucks in cache. getting from service');

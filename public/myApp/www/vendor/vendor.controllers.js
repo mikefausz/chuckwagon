@@ -20,10 +20,12 @@ angular
     .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q){
 
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+
       $scope.dropPin = function(post, vendorId){
         $cordovaGeolocation.getCurrentPosition().then(function(position){
           console.log("RELOG POS", position);
           var id = $scope.currentVendor.id;
+
           console.log("SHOW",post);
           post.lat = position.coords.latitude;
           post.lng = position.coords.longitude;
@@ -36,15 +38,24 @@ angular
           });
         });
       };
+
+      $scope.logoutVendor = function() {
+        VendorService.logoutVendor();
+      };
     })
 
     .controller('VendordashdetailCtrl', function($scope, TruckService){
 
     })
 
-    .controller('EditCtrl', function($scope){
-      $scope.edit = function(vendor) {
-        console.log(vendor);
+    .controller('EditCtrl', function($scope, VendorService){
+      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+      window.currentVendor = $scope.currentVendor;
+      var id = $scope.currentVendor.id;
+
+      $scope.editVendor = function(vendor) {
+        VendorService.editVendor(vendor, id);
+        console.log(vendor, id);
         window.editVendor = vendor;
       };
     });

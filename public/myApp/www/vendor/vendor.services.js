@@ -2,11 +2,10 @@ angular
     .module('vendor')
 .factory('VendorService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('vendor');
-  // var ip = "http://10.0.10.70:8080";
-  var ip = "http://localhost:8080";
+  var ip = "http://10.0.10.70:8080";
+  // var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
-  var location = ip + "/vendor/{id}/location";
 
   function signup(vendor){
     var currentVendor = $http.post(signupUrl, vendor);
@@ -44,11 +43,25 @@ angular
     console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
   }
 
+  function editVendor(editedVendor, vendorId){
+    var fakeVendor = {
+      vendor: {
+        profileImgURL: 'http://i.imgur.com/Y4cxkit.png',
+        bio:'CRWISPY'
+      },
+      tags: "Burritos,Omelettes,Fritattas",
+    };
+    console.log(fakeVendor);
+    var url = ip + "/vendor/" + vendorId;
+    $http.put(url, fakeVendor);
+  }
+
 
   return {
     signup: signup,
     dropPin: dropPin,
     loginVendor: loginVendor,
     logoutVendor: logoutVendor,
+    editVendor: editVendor,
   };
 });
