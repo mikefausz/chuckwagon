@@ -2,36 +2,12 @@ angular
     .module('search')
     .factory('SearchService', function($http, $q, $cacheFactory) {
       var cacheEngine = $cacheFactory('search');
-      // var ip = "http://10.0.10.70:8080";
-      var ip = "http://localhost:8080";
-
-      function all() {
-        return trucks;
-      }
-
-      function remove(truck) {
-        trucks.splice(trucks.indexOf(truck), 1);
-      }
-
-      function signup(vendor){
-        var currentVendor = $http.post(signupUrl, vendor);
-        window.localStorage.setItem( 'currentVendor', JSON.stringify(vendor) );
-        window.localStorage.setItem( 'vendorLoggedIn', true );
-        return currentVendor;
-      }
-
-      function get(truckId) {
-        for (var i = 0; i < trucks.length; i++) {
-          if (trucks[i].id === parseInt(truckId)) {
-            return trucks[i];
-          }
-        }
-        return null;
-      }
+      var ip = "http://10.0.10.70:8080";
+      // var ip = "http://localhost:8080";
 
       function getTrucks() {
           var defer = $q.defer();
-          var cache = cacheEngine.get('vendors');
+          var cache = cacheEngine.get('searchVendors');
           // IF cache already contains vendors, use those
           if(cache) {
             console.log('found trucks in the cache');
@@ -40,14 +16,27 @@ angular
           // ELSE get vendors from server, put them in cache
           else {
             console.log('no trucks in cache. getting from service');
-            // $http.get(ip + 'vendors').then(function(response) {
+            // $http.get(vendorsURL).then(function(response) {
+            //  cacheEngine.put('searchVendors',  response);
             //  defer.resolve(response);
-          // });
+            // });
+
+            // CUT THIS:
             var vendors = trucks;
-            cacheEngine.put('vendors',  vendors);
+            cacheEngine.put('searchVendors',  vendors);
             defer.resolve(vendors);
+            //
           }
           return defer.promise;
+      }
+
+      function getTruck(truckId) {
+        for (var i = 0; i < trucks.length; i++) {
+          if (trucks[i].id === parseInt(truckId)) {
+            return trucks[i];
+          }
+        }
+        return null;
       }
 
       // Dummy data for development
@@ -90,9 +79,6 @@ angular
 
       return {
         getTrucks: getTrucks,
-        all: all,
-        remove: remove,
-        signup: signup,
-        get: get,
+        getTruck: getTruck,
       };
     });

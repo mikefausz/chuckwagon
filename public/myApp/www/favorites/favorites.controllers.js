@@ -1,6 +1,8 @@
 angular
   .module('favorites')
   .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
+
+
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -24,38 +26,42 @@ angular
 
       marker.setMap($scope.map);
 
-      // $scope.trucks = FavoritesService.all();
-      FavoritesService.getTrucks().then(function(trucks) {
-        $scope.trucks = trucks;
-        $scope.trucks.forEach(function(truck) {
-          var marker = new google.maps.Marker({
-            position: truck.location,
-            map: $scope.map,
-            title: truck.name,
-            // icon: 'image4388.png',
-          });
+      $scope.trucks = FavoritesService.getFavoriteTrucks();
 
-          marker.setMap($scope.map);
+
+
+
+
+      $scope.trucks.forEach(function(truck) {
+        var marker = new google.maps.Marker({
+          position: truck.location,
+          map: $scope.map,
+          title: truck.name,
+          // icon: 'image4388.png',
         });
-      });
 
+        marker.setMap($scope.map);
+      });
       }, function(error){
       console.log("Could not get location");
     });
   })
 
-  .controller('ListviewCtrl', function($scope, FavoritesService){
-    $scope.trucks = FavoritesService.all();
-    $scope.remove = function(truck) {
-      FavoritesService.remove(truck);
-    };
+  .controller('FavListviewCtrl', function($scope, FavoritesService){
+
+      $scope.trucks = FavoritesService.getFavoriteTrucks();
+      console.log($scope.trucks);
+      window.favorits = $scope.trucks;
+      $scope.$on('favorite:added', function () {
+        $scope.trucks = FavoritesService.getFavoriteTrucks();
+      })
   })
 
-  .controller('DetailviewCtrl', function($scope, $stateParams, FavoritesService) {
+  .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService) {
     // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     //   viewData.enableBack = true;
     // });
-    $scope.truck = FavoritesService.get($stateParams.truckId);
+    $scope.truck = FavoritesService.getFavoriteTruck($stateParams.truckId);
 
     var mapOptions = {
       // center: {lat: -34.397, lng: 150.644},
