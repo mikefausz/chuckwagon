@@ -129,10 +129,24 @@ public class ChuckWagonApplicationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/vendor/1/location")
                         .content(json)
-                        .sessionAttr("email", "mail@mail.com")
                         .contentType("application/json")
         ).andExpect(status().is(202));
 
+    }
+
+    @Test
+    public void gEditLocationTest() throws Exception {
+        Location location = new Location(38.5848f, 483.3759f, "2.5");
+        location.setVendor(vendorRepository.findOne(1));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(location);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/vendor/1/location")
+                        .content(json)
+                        .contentType("application/json")
+        ).andExpect(status().is(202));
     }
 
 

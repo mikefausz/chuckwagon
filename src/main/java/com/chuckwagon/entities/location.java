@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 public class Location {
 
     @Id
-    @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(value = "vendor", name = "property"))
+    @GeneratedValue
     @Column(name = "location_id", unique = true, nullable = false)
     private Integer id;
 
@@ -39,10 +38,7 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-//    @JoinColumn(name = "location_id")
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vendor vendor;
 
 
@@ -108,6 +104,8 @@ public class Location {
     public void setTweet(String tweet) {
         this.tweet = tweet;
     }
+
+
 
     @Override
     public String toString() {

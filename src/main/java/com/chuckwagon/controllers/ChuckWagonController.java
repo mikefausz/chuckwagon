@@ -22,6 +22,7 @@ import com.chuckwagon.services.TagRepository;
 import com.chuckwagon.services.VendorRepository;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
+import com.chuckwagon.utils.PopulateDB;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,8 +58,9 @@ public class ChuckWagonController {
     Server dbui = null;
 
     @PostConstruct
-    public void init() throws SQLException {
+    public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbui = Server.createWebServer().start();
+        PopulateDB.populate(vendorRepository, locationRepository);
     }
 
     @PreDestroy
@@ -138,9 +140,14 @@ public class ChuckWagonController {
     //    } else {
       //      return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
+
+    //update a vendor and add tags
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody Vendor vendor) {
-        vendorRepository.save(vendor);
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap<String, String> json) {
+
+
+        System.out.println(json);
+       // vendorRepository.save(vendor);
         return new ResponseEntity<Object>("updated", HttpStatus.ACCEPTED);
     }
 
@@ -166,6 +173,11 @@ public class ChuckWagonController {
         //here is what is being sent, 1, 1.5, 2 etc
 //        if (vendorRepository.findOne(1).getContactEmail().equals(session.getAttribute("email"))) {
             if (location != null && (location.getLat() >= 0 || location.getLat() <= 0 ) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
+                Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
+                Location existingLocation = locationRepository.findByVendor(vendor); //possible preexisiting location set by vendor
+
+                if (existingLocation != null) { locationRepository.delete(existingLocation); }
+
                 location.setVendor(vendorRepository.findOne(id));
                 double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
                 hours = hours * 60 * 60; //convert hours to seconds

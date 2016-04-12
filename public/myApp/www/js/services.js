@@ -2,8 +2,8 @@ angular.module('starter.services', [])
 
 .factory('TruckService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
-  var ip = "http://10.0.10.70:8080";
-  // var ip = "http://localhost:8080";
+  //var ip = "http://10.0.10.70:8080";
+  var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
   var location = ip + "/vendor/{id}/location";
