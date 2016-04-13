@@ -6,6 +6,7 @@ angular.module('starter.services', [])
   var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
+  var vendorInfo = ip + "/vendor/location";
 
   function getTrucks() {
       var defer = $q.defer();
