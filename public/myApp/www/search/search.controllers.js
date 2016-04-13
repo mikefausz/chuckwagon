@@ -44,7 +44,7 @@ angular
 
       // SEARCH VENDORS SHOULD BE IN CACHE
       SearchService.getTrucks().then(function(trucks) {
-        $scope.trucks = trucks;
+        $scope.trucks = trucks.data;
         $scope.trucks.forEach(function(truck) {
           var marker = new google.maps.Marker({
             position: truck.location,
