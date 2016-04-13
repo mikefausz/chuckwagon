@@ -8,10 +8,10 @@ angular
       function addFavoriteTruck(truckId) {
         if (!localStorage.getItem("favoriteVendors")) {
           favTrucks.push(truckId);
-          localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks))
+          localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks));
           $rootScope.$broadcast('favorite:added');
         } else {
-          var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
+          var favArr = JSON.parse(localStorage.getItem('favoriteVendors'));
           favArr.push(truckId);
           localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
           $rootScope.$broadcast('favorite:added');
@@ -25,11 +25,16 @@ angular
           if(favoriteVendorIds) {
             var favorites = trucks.filter(function(truck) {
               return favoriteVendorIds.indexOf(truck.id) > -1;
-            })
+            });
             console.log(favorites);
             return favorites;
-
           }
+
+          // ELSE IF cache already contains all vendors, use those
+          // else if(cacheAll) {
+          //   console.log('found trucks in the cache');
+          //   defer.resolve(cacheAll);
+          // }
           // ELSE get vendors from server, put them in cache
           else {
             return [];

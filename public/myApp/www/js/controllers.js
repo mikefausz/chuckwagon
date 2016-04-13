@@ -2,6 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state, HomeService){
   // Set default to user mode
+
   $scope.vendorMode= false;
   $scope.vendorLoggedIn= false;
 
@@ -13,6 +14,7 @@ angular.module('starter.controllers', [])
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
+
     if ($scope.vendorMode){
       // $scope.logoutVendor();
         $scope.vendorLoggedIn = false;
