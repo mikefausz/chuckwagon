@@ -272,35 +272,31 @@ public class ChuckWagonController {
                     locationRepository.delete(location);
                 }
             });
+            //gets fresh list of locations
             locationList = (List<Location>) locationRepository.findAll();
 
-            ArrayList<VendorData> vendorDataList = null;
+            //list to hold special object that describes what the FE wants
+            ArrayList<VendorData> vendorDataList = new ArrayList<>();
 
+            //build each object
             for (Location l : locationList) {
                 VendorData vendorData = new VendorData();
                 vendorData.setId(l.getVendor().getId());
                 vendorData.setName(l.getVendor().getVendorName());
 
-                Set<Tag> tags = tagVendorRepository.findByVendor(l.getVendor().getId());
-//                String tagsString = null;
-//
-//                for (Tag tag : tags) {
-//                    tagsString = tag.getTag() + " ";
-//                }
-                
-                vendorData.setTags(StringUtils.join(tags, ","));
+                Set<Tag> tags = tagVendorRepository.findByVendor(l.getVendor());
+                if (tags.size() > 0 ) {
+                    vendorData.setTags(StringUtils.join(tags, ","));
+                }
                 HashMap<String, Float> location = new HashMap<>();
                 location.put("lat", l.getLat());
                 location.put("lng", l.getLng());
                 vendorData.setLocation(location);
                 vendorData.setProfileimgURL(l.getVendor().getProfilePictureLocation());
+                vendorData.setBio(l.getVendor().getBio());
 
                 vendorDataList.add(vendorData);
             }
-
-
-            //need vendor name
-
             return new ResponseEntity<Object>(vendorDataList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
@@ -326,19 +322,16 @@ public class ChuckWagonController {
         }
     }
 
-
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
     public List<Vendor> vendorByLocation(@PathVariable Location locaton) {
         return vendorRepository.findByIsActive(true);
     }
-
 
     @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
             session.invalidate();
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
         }
-
 
     /**
      * Processes an image and stores to server returning a link to where it was stored
@@ -370,7 +363,6 @@ public class ChuckWagonController {
             vendor.setProfilePictureLocation(filePath + photoFile.getName());
         }
     }
-
 
     /**
      *I was doing this manually previously but I found this walk through and decided to implement it.

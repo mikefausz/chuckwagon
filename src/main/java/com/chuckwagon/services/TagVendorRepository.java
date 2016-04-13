@@ -21,7 +21,7 @@ public interface TagVendorRepository extends CrudRepository<TagVendor, Integer> 
     void deleteByVendor(Vendor vendor);
 
 
-    @Query(value = "select tag from tag_vendor where vendor_id = ?1", nativeQuery = true)
-    Set<Tag> findByVendor(Integer id);
+    @Query(value = "select tag from tag inner join tag_vendor on tag_id=tag_tag_id where vendor_vendor_id = ?1", nativeQuery = true)
+    Set<Tag> findByVendor(Vendor vendor);
 
 }

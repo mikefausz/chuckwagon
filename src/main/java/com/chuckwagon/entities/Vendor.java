@@ -56,13 +56,6 @@ public class Vendor {
     @Column(name = "active")
     private boolean isActive;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Menu> menuList;
-
-
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tag")
     @Transient
     Set<Tag> tags;
 
@@ -165,14 +158,6 @@ public class Vendor {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public List<Menu> getMenuList() {
-        return menuList;
-    }
-
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
     }
 
     public Set<Tag> getTags() {
