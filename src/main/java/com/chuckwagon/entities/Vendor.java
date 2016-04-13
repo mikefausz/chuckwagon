@@ -2,12 +2,10 @@ package com.chuckwagon.entities;
 
 import com.chuckwagon.services.TagVendorRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -59,12 +57,6 @@ public class Vendor {
     @Transient
     Set<Tag> tags;
 
-
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "TagVendor",
-//            joinColumns = @JoinColumn(name = "vendor_id"),
-//            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-//    private Set<Tag> tags;
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore

@@ -1,14 +1,15 @@
 package com.chuckwagon.services;
 
+
 import com.chuckwagon.entities.Tag;
 import com.chuckwagon.entities.TagVendor;
 import com.chuckwagon.entities.Vendor;
-import com.sun.tools.javac.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,7 +22,7 @@ public interface TagVendorRepository extends CrudRepository<TagVendor, Integer> 
     void deleteByVendor(Vendor vendor);
 
 
-    @Query(value = "select tag from tag inner join tag_vendor on tag_id=tag_tag_id where vendor_vendor_id = ?1", nativeQuery = true)
-    Set<Tag> findByVendor(Vendor vendor);
+    //@Query(value = "select tag from tag inner join tag_vendor on tag_id=tag_tag_id where vendor_vendor_id = ?1", nativeQuery = true)
+    List<TagVendor> findByVendor(Vendor vendor);
 
 }

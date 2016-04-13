@@ -2,22 +2,32 @@ package com.chuckwagon.utils;
 
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Tag;
+import com.chuckwagon.entities.TagVendor;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.LocationRepository;
 import com.chuckwagon.services.TagRepository;
+import com.chuckwagon.services.TagVendorRepository;
 import com.chuckwagon.services.VendorRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+
 
 /**
  * Created by branden on 4/12/16 at 11:14.
  */
 public class PopulateDB {
 
-    public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository, TagRepository tagRepository) throws PasswordStorage.CannotPerformOperationException {
+    public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository, TagRepository tagRepository, TagVendorRepository tagVendorRepository) throws PasswordStorage.CannotPerformOperationException {
+
+        /** Hard Coded Tags */
+        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
+        if (tagRepository.count() == 0) {
+            for (String s : tagStrings) {
+                Tag tag = new Tag(s);
+                tagRepository.save(tag);
+            }
+        }
+
 
         if (vendorRepository.count() <= 1) {
             Vendor bon = (new Vendor("bon@bon.com", "Bon Banh Mi", "password"));
@@ -28,6 +38,9 @@ public class PopulateDB {
             bonLoc.setVendor(bon);
             vendorRepository.save(bon);
             locationRepository.save(bonLoc);
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), bon));
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(2), bon));
+
 
             Vendor pink = (new Vendor("pink@pink.com", "Pink Bellies", "password"));
             pink.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -37,6 +50,9 @@ public class PopulateDB {
             pinkLoc.setVendor(pink);
             vendorRepository.save(pink);
             locationRepository.save(pinkLoc);
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), pink));
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), pink));
+
 
             Vendor lobster = (new Vendor("lob@lob.com", "The Immortal Lobster", "password"));
             lobster.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -46,6 +62,8 @@ public class PopulateDB {
             lobLoc.setVendor(lobster);
             vendorRepository.save(lobster);
             locationRepository.save(lobLoc);
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), lobster));
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), lobster));
 
             Vendor autob = (new Vendor("auto@auto.com", "Autobahn", "password"));
             autob.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -55,17 +73,10 @@ public class PopulateDB {
             autobLoc.setVendor(autob);
             vendorRepository.save(autob);
             locationRepository.save(autobLoc);
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), autob));
+            tagVendorRepository.save(new TagVendor(tagRepository.findOne(5), autob));
         }
 
-
-        /** Hard Coded Tags */
-        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
-        if (tagRepository.count() == 0) {
-            for (String s : tagStrings) {
-                Tag tag = new Tag(s);
-                tagRepository.save(tag);
-            }
-        }
     }
 
 }

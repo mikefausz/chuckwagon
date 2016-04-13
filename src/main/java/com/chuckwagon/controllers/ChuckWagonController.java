@@ -17,7 +17,6 @@ import com.chuckwagon.services.*;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
 import com.chuckwagon.utils.PopulateDB;
-import com.sun.deploy.util.StringUtils;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -280,15 +279,26 @@ public class ChuckWagonController {
                 vendorData.setId(l.getVendor().getId());
                 vendorData.setName(l.getVendor().getVendorName());
 
-                Set<Tag> tags = tagVendorRepository.findByVendor(l.getVendor());
-                if (tags.size() > 0 ) {
-                    vendorData.setTags(StringUtils.join(tags, ","));
+                List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(l.getVendor());
+                Set<Tag> tagSet = new HashSet<>();
+
+                for (TagVendor tv : tagVendorList) {
+                    tagSet.add(tv.getTag());
+
                 }
+//                if (tags.size() > 0 ) {
+//                    vendorData.setTags(StringUtils.join(tags, ","));
+//                }
+//                for (Tag tag : tags) {
+//
+//                }
+                vendorData.setTags(tagSet);
+
                 HashMap<String, Float> location = new HashMap<>();
                 location.put("lat", l.getLat());
                 location.put("lng", l.getLng());
                 vendorData.setLocation(location);
-                vendorData.setProfileimgURL(l.getVendor().getProfilePictureLocation());
+                vendorData.setProfileImgURL(l.getVendor().getProfilePictureLocation());
                 vendorData.setBio(l.getVendor().getBio());
 
                 vendorDataList.add(vendorData);

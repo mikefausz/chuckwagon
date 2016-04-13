@@ -1,6 +1,7 @@
 package com.chuckwagon.entities;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by branden on 4/13/16 at 11:57.
@@ -14,24 +15,24 @@ public class VendorData {
 
     private String name;
 
-    private String tags;
+    private Set<Tag> tags;
 
     private String bio;
 
     private HashMap<String, Float> location;
 
-    private String profileimgURL;
+    private String profileImgURL;
 
     public VendorData() {
     }
 
-    public VendorData(Integer id, String name, String tags, String bio, HashMap<String, Float> location, String profileimgURL) {
+    public VendorData(Integer id, String name, Set<Tag> tags, String bio, HashMap<String, Float> location, String profileImgURL) {
         this.id = id;
         this.name = name;
         this.tags = tags;
         this.bio = bio;
         this.location = location;
-        this.profileimgURL = profileimgURL;
+        this.profileImgURL = profileImgURL;
     }
 
 
@@ -51,11 +52,11 @@ public class VendorData {
         this.name = name;
     }
 
-    public String getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
@@ -75,11 +76,11 @@ public class VendorData {
         this.location = location;
     }
 
-    public String getProfileimgURL() {
-        return profileimgURL;
+    public String getProfileImgURL() {
+        return profileImgURL;
     }
 
-    public void setProfileimgURL(String profileimgURL) {
-        this.profileimgURL = profileimgURL;
+    public void setProfileImgURL(String profileImgURL) {
+        this.profileImgURL = profileImgURL;
     }
 }
