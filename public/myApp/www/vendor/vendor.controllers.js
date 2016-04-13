@@ -9,6 +9,7 @@ angular
       };
     })
 
+
     .controller('VendorsignupCtrl', function($scope, VendorService){
       $scope.signup = function(vendor){
         console.log("SIGN UP");
@@ -45,7 +46,7 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, TruckService){
-      
+
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
     })
 
