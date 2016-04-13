@@ -2,14 +2,22 @@ angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state, HomeService){
   // Set default to user mode
-  window.localStorage.vendorMode = false;
-  window.localStorage.vendorLoggedIn = true;
+
+  $scope.vendorMode= false;
+  $scope.vendorLoggedIn= false;
+
+  $scope.logoutVendor = function() {
+    HomeService.logoutVendor();
+    $scope.toggleVendorView;
+  };
 
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
-    if (localStorage.vendorMode === "true"){
-      $scope.logoutVendor();
+
+    if ($scope.vendorMode){
+      // $scope.logoutVendor();
+        $scope.vendorLoggedIn = false;
         $scope.vendorMode = false;
         $state.go('tab.map');
     }
@@ -24,16 +32,18 @@ angular.module('starter.controllers', [])
   $scope.isVendor = function() {
       if ($scope.vendorMode) {
         return true;
+      } else {
+        return false;
       }
-      return false;
     };
 
   // Return current mode
   $scope.isLoggedIn = function() {
       if (localStorage.vendorLoggedIn === "true") {
         return true;
+      } else {
+        return false;
       }
-      return false;
     };
 })
 
@@ -77,11 +87,18 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('ListviewCtrl', function($scope, HomeService){
-  $scope.trucks = HomeService.getTrucks();
+.controller('ListviewCtrl', function($scope, HomeService, FavoritesService){
+  HomeService.getTrucks().then(function (truckys) {
+    console.log(truckys);
+    $scope.trucks = truckys;
+  });
+  console.log('trucks', $scope.trucks);
   $scope.remove = function(truck) {
     HomeService.remove(truck);
   };
+  $scope.addFavoriteTruck = function (truckId) {
+    FavoritesService.addFavoriteTruck(truckId)
+};
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {
@@ -105,4 +122,5 @@ angular.module('starter.controllers', [])
   });
 
   marker.setMap($scope.map);
+
 });

@@ -9,12 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Menu;
+import com.chuckwagon.entities.Tag;
 import com.chuckwagon.entities.Vendor;
 import com.chuckwagon.services.LocationRepository;
 import com.chuckwagon.services.MenuRepository;
@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by branden on 4/5/16 at 21:19.
  */
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class ChuckWagonController {
 
@@ -60,7 +60,7 @@ public class ChuckWagonController {
     @PostConstruct
     public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbui = Server.createWebServer().start();
-        PopulateDB.populate(vendorRepository, locationRepository);
+        PopulateDB.populate(vendorRepository, locationRepository, tagRepository);
     }
 
     @PreDestroy
@@ -93,8 +93,6 @@ public class ChuckWagonController {
     }
 
 
-
-
     //add a new vendor to DB
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
     public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
@@ -107,7 +105,6 @@ public class ChuckWagonController {
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
         Vendor result = vendorRepository.save(vendor);
-
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
@@ -143,8 +140,11 @@ public class ChuckWagonController {
 
     //update a vendor and add tags
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap<String, String> json) {
+    public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap<String, Object> json) {
 
+        Vendor vendor = vendorRepository.findOne(id);
+
+        Set<Tag> tags = (Set<Tag>) json.get("tags");
 
         System.out.println(json);
        // vendorRepository.save(vendor);
@@ -166,10 +166,9 @@ public class ChuckWagonController {
       //      return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
         }
 
-
+    //add or update a location.
     @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
     public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
-
         //here is what is being sent, 1, 1.5, 2 etc
 //        if (vendorRepository.findOne(1).getContactEmail().equals(session.getAttribute("email"))) {
             if (location != null && (location.getLat() >= 0 || location.getLat() <= 0 ) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
@@ -183,7 +182,7 @@ public class ChuckWagonController {
                 hours = hours * 60 * 60; //convert hours to seconds
                 location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
                 locationRepository.save(location);
-                return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+                return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
             }
@@ -191,6 +190,25 @@ public class ChuckWagonController {
 //            return new ResponseEntity<Object>("Unauthorized vendor attempting to set location", HttpStatus.UNAUTHORIZED);
      //   }
    // }
+
+    //return all vendor locations
+    @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
+    public ResponseEntity<?> getVendorLocations() {
+        List<Location> locationList;
+        locationList = (List<Location>) locationRepository.findAll();
+        locationList.forEach(location -> {
+            if (!location.getExpiresObject().isBefore(LocalDateTime.now())) {
+                locationRepository.delete(location);
+            }
+        });
+        locationList = (List<Location>) locationRepository.findAll();
+//
+//        locationList = locationList.stream()
+//                .filter(location ->  (location.getExpiresObject().isBefore(LocalDateTime.now())))
+//                .collect(Collectors.toCollection(ArrayList<Location>::new));
+
+        return  new ResponseEntity<Object>(locationList, HttpStatus.ACCEPTED);
+    }
 
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody HashMap data) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
@@ -290,13 +308,8 @@ public class ChuckWagonController {
      */
     @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
     public void manageOptions(HttpServletResponse response) {
-
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-
     }
-
-
-
 
 }
