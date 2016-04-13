@@ -50,6 +50,7 @@ angular
           var marker = new google.maps.Marker({
             position: truck.location,
             map: $scope.map,
+            icon: 'icon-tutone.png',
           });
 
           var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
