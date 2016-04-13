@@ -26,8 +26,8 @@ angular
 
     $http.post(loginUrl, login).then(function(response) {
       defer.resolve(response.data);
-      window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
-      window.localStorage.setItem( 'vendorLoggedIn', true );
+      window.localStorage.currentVendor = JSON.stringify(response.data);
+      window.localStorage.vendorLoggedIn = true;
     });
 
     return defer.promise;
@@ -38,8 +38,8 @@ angular
     var logoutUrl = "/vendor/" + vendor.id + "/logout";
     // Hit logout route
     $http.post(logoutUrl);
-    window.localStorage.setItem( 'vendorLoggedIn', false );
-    localStorage.setItem('currentVendor', '');
+    window.localStorage.vendorLoggedIn = false;
+    window.localStorage.currentVendor = '';
     console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
   }
 
