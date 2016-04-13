@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.chuckwagon.entities.*;
 import com.chuckwagon.services.*;
@@ -58,7 +59,7 @@ public class ChuckWagonController {
     @PostConstruct
     public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
         dbui = Server.createWebServer().start();
-        PopulateDB.populate(vendorRepository, locationRepository, tagRepository);
+        PopulateDB.populate(vendorRepository, locationRepository, tagRepository, tagVendorRepository);
     }
 
     @PreDestroy
@@ -164,7 +165,6 @@ public class ChuckWagonController {
             }
         }
 
-
     /**
      * If first visit to route allows to set additional vendor profile information and tags
      *
@@ -178,6 +178,7 @@ public class ChuckWagonController {
     public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap data) {
 
         Vendor vendor = vendorRepository.findOne(id);  //reference to the vendor we are editing
+
 
         if (vendor != null) {
             Set<Tag> tagSet = new HashSet<>(); //empty hashset
@@ -258,22 +259,17 @@ public class ChuckWagonController {
     }
 
     /**
-     * Returns all vendors with locations attached
+     * Returns a special object that the Front End requires.
+     * Object contains vendors and locations of vendors
      *
      * @return
      */
     @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
     public ResponseEntity<?> getVendorLocations() {
-        List<Location> locationList = (List<Location>) locationRepository.findAll();
-        //runs through and deletes expired vendors
+
+        List<Location> locationList = removeExpiredVendors();
+
         if (locationList.size() > 0) {
-            locationList.forEach(location -> {
-                if (location.getExpiresObject().isBefore(LocalDateTime.now())) {
-                    locationRepository.delete(location);
-                }
-            });
-            //gets fresh list of locations
-            locationList = (List<Location>) locationRepository.findAll();
 
             //list to hold special object that describes what the FE wants
             ArrayList<VendorData> vendorDataList = new ArrayList<>();
@@ -303,6 +299,26 @@ public class ChuckWagonController {
         }
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<?> searchVendors(@PathVariable("tags") Set tags) {
+
+        List<Location> locationList = removeExpiredVendors();
+
+        if (locationList.size() > 0) {
+           locationList.stream()
+                   .filter(location -> (!Collections.disjoint(location.getVendor().getTags(), tags))
+                   )
+                   .collect(Collectors.toCollection(ArrayList<Location>::new));
+
+            return new ResponseEntity<Object>(locationList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+
+
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
      *
@@ -320,11 +336,6 @@ public class ChuckWagonController {
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
         }
-    }
-
-    @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
-    public List<Vendor> vendorByLocation(@PathVariable Location locaton) {
-        return vendorRepository.findByIsActive(true);
     }
 
     @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
@@ -390,6 +401,19 @@ public class ChuckWagonController {
         }
     }
 
+    public List<Location> removeExpiredVendors() {
+        List<Location> locationList = (List<Location>) locationRepository.findAll();
+
+        if (locationList.size() > 0) {
+            locationList.forEach(location -> {
+                if (location.getExpiresObject().isBefore(LocalDateTime.now())) {
+                    locationRepository.delete(location);
+                }
+            });
+        }
+        return locationList;
+    }
+
     /**
      *
      *Catch all route for request method options
@@ -399,5 +423,12 @@ public class ChuckWagonController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
     }
+
+
+    //unique id on each device, need Cordova plug in.
+    //ionic has an onload method
+
+    //passing a self generated unique cookie back and forth. FE doesn't need to store, but just return.
+
 
 }
