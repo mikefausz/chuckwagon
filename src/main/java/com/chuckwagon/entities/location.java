@@ -41,7 +41,7 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Vendor vendor;
 
 
@@ -122,6 +122,7 @@ public class Location {
                 "id=" + id +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", tweet='" + tweet + '\'' +
                 ", expiresObject=" + expiresObject +
                 ", expiresString='" + expiresString + '\'' +

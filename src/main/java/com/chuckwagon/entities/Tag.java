@@ -21,11 +21,6 @@ public class Tag {
     @Column(nullable = false)
     private String tag;
 
-    @Transient
-    @JsonIgnore
-    private Set<Vendor> vendors;
-
-
     public Tag() {
     }
 
@@ -37,6 +32,10 @@ public class Tag {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTag() {
         return tag;
     }
@@ -45,13 +44,23 @@ public class Tag {
         this.tag = tag;
     }
 
-    public Set<Vendor> getVendors() {
-        return vendors;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tag tag1 = (Tag) o;
+
+        if (tag1.getTag().equals(((Tag) o).getTag())) return true;
+
+        return tag.equals(tag1.tag);
+
     }
 
-    public void setVendors(Set<Vendor> vendors) {
-        this.vendors = vendors;
+    @Override
+    public int hashCode() {
+        return tag.hashCode();
     }
-
-
 }
