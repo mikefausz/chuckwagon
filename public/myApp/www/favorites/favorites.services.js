@@ -4,7 +4,7 @@ angular
 
       var ip = "http://10.0.10.70:8080";
       // var ip = "http://localhost:8080";
-      var favTrucks = [];
+      // var favTrucks = [];
       function addFavoriteTruck(truckId, heart) {
         if (heart) {
             var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
@@ -42,7 +42,7 @@ angular
           if(favoriteVendorIds) {
             var favorites = trucks.filter(function(truck) {
               return favoriteVendorIds.indexOf(truck.id) > -1;
-            })
+            });
             console.log(favorites);
             return favorites;
 

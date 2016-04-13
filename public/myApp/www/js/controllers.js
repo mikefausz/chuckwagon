@@ -2,20 +2,20 @@ angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state, HomeService){
   // Set default to user mode
-  $scope.vendorMode= false;
-  $scope.vendorLoggedIn= false;
 
-  $scope.logoutVendor = function() {
-    HomeService.logoutVendor();
-    $scope.toggleVendorView;
-  };
+  $scope.vendorMode = false;
+  window.localStorage.vendorLoggedIn = false;
+
+  // $scope.logoutVendor = function() {
+  //   HomeService.logoutVendor();
+  //   $scope.toggleVendorView();
+  //   localStorage.vendorLoggedIn = false;
+  // };
 
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
     if ($scope.vendorMode){
-      // $scope.logoutVendor();
-        $scope.vendorLoggedIn = false;
         $scope.vendorMode = false;
         $state.go('tab.map');
     }
@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
     marker.setMap($scope.map);
 
     HomeService.getTrucks().then(function(response) {
-      $scope.trucks = response;
+      $scope.trucks = response.data;
       $scope.trucks.forEach(function(truck) {
         var marker = new google.maps.Marker({
           position: truck.location,

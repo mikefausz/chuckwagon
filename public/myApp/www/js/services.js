@@ -2,14 +2,10 @@ angular.module('starter.services', [])
 
 .factory('HomeService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
+
   var ip = "http://10.0.10.70:8080";
   // var ip = "http://localhost:8080";
-  var loginUrl = ip + "/vendor/login";
-  var signupUrl = ip + "/vendor";
-
-  function getCurrentVendor(){
-    return cacheEngine.get('currentVendor');
-  }
+  var vendorsURL = ip + "/vendor/location";
 
   function getTrucks() {
       var defer = $q.defer();
@@ -22,15 +18,25 @@ angular.module('starter.services', [])
       // ELSE get vendors from server, put them in cache
       else {
         console.log('no trucks in cache. getting from service');
-        // $http.get(ip + 'vendors').then(function(response) {
-        //  defer.resolve(response);
-      // });
-
+        $http.get(vendorsURL).then(function(response) {
         var vendors = trucks;
         cacheEngine.put('vendors',  response);
-        defer.resolve(response);
+         defer.resolve(response);
+      });
+        // var vendors = trucks;
+        // cacheEngine.put('vendors',  vendors);
+        // defer.resolve(vendors);
       }
       return defer.promise;
+  }
+
+  function getTruck(truckId) {
+    for (var i = 0; i < trucks.length; i++) {
+      if (trucks[i].id === parseInt(truckId)) {
+        return trucks[i];
+      }
+    }
+    return null;
   }
 
   // Dummy data for development
@@ -74,58 +80,6 @@ angular.module('starter.services', [])
 
   return {
     getTrucks: getTrucks,
-
-    all: function() {
-      return trucks;
-    },
-
-    remove: function(truck) {
-      trucks.splice(trucks.indexOf(truck), 1);
-    },
-
-    signup: function(vendor){
-      var currentVendor = $http.post(signupUrl, vendor);
-      window.localStorage.setItem( 'currentVendor', JSON.stringify(vendor) );
-      window.localStorage.setItem( 'vendorLoggedIn', true );
-      return currentVendor;
-    },
-
-    loginVendor: function(login){
-      var defer = $q.defer();
-
-      $http.post(loginUrl, login).then(function(response) {
-        defer.resolve(response.data);
-        window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
-        window.localStorage.setItem( 'vendorLoggedIn', true );
-      });
-
-      return defer.promise;
-    },
-
-    logoutVendor: function(){
-      console.log(localStorage);
-      var vendor = JSON.parse(localStorage.currentVendor);
-      console.log(vendor, "VENDOR");
-      var logoutUrl = "/vendor/" + vendor.id + "/logout";
-      // Hit logout route
-      $http.post(logoutUrl);
-      window.localStorage.setItem( 'vendorLoggedIn', false );
-      localStorage.setItem('currentVendor', '');
-      console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
-    },
-
-    getTruck: function(truckId) {
-      for (var i = 0; i < trucks.length; i++) {
-        if (trucks[i].id === parseInt(truckId)) {
-          return trucks[i];
-        }
-      }
-      return null;
-    },
-    editVendor: function (editedVendor) {
-      var vendor = JSON.parse(localStorage.currentVendor);
-      var editUrl = "/vendor/" + vendor.id;
-      $http.post(editUrl, editedVendor)
-    }
-  }
+    getTruck: getTruck,
+  };
 });

@@ -6,7 +6,6 @@ angular
   // var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
-  var location = ip + "/vendor/{id}/location";
 
   function signup(vendor){
     var currentVendor = $http.post(signupUrl, vendor);
@@ -27,8 +26,8 @@ angular
 
     $http.post(loginUrl, login).then(function(response) {
       defer.resolve(response.data);
-      window.localStorage.setItem( 'currentVendor', JSON.stringify(response.data) );
-      window.localStorage.setItem( 'vendorLoggedIn', true );
+      window.localStorage.currentVendor = JSON.stringify(response.data);
+      window.localStorage.vendorLoggedIn = true;
     });
 
     return defer.promise;
@@ -39,9 +38,22 @@ angular
     var logoutUrl = "/vendor/" + vendor.id + "/logout";
     // Hit logout route
     $http.post(logoutUrl);
-    window.localStorage.setItem( 'vendorLoggedIn', false );
-    localStorage.setItem('currentVendor', '');
+    window.localStorage.vendorLoggedIn = false;
+    window.localStorage.currentVendor = '';
     console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
+  }
+
+  function editVendor(editedVendor, vendorId){
+    var fakeVendor = {
+      vendor: {
+        profileImgURL: 'http://i.imgur.com/Y4cxkit.png',
+        bio:'CRWISPY'
+      },
+      tags: "Burritos,Omelettes,Fritattas",
+    };
+    console.log(fakeVendor);
+    var url = ip + "/vendor/" + vendorId;
+    $http.put(url, fakeVendor);
   }
 
 
@@ -50,5 +62,6 @@ angular
     dropPin: dropPin,
     loginVendor: loginVendor,
     logoutVendor: logoutVendor,
+    editVendor: editVendor,
   };
 });

@@ -1,10 +1,8 @@
 <ion-view view-title="Edit Vendor Profile">
   <ion-content class="padding">
   <div class="list">
-    <h3>Bon Banh Mi</h3>
-    <h3>bonbon@bonbanhmi.biz</h3>
-    <!-- <h3>{{ vendor.truckname }}</h3>
-    <h3>{{ vendor.email }}</h3> -->
+    <h3>{{ currentVendor.vendorName }}</h3>
+    <h3>{{ currentVendor.contactEmail }}</h3>
     <input ng-model="vendor.profImg" type="file" name="name" value="">
     <label class="item item-input">
       <input type="text" ng-model="editedVendor.bio" value="vendor.bio">
@@ -85,7 +83,7 @@
     </div>
   </div>
 
-  <button ng-click="edit(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
+  <button ng-click="editVendor(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
   <button class="button button-block button-calm" type="submit" name="button">CANCEL</button>
 
   </ion-content>
