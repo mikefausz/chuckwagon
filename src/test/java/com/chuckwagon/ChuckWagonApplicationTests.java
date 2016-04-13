@@ -103,7 +103,7 @@ public class ChuckWagonApplicationTests {
 
 
         mockMvc.perform(
-                MockMvcRequestBuilders.fileUpload("/vendor/1/photo").file(image).sessionAttr("email", "mail@mail.com")
+                MockMvcRequestBuilders.fileUpload("/vendor/5/photo").file(image).sessionAttr("email", "mail@mail.com")
         ).andExpect(status().is(202));
     }
 
@@ -114,7 +114,7 @@ public class ChuckWagonApplicationTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .fileUpload("/vendor/1/menu").file(image)
+                        .fileUpload("/vendor/5/menu").file(image)
                         .param("menuName", "Monday")
                         .sessionAttr("email", "mail@mail.com")
 
@@ -130,7 +130,7 @@ public class ChuckWagonApplicationTests {
         String json = mapper.writeValueAsString(location);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/vendor/1/location")
+                MockMvcRequestBuilders.post("/vendor/5/location")
                         .content(json)
                         .contentType("application/json")
         ).andExpect(status().is(202));
@@ -146,7 +146,7 @@ public class ChuckWagonApplicationTests {
         String json = mapper.writeValueAsString(location);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/vendor/1/location")
+                MockMvcRequestBuilders.post("/vendor/5/location")
                         .content(json)
                         .contentType("application/json")
         ).andExpect(status().is(202));
@@ -162,24 +162,24 @@ public class ChuckWagonApplicationTests {
         m.put("vendor", v);
         m.put("tags", t);
 
+        System.out.println(m);
+
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(m);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("vendor/1")
+                MockMvcRequestBuilders.put("/vendor/5")
                 .content(json)
-                .contentType("application.json")
-        ).andExpect(status().is2xxSuccessful());
+                .contentType("application/json")
+        ).andExpect(status().is(202));
 
         Assert.assertTrue(tagVendorRepository.count() == 2);
-
     }
-
 
     @Test
     public void zDeleteVendorTest() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/vendor/1")
+                MockMvcRequestBuilders.delete("/vendor/5")
                         .sessionAttr("email", "mail@mail.com")
         ).andExpect(status().is(202));
 

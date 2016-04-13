@@ -58,4 +58,26 @@ public class TagVendor {
                 ", vendor=" + vendor +
                 '}';
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TagVendor tagVendor = (TagVendor) o;
+
+        if (id != null ? !id.equals(tagVendor.id) : tagVendor.id != null) return false;
+        if (tag != null ? !tag.equals(tagVendor.tag) : tagVendor.tag != null) return false;
+        return vendor != null ? vendor.equals(tagVendor.vendor) : tagVendor.vendor == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        result = 31 * result + (vendor != null ? vendor.hashCode() : 0);
+        return result;
+    }
 }

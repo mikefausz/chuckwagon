@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.chuckwagon.entities.*;
 import com.chuckwagon.services.*;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
 import com.chuckwagon.utils.PopulateDB;
+import com.sun.deploy.util.StringUtils;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,14 +69,23 @@ public class ChuckWagonController {
 
     /** end DB viewing code */
 
-
+    /**
+     * Route adds a menu to a vendor.
+     * A vendor can have multiple menus.
+     * Menus have names for toggle-ability
+     * Menus are images
+     *
+     * @param id Path variable describing the vendor logged in
+     * @param menuPicture Image of the menu. Image stored on DB, a link to image is stored in the Menu object
+     * @param menuName Name to refer to the menu as
+     * @return returns the status of the request
+     */
     @RequestMapping(value = "/vendor/{id}/menu", method = RequestMethod.POST)
-    public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName, HttpSession session) throws IOException {
+    public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName) throws IOException {
 
         Menu menu = new Menu(vendorRepository.findOne(id), menuName);
 
-     //   if (verifyVendor(session, vendorRepository.findOne(id))) {
-            if (menu != null ) {
+            if (menuName != null && menuPicture != null) {
                 photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
                 menuRepository.save(menu);
                 System.out.println(menu);
@@ -84,14 +93,16 @@ public class ChuckWagonController {
             } else {
                 return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
             }
-       // } else {
-       //     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-       // }
-
     }
 
-
-    //add a new vendor to DB
+    /**
+     * Adds a new vendor into the DB
+     * allows for minimal fields
+     * other fields to be set in vendor PUT route
+     *
+     * @param vendor Vendor object with minimum required fields
+     * @return the vendor and a status of the the request
+     */
     @RequestMapping(value = "/vendor", method = RequestMethod.POST)
     public ResponseEntity<?> addVendor(@RequestBody Vendor vendor) throws PasswordStorage.CannotPerformOperationException {
         //We are expecting an email address(id) a vendor name, and a password
@@ -107,13 +118,22 @@ public class ChuckWagonController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    //get all vendors
+    /**
+     * Returns all details about all vendors in the DB
+     *
+     * @return all vendors and a response status
+     */
     @RequestMapping(value = "/vendor", method = RequestMethod.GET)
     public ResponseEntity<?> getAllVendors() {
         return new ResponseEntity<Object>(vendorRepository.findAll(), HttpStatus.OK);
     }
 
-    //request a single vendor.
+    /**
+     * Returns all details about a single vendor
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @return single vendor and a response status
+     */
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getVendor(@PathVariable("id") Integer id) {
         Vendor vendor = vendorRepository.findOne(id);
@@ -124,13 +144,17 @@ public class ChuckWagonController {
         }
     }
 
-    //upload vendor profile photo
+    /**
+     * Uploads a profile picture for a specific vendor
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @param profilePicture MultiPartFile that is image being uploaded
+     * @return string of status and response status
+     */
     @RequestMapping(value = "/vendor/{id}/photo", method = RequestMethod.POST)
     public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestParam( value = "profilePicture", required = false) MultipartFile profilePicture) throws IOException {
 
         Vendor vendor = vendorRepository.findOne(id);
-        //see if the vendor exists
-  //      if (vendor != null && verifyVendor(session, vendor)) {
             if (profilePicture != null && profilePicture.getContentType().startsWith("image")) {  //check for a photo of some sort
                 photoUpload(profilePicture, vendor, Optional.empty());
                 vendorRepository.save(vendor);
@@ -138,114 +162,159 @@ public class ChuckWagonController {
             } else {
                 return new ResponseEntity<Object>("Not an image ", HttpStatus.NOT_ACCEPTABLE);
             }
-    //    } else {
-      //      return new ResponseEntity<Object>("Vendor not logged in", HttpStatus.UNAUTHORIZED);
         }
 
-    //update a vendor and add tags
+
+    /**
+     * If first visit to route allows to set additional vendor profile information and tags
+     *
+     * If fields already set, allows for updating
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @param data HashMap that contains a simple String Array of tags and a HashMap of Vendor fields to be updated
+     * @return the manipulated vendor and a response status
+     */
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap data) {
 
-        Vendor vendor = vendorRepository.findOne(id);
-        Set<Tag> tagSet = new HashSet<>();
-        //grab the tags
-        String[] tags = (data.get("tags").toString().split(","));
-        if (tags.length > 0) {
-            tagVendorRepository.deleteByVendor(vendor);
+        Vendor vendor = vendorRepository.findOne(id);  //reference to the vendor we are editing
+
+        if (vendor != null) {
+            Set<Tag> tagSet = new HashSet<>(); //empty hashset
+
+            String[] tags = (data.get("tags").toString().split(","));  //grab the tags from client
+
+            tagVendorRepository.deleteByVendor(vendor); //remove current tags from DB
+
+            //add all the tags into the set and add to DB
+            for (String t : tags) {
+                Tag tag = tagRepository.findByTag(t);
+                //check to see if tag does is not in DB at some point here.
+                tagSet.add(tag);
+                TagVendor tagVendor = new TagVendor(tag, vendor);
+                tagVendorRepository.save(tagVendor);
+            }
+
+            //reset vendor fields
+            HashMap vend = (HashMap) data.get("vendor"); //map of the vendor
+            vendor.setBio((String) vend.get("bio"));
+            vendor.setProfilePictureLocation((String) vend.get("profileImgURL"));
+            vendor.setTags(tagSet);
+
+            vendorRepository.save(vendor); //save vendor
+
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Vendor not found", HttpStatus.NOT_FOUND);
         }
-
-        //add all the tags into the set
-        for (String t : tags) {
-            Tag tag = tagRepository.findByTag(t);
-            //check to see if tag does is not in DB at some point here.
-            tagSet.add(tag);
-            TagVendor tagVendor = new TagVendor(tag, vendor);
-            System.out.println(tagVendor);
-            tagVendorRepository.save(tagVendor);
-        }
-
-        vendor.setBio((String) data.get("bio"));
-        vendor.setProfilePictureLocation((String) data.get("profilePictureURL"));
-        vendor.setTags(tagSet);
-
-        for (Tag t : tagSet) {
-            System.out.println(t.getTag());
-        }
-        System.out.println(tagSet);
-
-        vendorRepository.save(vendor);
-
-        return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
     }
 
 
-    //remove a vendor and all associated files in server.
+    /**
+     * Removes a vendor from the DB and removes all associated tags, menus, and images
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @return a response status
+     */
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteVendor(@PathVariable("id") Integer id, HttpSession session) {
-      //  if (verifyVendor(session, vendorRepository.findOne(id))) {
+    public ResponseEntity<?> deleteVendor(@PathVariable("id") Integer id) {
+
+        if (vendorRepository.findOne(id) != null) {
 
             File path = new File("public/images/" + vendorRepository.findOne(id).getVendorName().toLowerCase().replace(" ", ""));
             deleteFilesAndDirectory(path);
 
             vendorRepository.delete(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    //    } else {
-      //      return new ResponseEntity<Object>("A vendor can only be removed by the owning vendor", HttpStatus.UNAUTHORIZED);
+        } else {
+            return new ResponseEntity<Object>("Vendor not found in DB", HttpStatus.NOT_FOUND);
+        }
         }
 
-    //add or update a location.
+    /**
+     * Add a location with expiration to a vendor
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @param location Location object that contains a lat and lng as well as a time to expire
+     * @return a vendor and sucessful response or a string and a failure response
+     */
     @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
     public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
-        //here is what is being sent, 1, 1.5, 2 etc
-//        if (vendorRepository.findOne(1).getContactEmail().equals(session.getAttribute("email"))) {
-            if (location != null && (location.getLat() >= 0 || location.getLat() <= 0 ) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
-                Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
-                Location existingLocation = locationRepository.findByVendor(vendor); //possible preexisiting location set by vendor
+        if (location != null && (location.getLat() >= 0 || location.getLat() <= 0) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
+            Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
+            Location existingLocation = locationRepository.findByVendor(vendor); //possible preexisiting location set by vendor
 
-                if (existingLocation != null) { locationRepository.delete(existingLocation); }
+            if (existingLocation != null) { locationRepository.delete(existingLocation); }
 
-                location.setVendor(vendorRepository.findOne(id));
-                double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
-                hours = hours * 60 * 60; //convert hours to seconds
-                location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
-                locationRepository.save(location);
-                return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
-            } else {
-                return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
-            }
-        } //else {
-//            return new ResponseEntity<Object>("Unauthorized vendor attempting to set location", HttpStatus.UNAUTHORIZED);
-     //   }
-   // }
-
-    //return all vendor locations
-    //actually need to return all the vendors that have a location
-    @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
-    public ResponseEntity<?> getVendorLocations() {
-        List<Location> locationList;
-        locationList = (List<Location>) locationRepository.findAll();
-        locationList.forEach(location -> {
-            if (!location.getExpiresObject().isBefore(LocalDateTime.now())) {
-                locationRepository.delete(location);
-            }
-        });
-        locationList = (List<Location>) locationRepository.findAll();
-//
-//        locationList = locationList.stream()
-//                .filter(location ->  (location.getExpiresObject().isBefore(LocalDateTime.now())))
-//                .collect(Collectors.toCollection(ArrayList<Location>::new));
-
-        return  new ResponseEntity<Object>(locationList, HttpStatus.OK);
+            location.setVendor(vendorRepository.findOne(id));
+            double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
+            hours = hours * 60 * 60; //convert hours to seconds
+            location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
+            locationRepository.save(location);
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
+        }
     }
 
+    /**
+     * Returns all vendors with locations attached
+     *
+     * @return
+     */
+    @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
+    public ResponseEntity<?> getVendorLocations() {
+        List<Location> locationList = (List<Location>) locationRepository.findAll();
+        //runs through and deletes expired vendors
+        if (locationList.size() > 0) {
+            locationList.forEach(location -> {
+                if (location.getExpiresObject().isBefore(LocalDateTime.now())) {
+                    locationRepository.delete(location);
+                }
+            });
+            locationList = (List<Location>) locationRepository.findAll();
+
+            ArrayList<VendorData> vendorDataList = null;
+
+            for (Location l : locationList) {
+                VendorData vendorData = new VendorData();
+                vendorData.setId(l.getVendor().getId());
+                vendorData.setName(l.getVendor().getVendorName());
+
+                Set<Tag> tags = tagVendorRepository.findByVendor(l.getVendor().getId());
+//                String tagsString = null;
+//
+//                for (Tag tag : tags) {
+//                    tagsString = tag.getTag() + " ";
+//                }
+                
+                vendorData.setTags(StringUtils.join(tags, ","));
+                HashMap<String, Float> location = new HashMap<>();
+                location.put("lat", l.getLat());
+                location.put("lng", l.getLng());
+                vendorData.setLocation(location);
+                vendorData.setProfileimgURL(l.getVendor().getProfilePictureLocation());
+
+                vendorDataList.add(vendorData);
+            }
+
+
+            //need vendor name
+
+            return new ResponseEntity<Object>(vendorDataList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
+        }
+    }
+
+    /**
+     * Allows a vendor to log in where they will be able to update profiled and set locations
+     *
+     * @param data hashmap of email and password
+     * @return vendor object and response status on success or string and response status if not found
+     */
     @RequestMapping(value = "/vendor/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody HashMap data) throws PasswordStorage.InvalidHashException, PasswordStorage.CannotPerformOperationException {
-
-//       //Fake it till you make it -- take this out in production
-//        if (vendorRepository.findByContactEmail("email") == null) {
-//            vendorRepository.save(new Vendor("email@email.com", "vendor",  PasswordStorage.createHash("password")));
-//        }
-
         //make connection to logging in vendor and vendors in DB
         Vendor vendor = vendorRepository.findByContactEmail((String) data.get("contactEmail"));
 
@@ -255,11 +324,7 @@ public class ChuckWagonController {
         } else {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
         }
-       // httpHeaders.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(result.getId()).toUri()); //keep an eye on this now.
     }
-
-
-
 
 
     @RequestMapping(value = "/{Location}", method = RequestMethod.GET)
@@ -270,17 +335,20 @@ public class ChuckWagonController {
 
     @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
-    //    if (verifyVendor(session, vendorRepository.findOne(id))) {
-        //
             session.invalidate();
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
-    //    } else {
-      //      return new ResponseEntity<Object>(null, HttpStatus.UNAUTHORIZED);
         }
 
 
-
-    //upload picture and house on server in a folder associated to Vendor name
+    /**
+     * Processes an image and stores to server returning a link to where it was stored
+     * Can accept a profile picture or a menu picture
+     * Send Menu object if is menu picture
+     *
+     * @param photo MultiPartFile that contains image
+     * @param vendor Vendor Object to associate image with
+     * @param m Optionally, Menu Object to associate image with
+     */
     public void photoUpload(MultipartFile photo, Vendor vendor, Optional<Menu> m) throws IOException {
 
         String filePath = (m.isPresent())

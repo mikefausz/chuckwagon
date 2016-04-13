@@ -1,6 +1,8 @@
 package com.chuckwagon.entities;
 
+import com.chuckwagon.services.TagVendorRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ import java.util.Set;
  */
 @Entity
 public class Vendor {
+
 
     @Id
     @GeneratedValue
@@ -59,9 +62,10 @@ public class Vendor {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "tag")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "tag")
     @Transient
     Set<Tag> tags;
+
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinTable(name = "TagVendor",
@@ -69,7 +73,7 @@ public class Vendor {
 //            inverseJoinColumns = @JoinColumn(name = "tag_id"))
 //    private Set<Tag> tags;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore
     private List<Location> location;
 
@@ -82,10 +86,6 @@ public class Vendor {
         this.password = password;
     }
 
-
-    public Integer getId() {
-        return id;
-    }
 
     public String getVendorName() {
         return vendorName;
@@ -135,22 +135,6 @@ public class Vendor {
         this.bio = bio;
     }
 
-    public MultipartFile getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(MultipartFile profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public String getProfilePictureLocation() {
         return profilePictureLocation;
     }
@@ -159,12 +143,28 @@ public class Vendor {
         this.profilePictureLocation = profilePictureLocation;
     }
 
+    public MultipartFile getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(MultipartFile profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     public LocalDateTime getCreated() {
         return created;
     }
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public List<Menu> getMenuList() {
@@ -183,7 +183,6 @@ public class Vendor {
         this.tags = tags;
     }
 
-
     public List<Location> getLocation() {
         return location;
     }
@@ -192,6 +191,7 @@ public class Vendor {
         this.location = location;
     }
 
-
-
+    public Integer getId() {
+        return id;
+    }
 }

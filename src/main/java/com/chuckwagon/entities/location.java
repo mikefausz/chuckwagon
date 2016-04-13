@@ -41,7 +41,7 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Vendor vendor;
 
 
