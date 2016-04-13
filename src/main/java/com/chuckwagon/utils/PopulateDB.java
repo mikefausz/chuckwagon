@@ -59,7 +59,7 @@ public class PopulateDB {
 
 
         /** Hard Coded Tags */
-        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies"};
+        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
         List<Tag> tags = null;
         if (tagRepository.count() > 0) {
             tags = (List<Tag>) tagRepository.findAll();

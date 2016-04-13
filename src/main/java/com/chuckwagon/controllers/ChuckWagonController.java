@@ -150,13 +150,17 @@ public class ChuckWagonController {
         Set<Tag> tagSet = new HashSet<>();
         //grab the tags
         String[] tags = (data.get("tags").toString().split(","));
+        if (tags.length > 0) {
+            tagVendorRepository.deleteByVendor(vendor);
+        }
 
         //add all the tags into the set
         for (String t : tags) {
-            Tag tag = new Tag(t);
+            Tag tag = tagRepository.findByTag(t);
             //check to see if tag does is not in DB at some point here.
             tagSet.add(tag);
             TagVendor tagVendor = new TagVendor(tag, vendor);
+            System.out.println(tagVendor);
             tagVendorRepository.save(tagVendor);
         }
 

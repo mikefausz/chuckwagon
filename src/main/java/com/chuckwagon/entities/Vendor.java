@@ -61,7 +61,6 @@ public class Vendor {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "tag")
     @Transient
-    @JsonIgnore
     Set<Tag> tags;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
