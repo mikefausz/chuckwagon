@@ -45,7 +45,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, HomeService) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $compile, HomeService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -75,8 +75,18 @@ angular.module('starter.controllers', [])
         var marker = new google.maps.Marker({
           position: truck.location,
           map: $scope.map,
-          title: truck.name,
         });
+
+        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+        var compiled = $compile(contentString)($scope);
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open($scope.map,marker);
+        });
+
         marker.setMap($scope.map);
       });
     }, function(error){

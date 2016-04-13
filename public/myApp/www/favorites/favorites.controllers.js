@@ -28,16 +28,20 @@ angular
 
       $scope.trucks = FavoritesService.getFavoriteTrucks();
 
-
-
-
-
       $scope.trucks.forEach(function(truck) {
         var marker = new google.maps.Marker({
           position: truck.location,
           map: $scope.map,
-          title: truck.name,
-          // icon: 'image4388.png',
+        });
+
+        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+        var compiled = $compile(contentString)($scope);
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open($scope.map,marker);
         });
 
         marker.setMap($scope.map);

@@ -1,11 +1,12 @@
 angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
-    console.log('searchOptions: ' + searchOptions);
-    window.search = searchOptions;
+    $scope.searchOptions = {};
+    console.log('searchOptions: ' + $scope.searchOptions);
+    window.search = $scope.searchOptions;
 
     // CUT THIS:
-    $scope.trucks = SearchService.all();
+    $scope.trucks = SearchService.getTrucks();
 
     // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
     // $scope.sendsearchOptions = function(searchOptions) {
@@ -49,8 +50,16 @@ angular
           var marker = new google.maps.Marker({
             position: truck.location,
             map: $scope.map,
-            title: truck.name,
-            // icon: 'image4388.png',
+          });
+
+          var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+          var compiled = $compile(contentString)($scope);
+          var infowindow = new google.maps.InfoWindow({
+            content: compiled[0]
+          });
+
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open($scope.map,marker);
           });
 
           marker.setMap($scope.map);
