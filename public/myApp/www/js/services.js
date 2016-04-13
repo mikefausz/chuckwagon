@@ -3,9 +3,9 @@ angular.module('starter.services', [])
 .factory('HomeService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
 
-  // var ip = "http://10.0.10.70:8080";
-  var ip = "http://localhost:8080";
-  var vendorsURL = ip + "/vendors";
+  var ip = "http://10.0.10.70:8080";
+  // var ip = "http://localhost:8080";
+  var vendorsURL = ip + "/vendor/location";
 
   function getTrucks() {
       var defer = $q.defer();
@@ -18,12 +18,14 @@ angular.module('starter.services', [])
       // ELSE get vendors from server, put them in cache
       else {
         console.log('no trucks in cache. getting from service');
-        // $http.get(ip + 'vendors').then(function(response) {
-        //  defer.resolve(response);
-      // });
+        $http.get(vendorsURL).then(function(response) {
         var vendors = trucks;
-        cacheEngine.put('vendors',  vendors);
-        defer.resolve(vendors);
+        cacheEngine.put('vendors',  response);
+         defer.resolve(response);
+      });
+        // var vendors = trucks;
+        // cacheEngine.put('vendors',  vendors);
+        // defer.resolve(vendors);
       }
       return defer.promise;
   }
