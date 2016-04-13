@@ -2,22 +2,17 @@ angular
     .module('favorites')
     .factory('FavoritesService', function($http, $q, $cacheFactory, $rootScope) {
 
-      // var ip = "http://10.0.10.70:8080";
-      var ip = "http://localhost:8080";
+      var ip = "http://10.0.10.70:8080";
+      // var ip = "http://localhost:8080";
       var favTrucks = [];
       function addFavoriteTruck(truckId, heart) {
         if (heart) {
-          if (!localStorage.getItem("favoriteVendors")) {
-            favTrucks.push(truckId);
-            localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks))
-            $rootScope.$broadcast('favorite:added');
-          } else {
             var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
             favArr.push(truckId);
             localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
             $rootScope.$broadcast('favorite:added');
-          }
         } else {
+          console.log("Heart is not checked");
           var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
           var index = favArr.indexOf(truckId);
           console.log(index, "INDEX OF TRUCK TO BE REMOVED");
@@ -64,7 +59,7 @@ angular
         favArr.splice(index, 1);
         localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
         $rootScope.$broadcast('favorite:removed');
-      }
+      };
 
 
       function getFavoriteTruck(truckId) {
@@ -74,7 +69,8 @@ angular
           }
         }
         return null;
-      }
+      };
+
 
       // Dummy data for development
       var trucks = [{

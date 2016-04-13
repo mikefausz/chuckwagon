@@ -2,8 +2,8 @@ angular.module('starter.services', [])
 
 .factory('HomeService', function($http, $q, $cacheFactory) {
   var cacheEngine = $cacheFactory('starter');
-  // var ip = "http://10.0.10.70:8080";
-  var ip = "http://localhost:8080";
+  var ip = "http://10.0.10.70:8080";
+  // var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
 
@@ -25,9 +25,10 @@ angular.module('starter.services', [])
         // $http.get(ip + 'vendors').then(function(response) {
         //  defer.resolve(response);
       // });
+
         var vendors = trucks;
-        cacheEngine.put('vendors',  vendors);
-        defer.resolve(vendors);
+        cacheEngine.put('vendors',  response);
+        defer.resolve(response);
       }
       return defer.promise;
   }

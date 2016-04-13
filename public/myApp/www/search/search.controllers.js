@@ -61,17 +61,19 @@ angular
   })
 
   .controller('SearchListviewCtrl', function($scope, SearchService, FavoritesService){
-    // $scope.trucks = SearchService.all();
+    SearchService.getTrucks().then(function(trucks) {
+    $scope.trucks = trucks;
     $scope.addFavoriteTruck = function (truckId, heart) {
       FavoritesService.addFavoriteTruck(truckId, heart)
     };
+  })
   })
 
   .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService, FavoritesService) {
     $scope.addFavoriteTruck = function (truckId, heart) {
       FavoritesService.addFavoriteTruck(truckId, heart)
     };
-    $scope.truck = SearchService.get($stateParams.truckId);
+    $scope.truck = SearchService.getTruck($stateParams.truckId);
 
     var mapOptions = {
       center: $scope.truck.location,
