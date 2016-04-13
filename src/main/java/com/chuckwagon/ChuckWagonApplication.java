@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin(origins = "*")
 @SpringBootApplication
 public class ChuckWagonApplication {
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(ChuckWagonApplication.class, args);
 	}

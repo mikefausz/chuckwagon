@@ -1,11 +1,11 @@
 package com.chuckwagon.entities;
 
+import com.chuckwagon.services.TagVendorRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +16,7 @@ import java.util.Set;
  */
 @Entity
 public class Vendor {
+
 
     @Id
     @GeneratedValue
@@ -53,24 +54,11 @@ public class Vendor {
     @Column(name = "active")
     private boolean isActive;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "vendor", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Menu> menuList;
-
-
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "tag")
     @Transient
-    @JsonIgnore
     Set<Tag> tags;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "tag_vendor",
-//            joinColumns = @JoinColumn(name = "vendor_id"),
-//            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-//    private Set<Tag> tags;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore
     private List<Location> location;
 
@@ -83,10 +71,6 @@ public class Vendor {
         this.password = password;
     }
 
-
-    public Integer getId() {
-        return id;
-    }
 
     public String getVendorName() {
         return vendorName;
@@ -136,28 +120,20 @@ public class Vendor {
         this.bio = bio;
     }
 
-    public MultipartFile getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(MultipartFile profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public String getProfilePictureLocation() {
         return profilePictureLocation;
     }
 
     public void setProfilePictureLocation(String profilePictureLocation) {
         this.profilePictureLocation = profilePictureLocation;
+    }
+
+    public MultipartFile getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(MultipartFile profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public LocalDateTime getCreated() {
@@ -168,12 +144,12 @@ public class Vendor {
         this.created = created;
     }
 
-    public List<Menu> getMenuList() {
-        return menuList;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setMenuList(List<Menu> menuList) {
-        this.menuList = menuList;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Set<Tag> getTags() {
@@ -184,12 +160,15 @@ public class Vendor {
         this.tags = tags;
     }
 
-
     public List<Location> getLocation() {
         return location;
     }
 
     public void setLocation(List<Location> location) {
         this.location = location;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
