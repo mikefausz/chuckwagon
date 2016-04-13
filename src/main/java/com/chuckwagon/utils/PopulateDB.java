@@ -9,6 +9,7 @@ import com.chuckwagon.services.VendorRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -58,11 +59,19 @@ public class PopulateDB {
 
 
         /** Hard Coded Tags */
-        String[] tagStrings = {"BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies"};
-        ArrayList<Tag> tags = (ArrayList<Tag>) tagRepository.findAll();
+        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies"};
+        List<Tag> tags = null;
+        if (tagRepository.count() > 0) {
+            tags = (List<Tag>) tagRepository.findAll();
+        }
         for (String s : tagStrings) {
             Tag tag = new Tag(s);
-            if (!tags.contains(tag)) tagRepository.save(tag);
+            if (tags != null) {
+                if (!tags.contains(tag)) tagRepository.save(tag);
+            } else {
+                System.out.println(tag);
+                tagRepository.save(tag);
+            }
         }
     }
 

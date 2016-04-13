@@ -65,7 +65,7 @@ public class Vendor {
     Set<Tag> tags;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "tag_vendor",
+//    @JoinTable(name = "TagVendor",
 //            joinColumns = @JoinColumn(name = "vendor_id"),
 //            inverseJoinColumns = @JoinColumn(name = "tag_id"))
 //    private Set<Tag> tags;

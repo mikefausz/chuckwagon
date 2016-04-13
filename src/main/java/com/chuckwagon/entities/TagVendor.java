@@ -7,7 +7,8 @@ import javax.persistence.*;
  */
 
 @Entity
-public class tag_vendor {
+@Table(name = "tag_vendor")
+public class TagVendor {
 
     @Id
     @GeneratedValue
@@ -20,10 +21,10 @@ public class tag_vendor {
     private Vendor vendor;
 
 
-    public tag_vendor() {
+    public TagVendor() {
     }
 
-    public tag_vendor(Tag tag, Vendor vendor) {
+    public TagVendor(Tag tag, Vendor vendor) {
         this.tag = tag;
         this.vendor = vendor;
     }
@@ -51,7 +52,7 @@ public class tag_vendor {
 
     @Override
     public String toString() {
-        return "tag_vendor{" +
+        return "TagVendor{" +
                 "id=" + id +
                 ", tag=" + tag +
                 ", vendor=" + vendor +

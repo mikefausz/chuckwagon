@@ -21,7 +21,6 @@ public class Tag {
     @Column(nullable = false)
     private String tag;
 
-
     public Tag() {
     }
 
@@ -33,6 +32,10 @@ public class Tag {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTag() {
         return tag;
     }
@@ -42,13 +45,6 @@ public class Tag {
     }
 
 
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", tag='" + tag + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -56,6 +52,8 @@ public class Tag {
         if (o == null || getClass() != o.getClass()) return false;
 
         Tag tag1 = (Tag) o;
+
+        if (tag1.getTag().equals(((Tag) o).getTag())) return true;
 
         return tag.equals(tag1.tag);
 

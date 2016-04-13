@@ -3,6 +3,7 @@ package com.chuckwagon;
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Menu;
 import com.chuckwagon.entities.Vendor;
+import com.chuckwagon.services.TagVendorRepository;
 import com.chuckwagon.services.VendorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
@@ -45,6 +46,8 @@ public class ChuckWagonApplicationTests {
 
     @Autowired
     private VendorRepository vendorRepository;
+    @Autowired
+    private TagVendorRepository tagVendorRepository;
 
     @Autowired
     WebApplicationContext wap;
@@ -147,6 +150,29 @@ public class ChuckWagonApplicationTests {
                         .content(json)
                         .contentType("application/json")
         ).andExpect(status().is(202));
+    }
+
+    @Test
+    public void hEditVendorTagTest() throws Exception {
+        HashMap m = new HashMap();
+        HashMap v = new HashMap();
+        String[] t = {"BBQ", "Pizza"};
+        v.put("bio", "This is the bio");
+        v.put("profilePictureURL", "http://www.google.com");
+        m.put("vendor", v);
+        m.put("tags", t);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(m);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("vendor/1")
+                .content(json)
+                .contentType("application.json")
+        ).andExpect(status().is2xxSuccessful());
+
+        Assert.assertTrue(tagVendorRepository.count() == 2);
+
     }
 
 

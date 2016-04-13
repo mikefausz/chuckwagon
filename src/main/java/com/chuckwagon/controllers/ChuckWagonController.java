@@ -12,14 +12,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.chuckwagon.entities.Location;
-import com.chuckwagon.entities.Menu;
-import com.chuckwagon.entities.Tag;
-import com.chuckwagon.entities.Vendor;
-import com.chuckwagon.services.LocationRepository;
-import com.chuckwagon.services.MenuRepository;
-import com.chuckwagon.services.TagRepository;
-import com.chuckwagon.services.VendorRepository;
+import com.chuckwagon.entities.*;
+import com.chuckwagon.services.*;
 import com.chuckwagon.utils.EmailUtils;
 import com.chuckwagon.utils.PasswordStorage;
 import com.chuckwagon.utils.PopulateDB;
@@ -44,14 +38,18 @@ public class ChuckWagonController {
     private final MenuRepository menuRepository;
     private final LocationRepository locationRepository;
     private final TagRepository tagRepository;
+    private final TagVendorRepository tagVendorRepository;
 
     //Autowire in repos
     @Autowired
-    ChuckWagonController(VendorRepository vendorRepository, MenuRepository menuRepository, LocationRepository locationRepository, TagRepository tagRepository) {
+    ChuckWagonController(VendorRepository vendorRepository, MenuRepository menuRepository,
+                         LocationRepository locationRepository, TagRepository tagRepository,
+                         TagVendorRepository tagVendorRepository) {
         this.vendorRepository = vendorRepository;
         this.menuRepository = menuRepository;
         this.locationRepository = locationRepository;
         this.tagRepository = tagRepository;
+        this.tagVendorRepository = tagVendorRepository;
     }
     /** this area is for viewing DB in web browser */
 
@@ -158,6 +156,8 @@ public class ChuckWagonController {
             Tag tag = new Tag(t);
             //check to see if tag does is not in DB at some point here.
             tagSet.add(tag);
+            TagVendor tagVendor = new TagVendor(tag, vendor);
+            tagVendorRepository.save(tagVendor);
         }
 
         vendor.setBio((String) data.get("bio"));
@@ -171,7 +171,7 @@ public class ChuckWagonController {
 
         vendorRepository.save(vendor);
 
-        return new ResponseEntity<Object>("updated", HttpStatus.ACCEPTED);
+        return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
     }
 
 
