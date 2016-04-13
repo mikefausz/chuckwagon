@@ -94,9 +94,9 @@ angular.module('starter.controllers', [])
   $scope.remove = function(truck) {
     HomeService.remove(truck);
   };
-  $scope.addFavoriteTruck = function (truckId) {
-    FavoritesService.addFavoriteTruck(truckId)
-};
+  $scope.addFavoriteTruck = function (truckId, heart) {
+    FavoritesService.addFavoriteTruck(truckId, heart)
+  };
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {

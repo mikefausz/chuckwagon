@@ -5,23 +5,45 @@ angular
       // var ip = "http://10.0.10.70:8080";
       var ip = "http://localhost:8080";
       var favTrucks = [];
-      function addFavoriteTruck(truckId) {
-        if (!localStorage.getItem("favoriteVendors")) {
-          favTrucks.push(truckId);
-          localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks))
-          $rootScope.$broadcast('favorite:added');
+      function addFavoriteTruck(truckId, heart) {
+        if (heart) {
+          if (!localStorage.getItem("favoriteVendors")) {
+            favTrucks.push(truckId);
+            localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks))
+            $rootScope.$broadcast('favorite:added');
+          } else {
+            var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
+            favArr.push(truckId);
+            localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
+            $rootScope.$broadcast('favorite:added');
+          }
         } else {
           var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
-          favArr.push(truckId);
+          var index = favArr.indexOf(truckId);
+          console.log(index, "INDEX OF TRUCK TO BE REMOVED");
+          favArr.splice(index, 1);
           localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
-          $rootScope.$broadcast('favorite:added');
+          $rootScope.$broadcast('favorite:removed');
         }
+
       }
+      // function addFavoriteTruck(truckId) {
+      //   if (!localStorage.getItem("favoriteVendors")) {
+      //     favTrucks.push(truckId);
+      //     localStorage.setItem("favoriteVendors", JSON.stringify(favTrucks))
+      //     $rootScope.$broadcast('favorite:added');
+      //   } else {
+      //     var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
+      //     favArr.push(truckId);
+      //     localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
+      //     $rootScope.$broadcast('favorite:added');
+      //   }
+      // }
 
       function getFavoriteTrucks() {
-          // IF cache already contains vendors, use those
         var favoriteVendorIds = JSON.parse(localStorage.getItem("favoriteVendors"));
         console.log('fav vendor ids', favoriteVendorIds);
+        // IF cache already contains vendors, use those
           if(favoriteVendorIds) {
             var favorites = trucks.filter(function(truck) {
               return favoriteVendorIds.indexOf(truck.id) > -1;
@@ -29,12 +51,21 @@ angular
             console.log(favorites);
             return favorites;
 
-          }
-          // ELSE get vendors from server, put them in cache
-          else {
+        // ELSE get vendors from server, put them in cache
+          } else {
             return [];
-            }
+          }
+      };
+
+      function removeFavoriteTruck(truckId) {
+        var favArr = JSON.parse(localStorage.getItem('favoriteVendors'))
+        var index = favArr.indexOf(truckId);
+        console.log(index, "INDEX OF TRUCK TO BE REMOVED");
+        favArr.splice(index, 1);
+        localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
+        $rootScope.$broadcast('favorite:removed');
       }
+
 
       function getFavoriteTruck(truckId) {
         for (var i = 0; i < trucks.length; i++) {
@@ -86,6 +117,7 @@ angular
       return {
         getFavoriteTrucks: getFavoriteTrucks,
         getFavoriteTruck: getFavoriteTruck,
-        addFavoriteTruck: addFavoriteTruck
+        addFavoriteTruck: addFavoriteTruck,
+        removeFavoriteTruck: removeFavoriteTruck
       };
     });
