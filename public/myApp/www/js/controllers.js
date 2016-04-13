@@ -99,11 +99,14 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {
+.controller('DetailviewCtrl', function($scope, $stateParams, HomeService, FavoritesService) {
   // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
   //   viewData.enableBack = true;
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
+  $scope.addFavoriteTruck = function (truckId, heart) {
+    FavoritesService.addFavoriteTruck(truckId, heart)
+  };
 
   var mapOptions = {
     center: $scope.truck.location,

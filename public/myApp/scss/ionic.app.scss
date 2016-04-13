@@ -120,7 +120,13 @@ img.truck-toggle {
 }
 
 .heart {
-  color: red !important;
+  color: $assertive !important;
+}
+
+.detail-heart {
+  font-size: 41px;
+  float: right;
+  margin: 9px;
 }
 
 #chuckwagon-logo {
