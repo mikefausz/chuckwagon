@@ -8,12 +8,16 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
   'ionic',
+  'ngMessages',
+  'ngSanitize',
   'starter.controllers',
   'starter.services',
   'ngCordova',
   'search',
   'favorites',
-  'vendor'
+  'vendor',
+  'ui.bootstrap'
+  // 'ngAnimate'
 ])
 
 .run(function($ionicPlatform) {
