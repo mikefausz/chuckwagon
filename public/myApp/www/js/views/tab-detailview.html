@@ -10,6 +10,7 @@
       <div id="detail-header">
         <img ng-src="{{truck.profileImg}}">
         <h3>{{truck.name}}</h3>
+        <h4><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></h4>
         <label ng-click="addFavoriteTruck(truck.id, heart)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="detail-heart">
           <input ng-model="heart" style="display:none;" type="checkbox">
         </label>

@@ -1,7 +1,9 @@
 angular
   .module('favorites')
   .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
-
+    // if(!localStorage.getItem('favoriteVendors')) {
+    //   localStorage.setItem('favoriteVendors', []);
+    // }
 
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
@@ -26,40 +28,52 @@ angular
 
       marker.setMap($scope.map);
 
-      $scope.trucks = FavoritesService.getFavoriteTrucks();
 
+      FavoritesService.getFavoriteTrucks().then(function(trucks) {
+        $scope.trucks = trucks;
+        $scope.trucks.forEach(function(truck) {
+          var marker = new google.maps.Marker({
+            position: truck.location,
+            map: $scope.map,
+            icon: 'icon-tutone.png',
+          });
 
+          var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+          var compiled = $compile(contentString)($scope);
+          var infowindow = new google.maps.InfoWindow({
+            content: compiled[0]
+          });
 
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open($scope.map,marker);
+          });
 
-
-      $scope.trucks.forEach(function(truck) {
-        var marker = new google.maps.Marker({
-          position: truck.location,
-          map: $scope.map,
-          title: truck.name,
-          // icon: 'image4388.png',
+          marker.setMap($scope.map);
         });
-
-        marker.setMap($scope.map);
-      });
-      }, function(error){
-      console.log("Could not get location");
-    });
+        }, function(error){
+        console.log("Could not get location");
+        });
+      })
   })
 
   .controller('FavListviewCtrl', function($scope, FavoritesService){
 
-      $scope.trucks = FavoritesService.getFavoriteTrucks();
+      FavoritesService.getFavoriteTrucks().then(function(trucks) {
+        $scope.trucks = trucks;
+      })
       console.log($scope.trucks);
       window.favorits = $scope.trucks;
       $scope.$on('favorite:added', function () {
-        $scope.trucks = FavoritesService.getFavoriteTrucks();
-      })
+        FavoritesService.getFavoriteTrucks().then(function(trucks) {
+          $scope.trucks = trucks;
+        })      })
       $scope.removeFavoriteTruck = function(truckId) {
         FavoritesService.removeFavoriteTruck(truckId)
       };
       $scope.$on('favorite:removed', function () {
-        $scope.trucks = FavoritesService.getFavoriteTrucks();
+        FavoritesService.getFavoriteTrucks().then(function(trucks) {
+          $scope.trucks = trucks;
+        })
       })
   })
 
