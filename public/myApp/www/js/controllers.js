@@ -6,12 +6,6 @@ angular.module('starter.controllers', [])
   $scope.vendorMode = false;
   window.localStorage.vendorLoggedIn = false;
 
-  // $scope.logoutVendor = function() {
-  //   HomeService.logoutVendor();
-  //   $scope.toggleVendorView();
-  //   localStorage.vendorLoggedIn = false;
-  // };
-
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
@@ -78,7 +72,7 @@ angular.module('starter.controllers', [])
           icon: 'icon-tutone.png',
         });
 
-        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
         var compiled = $compile(contentString)($scope);
         var infowindow = new google.maps.InfoWindow({
           content: compiled[0]

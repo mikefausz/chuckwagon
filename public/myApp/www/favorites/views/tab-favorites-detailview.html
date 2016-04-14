@@ -9,8 +9,8 @@
     <div id="detailview">
       <div id="detail-header">
         <img ng-src="{{truck.profileImg}}">
-        <h3>{{truck.name}}</h3>
-        <h4>{{truck.tags}}</h4>
+        <h3>{{truck.vendorName}}</h3>
+        <h4><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></h4>
       </div>
       <p>
         {{truck.bio}}
@@ -18,9 +18,9 @@
       <div id="map-detail"></div>
       <div class="card">
         <div class="item item-text-wrap">
-          <h4>Friday, April 8</h4>
-          <h3>We got shrimp poboys today. Get em while they last!</h3>
-          <img ng-src="{{truck.profileImg}}">
+          <h4>{{ truck.location.timestamp }}</h4>
+          <h3>{{ truck.message }}</h3>
+          <img ng-src="{{ truck.imageUrl }}">
         </div>
       </div>
 

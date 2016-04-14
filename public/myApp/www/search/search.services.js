@@ -8,7 +8,7 @@ angular
 
       function sendSearchOptions(processedOptions) {
         var defer = $q.defer();
-        $http.post(searchUrl, processedOptions).then(function(response) {
+        $http.post(searchURL, processedOptions).then(function(response) {
           if(trucks) {
             console.log("got trucks from server");
           } else {

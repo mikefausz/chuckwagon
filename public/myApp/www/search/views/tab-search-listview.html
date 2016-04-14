@@ -4,8 +4,8 @@
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap">
         <a ng-href="#/tab/search-list/{{truck.id}}">
           <img class="search-img" ng-src="{{truck.profileImg}}">
-        <h2>{{truck.name}}</h2>
-        <p>{{truck.tags}}</p>
+        <h2>{{truck.vendorName}}</h2>
+        <h4><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></h4>
       </a>
         <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
         <label ng-click="addFavoriteTruck(truck.id, heart)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="icon">
