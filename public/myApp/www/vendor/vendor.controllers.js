@@ -49,35 +49,51 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, TruckService){
-
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
     })
 
     .controller('EditCtrl', function($scope, VendorService){
+      // Get current vendor from localStorage, clear tags for edit
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
-      window.currentVendor = $scope.currentVendor;
-      var id = $scope.currentVendor.id;
+      $scope.currentVendor.tags = [];
 
+      // Declare edited vendor object, tags as an array
       $scope.editedVendor = {};
       $scope.editedVendor.tags = [];
-      
+
       $scope.editVendor = function(editedVendor) {
-        console.log(editedVendor);
-        window.tags = editedVendor.tags;
-        var tagStr = '';
-        editedVendor.tags.forEach(function(tag) {
-          tagStr += tag + ',';
+        // Process tag checkboxes
+        var tagArr = [];
+        editedVendor.tags.forEach(function(tag, idx) {
+          // If a tag is selected
+          if (tag) {
+            // Process for back-end
+            tagArr.push(
+              {
+                id: idx,
+                tag: tag
+              });
+            // Also push to front-end
+            $scope.currentVendor.tags.push(tag);
+          }
         });
+
+        // Format vendor edit info for back-end
         var processedVendor = {
           vendor: {
             bio: editedVendor.bio,
             profilePictureLocation: editedVendor.profilePictureLocation,
           },
-          tags: tagStr,
+          tags: tagArr,
         };
-        console.log(processedVendor);
+
+        // Send processed vendor edit data to server
+        var id = $scope.currentVendor.id;
         VendorService.editVendor(processedVendor, id);
-        console.log(processedVendor, id);
-        window.editVendor = processedVendor;
+
+        // Grab edit data, save changes in localStorage
+        $scope.currentVendor.bio = editedVendor.bio;
+        $scope.currentVendor.profilePictureLocation = editedVendor.profilePictureLocation;
+        localStorage.currentVendor = $scope.currentVendor;
       };
     });

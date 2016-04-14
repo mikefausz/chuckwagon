@@ -34,25 +34,17 @@ angular
   }
 
   function logoutVendor(){
+    window.localStorage.vendorLoggedIn = false;
+    window.localStorage.currentVendor = '';
     var vendor = JSON.parse(localStorage.currentVendor);
     var logoutUrl = "/vendor/" + vendor.id + "/logout";
     // Hit logout route
     $http.post(logoutUrl);
-    window.localStorage.vendorLoggedIn = false;
-    window.localStorage.currentVendor = '';
+
     console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
   }
 
   function editVendor(editedVendor, vendorId){
-    window.edit = editedVendor;
-    // var fakeVendor = {
-    //   vendor: {
-    //     profileImgURL: 'http://i.imgur.com/Y4cxkit.png',
-    //     bio:'CRWISPY'
-    //   },
-    //   tags: "Burritos,Omelettes,Fritattas",
-    // };
-    // console.log(fakeVendor);
     var url = ip + "/vendor/" + vendorId;
     $http.put(url, editedVendor);
   }
