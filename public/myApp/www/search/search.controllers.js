@@ -1,11 +1,9 @@
 angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
-    console.log('searchOptions: ' + searchOptions);
-    window.search = searchOptions;
 
     // CUT THIS:
-    $scope.trucks = SearchService.all();
+    // $scope.trucks = SearchService.all();
 
     // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
     // $scope.sendsearchOptions = function(searchOptions) {
@@ -62,16 +60,20 @@ angular
     });
   })
 
-  .controller('SearchListviewCtrl', function($scope, SearchService){
-    $scope.trucks = SearchService.all();
-
+  .controller('SearchListviewCtrl', function($scope, SearchService, FavoritesService){
+    SearchService.getTrucks().then(function(trucks) {
+    $scope.trucks = trucks;
+    $scope.addFavoriteTruck = function (truckId, heart) {
+      FavoritesService.addFavoriteTruck(truckId, heart)
+    };
+  })
   })
 
-  .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService) {
-    // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    //   viewData.enableBack = true;
-    // });
-    $scope.truck = SearchService.get($stateParams.truckId);
+  .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService, FavoritesService) {
+    $scope.addFavoriteTruck = function (truckId, heart) {
+      FavoritesService.addFavoriteTruck(truckId, heart)
+    };
+    $scope.truck = SearchService.getTruck($stateParams.truckId);
 
     var mapOptions = {
       center: $scope.truck.location,
