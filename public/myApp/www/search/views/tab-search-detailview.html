@@ -1,15 +1,12 @@
-<!--
-  This template loads for the 'tab.detailview' state (app.js)
-  'truck' is a $scope variable created in the ListviewCtrl controller (controllers.js)
-  The ListviewCtrl pulls data from the TruckService(service.js)
-  The TruckService returns an array of vendor data
--->
 <ion-view view-title="{{truck.name}}">
   <ion-content class="padding">
     <div id="detailview">
       <div id="detail-header">
         <img ng-src="{{truck.profileImg}}">
         <h3>{{truck.name}}</h3>
+        <label ng-click="addFavoriteTruck(truck.id, heart)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="detail-heart">
+          <input ng-model="heart" style="display:none;" type="checkbox">
+        </label>
         <h4>{{truck.tags}}</h4>
       </div>
       <p>
@@ -23,8 +20,6 @@
           <img ng-src="{{truck.profileImg}}">
         </div>
       </div>
-
-
     </div>
   </ion-content>
 </ion-view>
