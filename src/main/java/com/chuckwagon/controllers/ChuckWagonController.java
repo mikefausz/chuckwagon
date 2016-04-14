@@ -178,30 +178,30 @@ public class ChuckWagonController {
 
         Vendor vendor = vendorRepository.findOne(id);  //reference to the vendor we are editing
 
-
         if (vendor != null) {
-            Set<Tag> tagSet = new HashSet<>(); //empty hashset
 
-            String[] tags = (data.get("tags").toString().split(","));  //grab the tags from client
+            ArrayList<HashMap> tags = (ArrayList<HashMap>) data.get("tags");
+
+            List<String> tagsList = new ArrayList<>();
 
             tagVendorRepository.deleteByVendor(vendor); //remove current tags from DB
 
             //add all the tags into the set and add to DB
-            for (String t : tags) {
-                Tag tag = tagRepository.findByTag(t);
+            for (HashMap t : tags) {
+                Tag tag = tagRepository.findByTag((String) t.get("tag"));
                 //check to see if tag does is not in DB at some point here.
-                tagSet.add(tag);
                 TagVendor tagVendor = new TagVendor(tag, vendor);
+                tagsList.add(tag.getTag());
                 tagVendorRepository.save(tagVendor);
             }
 
             //reset vendor fields
             HashMap vend = (HashMap) data.get("vendor"); //map of the vendor
             vendor.setBio((String) vend.get("bio"));
-            vendor.setProfilePictureLocation((String) vend.get("profileImgURL"));
-            vendor.setTags(tagSet);
+            vendor.setProfilePictureLocation((String) vend.get("profilePictureLocation"));
 
             vendorRepository.save(vendor); //save vendor
+            vendor.setTagsList(tagsList);
 
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
@@ -261,15 +261,15 @@ public class ChuckWagonController {
      * Returns a special object that the Front End requires.
      * Object contains vendors and locations of vendors
      *
+     * i don't really liek the way I am dong this, looking for better method
+     *
      * @return
      */
     @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
     public ResponseEntity<?> getVendorLocations() {
 
         List<Location> locationList = removeExpiredVendors();
-
         if (locationList.size() > 0) {
-
             //list to hold special object that describes what the FE wants
             ArrayList<VendorData> vendorDataList = new ArrayList<>();
 
@@ -277,28 +277,18 @@ public class ChuckWagonController {
             for (Location l : locationList) {
                 VendorData vendorData = new VendorData();
                 vendorData.setId(l.getVendor().getId());
-                vendorData.setName(l.getVendor().getVendorName());
+                vendorData.setVendorName(l.getVendor().getVendorName());
 
                 List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(l.getVendor());
-                Set<Tag> tagSet = new HashSet<>();
+                List<String> tagList = tagVendorList.stream().map(t -> t.getTag().getTag()).collect(Collectors.toList());
 
-                for (TagVendor tv : tagVendorList) {
-                    tagSet.add(tv.getTag());
-
-                }
-//                if (tags.size() > 0 ) {
-//                    vendorData.setTags(StringUtils.join(tags, ","));
-//                }
-//                for (Tag tag : tags) {
-//
-//                }
-                vendorData.setTags(tagSet);
+                vendorData.setTags(tagList);
 
                 HashMap<String, Float> location = new HashMap<>();
                 location.put("lat", l.getLat());
                 location.put("lng", l.getLng());
                 vendorData.setLocation(location);
-                vendorData.setProfileImgURL(l.getVendor().getProfilePictureLocation());
+                vendorData.setProfilePictureLocation(l.getVendor().getProfilePictureLocation());
                 vendorData.setBio(l.getVendor().getBio());
 
                 vendorDataList.add(vendorData);
@@ -428,11 +418,32 @@ public class ChuckWagonController {
      *
      *Catch all route for request method options
      */
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
-    public void manageOptions(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    }
+//    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+//    public void manageOptions(HttpServletResponse response) {
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+//    }
+//
+//
+//    public VendorData createVendorDataObject(Vendor vendor) {
+//        VendorData vendorData = new VendorData();
+//
+//        vendorData.setId(vendor.getId());
+//        vendorData.setVendorName(vendor.getVendorName());
+//        vendorData.setBio(vendor.getBio());
+//        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
+//
+//
+//
+//        HashMap<String, Float> location = new HashMap<>();
+//        location.put("lat", vendor.getLocation().get(0).getLat());
+//        location.put("lng", vendor.getLocation().get(1).getLng());
+//
+//
+//
+//
+//        return vendorData;
+//    }
 
 
     //unique id on each device, need Cordova plug in.

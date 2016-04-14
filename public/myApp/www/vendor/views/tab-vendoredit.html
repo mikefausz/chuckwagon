@@ -3,7 +3,7 @@
   <div class="list">
     <h3>{{ currentVendor.vendorName }}</h3>
     <h3>{{ currentVendor.contactEmail }}</h3>
-    <input ng-model="vendor.profImg" type="file" name="name" value="">
+    <input ng-model="vendor.profImg" type="file" vendorName="vendorName" value="">
     <label class="item item-input">
       <input type="text" ng-model="editedVendor.bio" value="vendor.bio">
     </label>
@@ -83,8 +83,8 @@
     </div>
   </div>
 
-  <button ng-click="editVendor(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
-  <button class="button button-block button-calm" type="submit" name="button">CANCEL</button>
+  <button ng-click="editVendor(vendor)" class="button button-block button-calm" type="submit" vendorName="button">SUBMIT CHANGES</button>
+  <button class="button button-block button-calm" type="submit" vendorName="button">CANCEL</button>
 
   </ion-content>
 </ion-view>

@@ -23,7 +23,7 @@
 This directory may contain scripts used to customize cordova commands. This
 directory used to exist at `.cordova/hooks`, but has now been moved to the
 project root. Any scripts you add to these directories will be executed before
-and after the commands corresponding to the directory name. Useful for
+and after the commands corresponding to the directory vendorName. Useful for
 integrating your own build systems or integrating with version control systems.
 
 __Remember__: Make your scripts executable.

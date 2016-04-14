@@ -372,9 +372,9 @@
  -webkit-animation-fill-mode: $fill-mode;
          animation-fill-mode: $fill-mode;
 }
-@mixin animation-name($name...) {
- -webkit-animation-name: $name;
-         animation-name: $name;
+@mixin animation-vendorName($vendorName...) {
+ -webkit-animation-vendorName: $vendorName;
+         animation-vendorName: $vendorName;
 }
 @mixin animation-iteration-count($count) {
  -webkit-animation-iteration-count: $count;
