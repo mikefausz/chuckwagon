@@ -61,15 +61,13 @@ angular
       FavoritesService.getFavoriteTrucks().then(function(trucks) {
         $scope.trucks = trucks;
       })
-      console.log($scope.trucks);
-      window.favorits = $scope.trucks;
       $scope.$on('favorite:added', function () {
         FavoritesService.getFavoriteTrucks().then(function(trucks) {
           $scope.trucks = trucks;
         })      })
-      $scope.removeFavoriteTruck = function(truckId) {
-        FavoritesService.removeFavoriteTruck(truckId)
-      };
+        $scope.addFavoriteTruck = function (truckId, heart) {
+          FavoritesService.addFavoriteTruck(truckId, heart)
+        };
       $scope.$on('favorite:removed', function () {
         FavoritesService.getFavoriteTrucks().then(function(trucks) {
           $scope.trucks = trucks;
@@ -77,11 +75,19 @@ angular
       })
   })
 
-  .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService) {
+  .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService, HomeService) {
     // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     //   viewData.enableBack = true;
     // });
-    $scope.truck = FavoritesService.getFavoriteTruck($stateParams.truckId);
+  $scope.truck = HomeService.getTruck($stateParams.truckId);
+
+    $scope.$on('favorite:added', function () {
+      FavoritesService.getFavoriteTrucks().then(function(trucks) {
+        $scope.trucks = trucks;
+      })      })
+      $scope.addFavoriteTruck = function (truckId, heart) {
+        FavoritesService.addFavoriteTruck(truckId, heart)
+      };
 
     var mapOptions = {
       // center: {lat: -34.397, lng: 150.644},

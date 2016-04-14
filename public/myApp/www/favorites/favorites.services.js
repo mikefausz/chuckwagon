@@ -1,6 +1,6 @@
 angular
     .module('favorites')
-    .factory('FavoritesService', function($http, $q, $cacheFactory, $rootScope, HomeService) {
+    .factory('FavoritesService', function($http, $q, $cacheFactory, $rootScope, HomeService, $compile) {
 
       var ip = "http://10.0.10.70:8080";
       // var ip = "http://localhost:8080";
@@ -18,9 +18,8 @@ angular
           console.log(index, "INDEX OF TRUCK TO BE REMOVED");
           favArr.splice(index, 1);
           localStorage.setItem("favoriteVendors", JSON.stringify(favArr));
-          $rootScope.$broadcast('favorite:removed');
+          $rootScope.$broadcast('favorite:added');
         }
-
       }
       // function addFavoriteTruck(truckId) {
       //   if (!localStorage.getItem("favoriteVendors")) {
