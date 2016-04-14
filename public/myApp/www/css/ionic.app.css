@@ -165,7 +165,12 @@ img.truck-toggle {
   border-radius: 50%; }
 
 .heart {
-  color: red !important; }
+  color: #f0533d !important; }
+
+.detail-heart {
+  font-size: 41px;
+  float: right;
+  margin: 9px; }
 
 #chuckwagon-logo {
   width: 60%;

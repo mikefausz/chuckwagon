@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
     marker.setMap($scope.map);
 
     HomeService.getTrucks().then(function(response) {
-      $scope.trucks = response.data;
+      $scope.trucks = response;
       $scope.trucks.forEach(function(truck) {
         var marker = new google.maps.Marker({
           position: truck.location,
@@ -86,24 +86,35 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ListviewCtrl', function($scope, HomeService, FavoritesService){
-  HomeService.getTrucks().then(function (truckys) {
-    console.log(truckys);
-    $scope.trucks = truckys;
+  HomeService.getTrucks().then(function (trucks) {
+    $scope.trucks = trucks;
   });
-  console.log('trucks', $scope.trucks);
   $scope.remove = function(truck) {
     HomeService.remove(truck);
   };
-  $scope.addFavoriteTruck = function (truckId) {
-    FavoritesService.addFavoriteTruck(truckId)
-};
+  $scope.addFavoriteTruck = function (truckId, heart) {
+    FavoritesService.addFavoriteTruck(truckId, heart)
+  };
+  $scope.isFavorites = function(truckId) {
+    if (localStorage.favoriteVendors) {
+      // console.log("Fav vendors is there");
+      return localStorage.favoriteVendors.indexOf(truckId) !== -1;
+    } else {
+      console.log("Fav vendors not there");
+      return false;
+    }
+   }
 })
 
-.controller('DetailviewCtrl', function($scope, $stateParams, HomeService) {
+.controller('DetailviewCtrl', function($scope, $stateParams, HomeService, FavoritesService) {
   // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
   //   viewData.enableBack = true;
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
+  window.glob = $scope.truck;
+  $scope.addFavoriteTruck = function (truckId, heart) {
+    FavoritesService.addFavoriteTruck(truckId, heart)
+  };
 
   var mapOptions = {
     center: $scope.truck.location,
