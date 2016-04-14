@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
     marker.setMap($scope.map);
 
     HomeService.getTrucks().then(function(response) {
-      $scope.trucks = response.data;
+      $scope.trucks = response;
       $scope.trucks.forEach(function(truck) {
         var marker = new google.maps.Marker({
           position: truck.location,
@@ -111,6 +111,7 @@ angular.module('starter.controllers', [])
   //   viewData.enableBack = true;
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
+  window.glob = $scope.truck;
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart)
   };
