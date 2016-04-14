@@ -20,7 +20,10 @@ angular.module('starter.services', [])
         console.log('no trucks in cache. getting from service');
         $http.get(vendorsURL).then(function(response) {
           var trucks = response.data;
-          var favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          var favArr = [];
+          if (localStorage.getItem("favoriteVendors")) {
+            favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          }
           trucks.forEach(function(truck) {
             if(favArr.indexOf(truck.id)>-1) {
               truck.heart = true;
@@ -28,6 +31,7 @@ angular.module('starter.services', [])
               truck.heart = false;
             }
           });
+
           cacheEngine.put('vendors',  trucks);
           defer.resolve(trucks);
       });

@@ -1,7 +1,9 @@
 angular
   .module('favorites')
   .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
-
+    if(!localStorage.getItem('favoriteVendors')) {
+      localStorage.setItem('favoriteVendors', []);
+    }
 
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
