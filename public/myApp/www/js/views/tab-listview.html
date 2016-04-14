@@ -1,4 +1,4 @@
-qq<ion-view view-title="Home List">
+<ion-view view-title="Home List">
   <ion-content>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap">
@@ -8,12 +8,9 @@ qq<ion-view view-title="Home List">
         <p><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></p>
       </a>
         <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
-        <label ng-click="addFavoriteTruck(truck.id)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="icon">
+        <label ng-click="addFavoriteTruck(truck.id, heart)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="icon">
           <input ng-model="heart" style="display:none;" type="checkbox">
         </label>
-        <ion-option-button class="button-assertive" ng-click="remove(truck)">
-          Delete
-        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

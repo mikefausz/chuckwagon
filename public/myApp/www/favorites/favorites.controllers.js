@@ -60,6 +60,12 @@ angular
       $scope.$on('favorite:added', function () {
         $scope.trucks = FavoritesService.getFavoriteTrucks();
       })
+      $scope.removeFavoriteTruck = function(truckId) {
+        FavoritesService.removeFavoriteTruck(truckId)
+      };
+      $scope.$on('favorite:removed', function () {
+        $scope.trucks = FavoritesService.getFavoriteTrucks();
+      })
   })
 
   .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService) {

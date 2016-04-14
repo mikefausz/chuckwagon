@@ -1,6 +1,7 @@
 angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
+<<<<<<< HEAD
     $scope.searchOptions = {};
     console.log('searchOptions: ' + $scope.searchOptions);
     window.search = $scope.searchOptions;
@@ -8,6 +9,11 @@ angular
     // Declare edited vendor object, tags as an array
     $scope.searchOptions = {};
     $scope.searchOptions.tags = [];
+=======
+
+    // CUT THIS:
+    // $scope.trucks = SearchService.all();
+>>>>>>> c213a7ed594a0c3e159214e01e6f3eb562653dc1
 
     // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
     $scope.sendSearchOptions = function(searchOptions) {
@@ -95,15 +101,19 @@ angular
     });
   })
 
-  .controller('SearchListviewCtrl', function($scope, SearchService){
-    $scope.trucks = SearchService.getTrucksFromCache();
-
+  .controller('SearchListviewCtrl', function($scope, SearchService, FavoritesService){
+    SearchService.getTrucks().then(function(trucks) {
+      $scope.trucks = trucks;
+      $scope.addFavoriteTruck = function (truckId, heart) {
+        FavoritesService.addFavoriteTruck(truckId, heart);
+      };
+    });
   })
 
-  .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService) {
-    // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    //   viewData.enableBack = true;
-    // });
+  .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService, FavoritesService) {
+    $scope.addFavoriteTruck = function (truckId, heart) {
+      FavoritesService.addFavoriteTruck(truckId, heart);
+    };
     $scope.truck = SearchService.getTruck($stateParams.truckId);
 
     var mapOptions = {
