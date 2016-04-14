@@ -63,6 +63,9 @@ public class Vendor {
     @JsonIgnore
     private List<Location> location;
 
+    @Transient
+    private Location currentLocation;
+
     public Vendor() {
     }
 
@@ -179,5 +182,13 @@ public class Vendor {
 
     public void setTagsList(List<String> tagsList) {
         this.tagsList = tagsList;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = getLocation().get(0);
     }
 }

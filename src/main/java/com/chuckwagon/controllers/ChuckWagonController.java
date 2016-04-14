@@ -261,7 +261,7 @@ public class ChuckWagonController {
      * Returns a special object that the Front End requires.
      * Object contains vendors and locations of vendors
      *
-     * i don't really liek the way I am dong this, looking for better method
+     * i don't really like the way I am dong this, looking for better method
      *
      * @return
      */
@@ -418,32 +418,30 @@ public class ChuckWagonController {
      *
      *Catch all route for request method options
      */
-//    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
-//    public void manageOptions(HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//    }
-//
-//
-//    public VendorData createVendorDataObject(Vendor vendor) {
-//        VendorData vendorData = new VendorData();
-//
-//        vendorData.setId(vendor.getId());
-//        vendorData.setVendorName(vendor.getVendorName());
-//        vendorData.setBio(vendor.getBio());
-//        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
-//
-//
-//
-//        HashMap<String, Float> location = new HashMap<>();
-//        location.put("lat", vendor.getLocation().get(0).getLat());
-//        location.put("lng", vendor.getLocation().get(1).getLng());
-//
-//
-//
-//
-//        return vendorData;
-//    }
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+    public void manageOptions(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+    }
+
+
+    public VendorData createVendorDataObject(Vendor vendor) {
+        VendorData vendorData = new VendorData();
+
+        vendorData.setId(vendor.getId());
+        vendorData.setVendorName(vendor.getVendorName());
+        vendorData.setBio(vendor.getBio());
+        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
+
+
+
+        HashMap<String, Float> location = new HashMap<>();
+        location.put("lat", vendor.getCurrentLocation().getLat());
+        location.put("lng", vendor.getCurrentLocation().getLng());
+
+
+        return vendorData;
+    }
 
 
     //unique id on each device, need Cordova plug in.
