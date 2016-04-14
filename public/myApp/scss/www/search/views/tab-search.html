@@ -1,0 +1,90 @@
+<ion-view view-title="Advanced Search">
+  <ion-content>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input ng-model="searchOptions.keyword" type="text" placeholder="Search by Truck Name">
+      </label>
+      <div class="tag-wrap">
+        <ul>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag1}" class="tag button button-outline button-positive button-large">
+               <input value="tag1" ng-model="searchOptions.tag1" style="display:none;" type="checkbox">
+               Burritos
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag2}" class="tag button button-outline button-positive button-large">
+               <input value="tag2" ng-model="searchOptions.tag2" style="display:none;" type="checkbox">
+               Seafood
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag3}" class="tag button button-outline button-positive button-large">
+               <input value="tag3" ng-model="searchOptions.tag3" style="display:none;" type="checkbox">
+               BBQ
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag4}" class="tag button button-outline button-positive button-large">
+               <input value="tag4" ng-model="searchOptions.tag4" style="display:none;" type="checkbox">
+               Pizza
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag5}" class="tag button button-outline button-positive button-large">
+               <input value="tag5" ng-model="searchOptions.tag5" style="display:none;" type="checkbox">
+               Coffee
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag6}" class="tag button button-outline button-positive button-large">
+               <input value="tag6" ng-model="searchOptions.tag6" ng-model="tag" style="display:none;" type="checkbox">
+               Ice Cream
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag7}" class="tag button button-outline button-positive button-large">
+               <input value="tag7" ng-model="searchOptions.tag7" style="display:none;" type="checkbox">
+               Tacos
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag8}" class="tag button button-outline button-positive button-large">
+               <input value="tag8" ng-model="searchOptions.tag8" style="display:none;" type="checkbox">
+               Salads
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag9}" class="tag button button-outline button-positive button-large">
+               <input value="tag9" ng-model="searchOptions.tag9" style="display:none;" type="checkbox">
+               Stir Fry
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag10}" class="tag button button-outline button-positive button-large">
+               <input value="tag10" ng-model="searchOptions.tag10" style="display:none;" type="checkbox">
+               Breakfast
+             </label>
+          </li>
+          <li>
+             <label ng-class="{'checked': searchOptions.tag11}" class="tag button button-outline button-positive button-large">
+               <input value="tag11" ng-model="searchOptions.tag11" style="display:none;" type="checkbox">
+               Juice & Smoothies
+             </label>
+          </li>
+        </ul>
+      </div>
+    <label class="item item-input item-select">
+      <div class="input-label">&nbsp;</div>
+      <select ng-model="searchOptions.radius" class="search-items">
+        <option value="1">1 Mile</option>
+        <option value="5">5 Miles</option>
+        <option value="10">10 Miles</option>
+        <option value="25">25 Miles</option>
+      </select>
+    </label>
+    <a ng-click="sendsearchOptions(searchOptions)" href="#/tab/search-map"><button class="button button-block button-dark" type="submit" name="button">SUBMIT</button></a>
+  </div>
+  </ion-content>
+</ion-view>
