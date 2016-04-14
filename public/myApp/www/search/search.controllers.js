@@ -1,18 +1,42 @@
 angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
+    $scope.searchOptions = {};
+    console.log('searchOptions: ' + $scope.searchOptions);
+    window.search = $scope.searchOptions;
 
-    // CUT THIS:
-    // $scope.trucks = SearchService.all();
+    // Declare edited vendor object, tags as an array
+    $scope.searchOptions = {};
+    $scope.searchOptions.tags = [];
 
     // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
-    // $scope.sendsearchOptions = function(searchOptions) {
-    //   SearchService.sendsearchOptions(searchOptions).then(function(response) {
-    //     $scope.trucks = response;
-    //   }, function(error) {
-    //     console.log("ERROR", error);
-    //   });
-    // };
+    $scope.sendSearchOptions = function(searchOptions) {
+      // Process tag checkboxes for back-end
+      var tagArr = [];
+      searchOptions.tags.forEach(function(tag, idx) {
+        // If a tag is selected, push into tags array
+        if (tag) {
+          tagArr.push(
+            {
+              id: idx,
+              tag: tag
+            });
+        }
+      });
+
+      // Format vendor edit info for back-end
+      var processedOptions = {
+        keyword: searchOptions.keyword,
+        tags: tagArr,
+      };
+
+      // Send processed search options to server
+      SearchService.sendSearchOptions(processedOptions).then(function(response) {
+        $scope.trucks = response;
+      }, function(error) {
+        console.log("ERROR", error);
+      });
+    };
 
   })
 
@@ -41,18 +65,29 @@ angular
       marker.setMap($scope.map);
 
       // SEARCH VENDORS SHOULD BE IN CACHE
-      SearchService.getTrucks().then(function(trucks) {
-        $scope.trucks = trucks.data;
-        $scope.trucks.forEach(function(truck) {
-          var marker = new google.maps.Marker({
-            position: truck.location,
-            map: $scope.map,
-            title: truck.name,
-            // icon: 'image4388.png',
-          });
+      SearchService.getTrucksFromCache().then(function(trucks) {
+        $scope.trucks = trucks;
+        if ($scope.trucks) {
+          $scope.trucks.forEach(function(truck) {
+            var marker = new google.maps.Marker({
+              position: truck.location,
+              map: $scope.map,
+              icon: 'icon-tutone.png',
+            });
 
-          marker.setMap($scope.map);
-        });
+            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+            var compiled = $compile(contentString)($scope);
+            var infowindow = new google.maps.InfoWindow({
+              content: compiled[0]
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open($scope.map,marker);
+            });
+
+            marker.setMap($scope.map);
+          });
+        }
       });
 
       }, function(error){
@@ -62,16 +97,16 @@ angular
 
   .controller('SearchListviewCtrl', function($scope, SearchService, FavoritesService){
     SearchService.getTrucks().then(function(trucks) {
-    $scope.trucks = trucks;
-    $scope.addFavoriteTruck = function (truckId, heart) {
-      FavoritesService.addFavoriteTruck(truckId, heart)
-    };
-  })
+      $scope.trucks = trucks;
+      $scope.addFavoriteTruck = function (truckId, heart) {
+        FavoritesService.addFavoriteTruck(truckId, heart);
+      };
+    });
   })
 
   .controller('SearchDetailviewCtrl', function($scope, $stateParams, SearchService, FavoritesService) {
     $scope.addFavoriteTruck = function (truckId, heart) {
-      FavoritesService.addFavoriteTruck(truckId, heart)
+      FavoritesService.addFavoriteTruck(truckId, heart);
     };
     $scope.truck = SearchService.getTruck($stateParams.truckId);
 

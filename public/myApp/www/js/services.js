@@ -20,20 +20,21 @@ angular.module('starter.services', [])
         console.log('no trucks in cache. getting from service');
         $http.get(vendorsURL).then(function(response) {
           var trucks = response.data;
-          var favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          var favArr = [];
+          if (localStorage.getItem("favoriteVendors")) {
+            favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          }
           trucks.forEach(function(truck) {
             if(favArr.indexOf(truck.id)>-1) {
               truck.heart = true;
             } else {
               truck.heart = false;
             }
-          })
+          });
+
           cacheEngine.put('vendors',  trucks);
           defer.resolve(trucks);
       });
-        // var vendors = trucks;
-        // cacheEngine.put('vendors',  vendors);
-        // defer.resolve(vendors);
       }
       return defer.promise;
   }
@@ -49,6 +50,7 @@ angular.module('starter.services', [])
   }
 
   // Dummy data for development
+
   // var trucks = [{
   //   id: 10,
   //   name: 'Bon Banh Mi',
