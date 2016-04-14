@@ -4,23 +4,23 @@
   The ListviewCtrl pulls data from the TruckService(service.js)
   The TruckService returns an array of vendor data
 -->
-<ion-view view-title="{{truck.name}}">
+<ion-view view-title="{{currentVendor.vendorName}}">
   <ion-content class="padding">
     <div id="detailview">
       <div id="detail-header">
-        <img ng-src="{{truck.profileImg}}">
-        <h3>{{truck.name}}</h3>
-        <h4>{{truck.tags}}</h4>
+        <img ng-src="{{currentVendor.imageUrl}}">
+        <h3>{{currentVendor.name}}</h3>
+        <h4>{{currentVendor.tags}}</h4>
       </div>
       <p>
-        {{truck.bio}}
+        {{currentVendor.bio}}
       </p>
       <div id="map-detail"></div>
       <div class="card">
         <div class="item item-text-wrap">
           <h4>Friday, April 12</h4>
           <h3>We got crabs, lots of crabs!</h3>
-          <img ng-src="{{truck.profileImg}}">
+          <img ng-src="{{currentVendor.profilePictureLocation}}">
         </div>
       </div>
 

@@ -48,14 +48,30 @@ angular
       };
     })
 
-    .controller('VendordashdetailCtrl', function($scope, TruckService){
+    .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
 
-      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+      $scope.truck = VendorService.getTruck($stateParams.truckId);
+      window.glob = $scope.truck;
+
+        var mapOptions = {
+          center: $scope.truck.location,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: $scope.truck.location,
+          map: $scope.map,
+          title: 'Truck name'
+        });
+
+        marker.setMap($scope.map);
     })
 
     .controller('EditCtrl', function($scope, VendorService){
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
-      window.currentVendor = $scope.currentVendor;
       var id = $scope.currentVendor.id;
 
       $scope.editVendor = function(vendor) {
