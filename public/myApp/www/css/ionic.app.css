@@ -149,6 +149,7 @@ img.truck-toggle {
     margin-bottom: 10px; }
   .tag-wrap ul .checked {
     background-color: #19579a !important;
+    background-color: #f0533d !important;
     color: white !important; }
 
 .search-items {

@@ -45,7 +45,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, HomeService) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $compile, HomeService) {
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -75,8 +75,19 @@ angular.module('starter.controllers', [])
         var marker = new google.maps.Marker({
           position: truck.location,
           map: $scope.map,
-          title: truck.name,
+          icon: 'icon-tutone.png',
         });
+
+        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+        var compiled = $compile(contentString)($scope);
+        var infowindow = new google.maps.InfoWindow({
+          content: compiled[0]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open($scope.map,marker);
+        });
+
         marker.setMap($scope.map);
       });
     }, function(error){
@@ -89,9 +100,7 @@ angular.module('starter.controllers', [])
   HomeService.getTrucks().then(function (trucks) {
     $scope.trucks = trucks;
   });
-  $scope.remove = function(truck) {
-    HomeService.remove(truck);
-  };
+
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart)
   };
@@ -111,9 +120,18 @@ angular.module('starter.controllers', [])
   //   viewData.enableBack = true;
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
-  window.glob = $scope.truck;
+
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart)
+  };
+  $scope.isFavorites = function(truckId) {
+    if (localStorage.favoriteVendors) {
+      // console.log("Fav vendors is there");
+      return localStorage.favoriteVendors.indexOf(truckId) !== -1;
+    } else {
+      console.log("Fav vendors not there");
+      return false;
+    }
   };
 
   var mapOptions = {
