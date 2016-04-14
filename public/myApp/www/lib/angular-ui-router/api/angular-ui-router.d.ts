@@ -6,12 +6,12 @@
 declare module ng.ui {
 
     interface IState {
-        name?: string;
+        vendorName?: string;
         template?: string;
         templateUrl?: any; // string || () => string
         templateProvider?: any; // () => string || IPromise<string>
         controller?: any;
-        controllerAs?: string;    
+        controllerAs?: string;
         controllerProvider?: any;
         resolve?: {};
         url?: string;
@@ -29,9 +29,9 @@ declare module ng.ui {
     }
 
     interface IStateProvider extends IServiceProvider {
-        state(name: string, config: IState): IStateProvider;
+        state(vendorName: string, config: IState): IStateProvider;
         state(config: IState): IStateProvider;
-        decorator(name?: string, decorator?: (state: IState, parent: Function) => any): any;
+        decorator(vendorName?: string, decorator?: (state: IState, parent: Function) => any): any;
     }
 
     interface IUrlMatcher {
@@ -118,7 +118,7 @@ declare module ng.ui {
 
     interface IUiViewScrollProvider {
         /*
-         * Reverts back to using the core $anchorScroll service for scrolling 
+         * Reverts back to using the core $anchorScroll service for scrolling
          * based on the url anchor.
          */
         useAnchorScroll(): void;

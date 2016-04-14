@@ -111,7 +111,7 @@ The whole time picker functionality has been implemented, and can be installed w
 bower install ionic-timepicker --save
 
 ### 2) v0.1.1
-Directive name has been modified.
+Directive vendorName has been modified.
 
 ### 3) v0.1.2
 If the minutes and hours are less than 10, then 0 will be prepended to the value of minutes/hours.
