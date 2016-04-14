@@ -31,16 +31,27 @@ $grey: #666;
   height: 46px;
   line-height: 46px;
   color: #555;
+  padding-left: 13px;
 }
 
+.has-feedback.form-control {
+  padding-left: 13px;
+}
+
+// this is for sign in fancy stuff
 .password-strength-indicator {
   position: absolute;
   top: 10px;
-  right: 0;
+  right: 10px;
   width: 5px;
   padding: 0 15px;
 }
 
+.button.button-block.special{
+  margin-top: 25px;
+}
+
+// this is for sign in fancy stuff
 .password-strength-indicator span {
   display: block;
   width: 5px;
@@ -50,12 +61,56 @@ $grey: #666;
   border-radius: 5px;
 }
 
+// this is for sign in fancy stuff
+.form-control.input-lg {
+  width: 94%;
+  border-radius: 0px;
+  display: block;
+  padding-top: 12px;
+  height: 50px;
+  color: #111;
+  vertical-align: middle;
+  font-size: 18px;
+  font: inherit;
+  background-color: transparent;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  border: none;
+  border: 1px solid gainsboro;
+  box-shadow: none;
+  margin: 0 auto;
+  margin-bottom: -15px;
+  &::-webkit-input-placeholder{
+    -webkit-font-smoothing: antialiased;
+    font: inherit;
+    font-size: 18px;
+  }
+}
+
+.required {
+  margin-top: 25px;
+  margin-bottom: -5px;
+  margin-left: 5px;
+  font: inherit;
+  font-size: 15px;
+}
+
+// this is for sign in fancy stuff
 [class^='ion-'] {
   font-size: 1.2em;
 }
 
+// this is for sign in fancy stuff
+.has-error.help-block {
+  margin-top: 20px;
+}
+
+// this is for sign in fancy stuff
 .has-feedback .form-control {
-  padding-left: 42.5px;
+  padding-left: 32px;
 }
 
 
