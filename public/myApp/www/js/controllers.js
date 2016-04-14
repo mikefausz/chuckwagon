@@ -94,9 +94,7 @@ angular.module('starter.controllers', [])
   HomeService.getTrucks().then(function (trucks) {
     $scope.trucks = trucks;
   });
-  $scope.remove = function(truck) {
-    HomeService.remove(truck);
-  };
+
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart)
   };
@@ -116,9 +114,18 @@ angular.module('starter.controllers', [])
   //   viewData.enableBack = true;
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
-  window.glob = $scope.truck;
+
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart)
+  };
+  $scope.isFavorites = function(truckId) {
+    if (localStorage.favoriteVendors) {
+      // console.log("Fav vendors is there");
+      return localStorage.favoriteVendors.indexOf(truckId) !== -1;
+    } else {
+      console.log("Fav vendors not there");
+      return false;
+    }
   };
 
   var mapOptions = {

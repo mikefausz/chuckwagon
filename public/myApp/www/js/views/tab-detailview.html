@@ -11,8 +11,8 @@
         <img ng-src="{{truck.profileImg}}">
         <h3>{{truck.vendorName}}</h3>
         <h4><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></h4>
-        <label ng-click="addFavoriteTruck(truck.id, heart)" ng-class="{'heart ion-ios-heart': heart,'ion-ios-heart-outline': !heart}" class="detail-heart">
-          <input ng-model="heart" style="display:none;" type="checkbox">
+        <label ng-click="addFavoriteTruck(truck.id, truck.heart)" ng-class="{'heart ion-ios-heart': truck.heart,'ion-ios-heart-outline': !truck.heart}" class="detail-heart">
+          <input ng-model="truck.heart" style="display:none;" type="checkbox">
         </label>
       </div>
       <p>
@@ -21,7 +21,7 @@
       <div id="map-detail"></div>
       <div class="card">
         <div class="item item-text-wrap">
-          <h4>{{ truck.location.timestamp }}</h4>
+          <h4>{{ truck.timestamp }}</h4>
           <h3>{{ truck.message }}</h3>
           <img ng-src="{{ truck.imageUrl }}">
         </div>
