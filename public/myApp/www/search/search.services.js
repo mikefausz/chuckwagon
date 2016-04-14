@@ -9,7 +9,7 @@ angular
       function sendSearchOptions(processedOptions) {
         var defer = $q.defer();
         $http.post(searchURL, processedOptions).then(function(response) {
-          if(trucks) {
+          if(response) {
             console.log("got trucks from server");
           } else {
             console.log("no trucks from server");
@@ -24,16 +24,8 @@ angular
 
       function getTrucksFromCache() {
         var defer = $q.defer();
-        var trucks = cacheEngine.get('searchVendors').then(function(trucks) {
-          if(trucks) {
-            console.log("found trucks in cache");
-          } else {
-            console.log("no trucks found in cache");
-          }
-          defer.resolve(trucks);
-        }, function(err) {
-          console.log(err);
-        });
+        var trucks = cacheEngine.get('searchVendors');
+        defer.resolve(trucks);
         return defer.promise;
       }
 
