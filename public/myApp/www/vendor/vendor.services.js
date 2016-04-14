@@ -44,16 +44,17 @@ angular
   }
 
   function editVendor(editedVendor, vendorId){
-    var fakeVendor = {
-      vendor: {
-        profileImgURL: 'http://i.imgur.com/Y4cxkit.png',
-        bio:'CRWISPY'
-      },
-      tags: "Burritos,Omelettes,Fritattas",
-    };
-    console.log(fakeVendor);
+    window.edit = editedVendor;
+    // var fakeVendor = {
+    //   vendor: {
+    //     profileImgURL: 'http://i.imgur.com/Y4cxkit.png',
+    //     bio:'CRWISPY'
+    //   },
+    //   tags: "Burritos,Omelettes,Fritattas",
+    // };
+    // console.log(fakeVendor);
     var url = ip + "/vendor/" + vendorId;
-    $http.put(url, fakeVendor);
+    $http.put(url, editedVendor);
   }
 
 

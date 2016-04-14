@@ -2,80 +2,79 @@
   <ion-content class="padding">
   <div class="list">
     <h3>{{ currentVendor.vendorName }}</h3>
-    <h3>{{ currentVendor.contactEmail }}</h3>
-    <input ng-model="vendor.profImg" type="file" name="name" value="">
+    <h4>{{ currentVendor.contactEmail }}</h4>
     <label class="item item-input">
-      <input type="text" ng-model="editedVendor.bio" value="vendor.bio">
+      <input type="text" ng-model="editedVendor.bio" value="vendor.bio" placeholder="Bio">
     </label>
     <label class="item item-input">
-      <input type="text" ng-model="editedVendor.profilePictureLocation" value="vendor.profilePictureLocation">
+      <input type="text" ng-model="editedVendor.profilePictureLocation" value="vendor.profilePictureLocation" placeholder="Profile Photo URL">
     </label>
     </form>
     <div class="tag-wrap">
       <ul>
         <li>
-           <label ng-class="{'checked': tag1}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag1" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[1]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[1]" ng-true-value="'burritos'" style="display:none;" type="checkbox">
              Burritos
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag2}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag2" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[2]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[2]" ng-true-value="'seafood'" style="display:none;" type="checkbox">
              Seafood
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag3}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag3" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[3]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[3]" ng-true-value="'bbq'" style="display:none;" type="checkbox">
              BBQ
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag4}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag4" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[4]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[4]" ng-true-value="'pizza'" style="display:none;" type="checkbox">
              Pizza
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag5}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag5" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[5]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[5]" ng-true-value="'coffee'" style="display:none;" type="checkbox">
              Coffee
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag6}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag6" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[6]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[6]" ng-true-value="'iceCream'" style="display:none;" type="checkbox">
              Ice Cream
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag7}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag7" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[7]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[7]" ng-true-value="'tacos'" style="display:none;" type="checkbox">
              Tacos
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag8}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag8" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[8]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[8]" ng-true-value="'salads'" style="display:none;" type="checkbox">
              Salads
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag9}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag9" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[9]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[9]" ng-true-value="'stirFry'" style="display:none;" type="checkbox">
              Stir Fry
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag10}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag10" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[10]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[10]" ng-true-value="'breakfast'" style="display:none;" type="checkbox">
              Breakfast
            </label>
         </li>
         <li>
-           <label ng-class="{'checked': tag11}" class="tag button button-outline button-positive button-large">
-             <input ng-model="tag11" style="display:none;" type="checkbox">
+           <label ng-class="{'checked': editedVendor.tags[11]}" class="tag button button-outline button-assertive button-large">
+             <input ng-model="editedVendor.tags[11]" ng-true-value="'juice'" style="display:none;" type="checkbox">
              Juice & Smoothies
            </label>
         </li>
@@ -83,8 +82,8 @@
     </div>
   </div>
 
-  <button ng-click="editVendor(vendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
-  <button class="button button-block button-calm" type="submit" name="button">CANCEL</button>
+  <button ng-click="editVendor(editedVendor)" class="button button-block button-calm" type="submit" name="button">SUBMIT CHANGES</button>
+  <button class="button button-block button-assertive" type="submit" name="button">CANCEL</button>
 
   </ion-content>
 </ion-view>

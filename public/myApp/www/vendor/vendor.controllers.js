@@ -58,9 +58,26 @@ angular
       window.currentVendor = $scope.currentVendor;
       var id = $scope.currentVendor.id;
 
-      $scope.editVendor = function(vendor) {
-        VendorService.editVendor(vendor, id);
-        console.log(vendor, id);
-        window.editVendor = vendor;
+      $scope.editedVendor = {};
+      $scope.editedVendor.tags = [];
+      
+      $scope.editVendor = function(editedVendor) {
+        console.log(editedVendor);
+        window.tags = editedVendor.tags;
+        var tagStr = '';
+        editedVendor.tags.forEach(function(tag) {
+          tagStr += tag + ',';
+        });
+        var processedVendor = {
+          vendor: {
+            bio: editedVendor.bio,
+            profilePictureLocation: editedVendor.profilePictureLocation,
+          },
+          tags: tagStr,
+        };
+        console.log(processedVendor);
+        VendorService.editVendor(processedVendor, id);
+        console.log(processedVendor, id);
+        window.editVendor = processedVendor;
       };
     });
