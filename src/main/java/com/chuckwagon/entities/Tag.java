@@ -45,7 +45,6 @@ public class Tag {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,8 +52,7 @@ public class Tag {
 
         Tag tag1 = (Tag) o;
 
-        if (tag1.getTag().equals(((Tag) o).getTag())) return true;
-
+        if (!id.equals(tag1.id)) return false;
         return tag.equals(tag1.tag);
 
     }

@@ -88,7 +88,6 @@ public class ChuckWagonController {
             if (menuName != null && menuPicture != null) {
                 photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
                 menuRepository.save(menu);
-                System.out.println(menu);
                 return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
             } else {
                 return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
@@ -178,30 +177,30 @@ public class ChuckWagonController {
 
         Vendor vendor = vendorRepository.findOne(id);  //reference to the vendor we are editing
 
-
         if (vendor != null) {
-            Set<Tag> tagSet = new HashSet<>(); //empty hashset
 
-            String[] tags = (data.get("tags").toString().split(","));  //grab the tags from client
+            ArrayList<HashMap> tags = (ArrayList<HashMap>) data.get("tags");
+
+            List<String> tagsList = new ArrayList<>();
 
             tagVendorRepository.deleteByVendor(vendor); //remove current tags from DB
 
             //add all the tags into the set and add to DB
-            for (String t : tags) {
-                Tag tag = tagRepository.findByTag(t);
+            for (HashMap t : tags) {
+                Tag tag = tagRepository.findByTag((String) t.get("tag"));
                 //check to see if tag does is not in DB at some point here.
-                tagSet.add(tag);
                 TagVendor tagVendor = new TagVendor(tag, vendor);
+                tagsList.add(tag.getTag());
                 tagVendorRepository.save(tagVendor);
             }
 
             //reset vendor fields
             HashMap vend = (HashMap) data.get("vendor"); //map of the vendor
             vendor.setBio((String) vend.get("bio"));
-            vendor.setProfilePictureLocation((String) vend.get("profileImgURL"));
-            vendor.setTags(tagSet);
+            vendor.setProfilePictureLocation((String) vend.get("profilePictureLocation"));
 
             vendorRepository.save(vendor); //save vendor
+            vendor.setTagsList(tagsList);
 
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
@@ -244,7 +243,7 @@ public class ChuckWagonController {
             Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
             Location existingLocation = locationRepository.findByVendor(vendor); //possible preexisiting location set by vendor
 
-            if (existingLocation != null) { locationRepository.delete(existingLocation); }
+            if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
 
             location.setVendor(vendorRepository.findOne(id));
             double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
@@ -261,73 +260,55 @@ public class ChuckWagonController {
      * Returns a special object that the Front End requires.
      * Object contains vendors and locations of vendors
      *
+     * i don't really like the way I am dong this, looking for better method
+     *
      * @return
      */
     @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
     public ResponseEntity<?> getVendorLocations() {
 
         List<Location> locationList = removeExpiredVendors();
-
         if (locationList.size() > 0) {
-
             //list to hold special object that describes what the FE wants
             ArrayList<VendorData> vendorDataList = new ArrayList<>();
 
             //build each object
             for (Location l : locationList) {
-                VendorData vendorData = new VendorData();
-                vendorData.setId(l.getVendor().getId());
-                vendorData.setName(l.getVendor().getVendorName());
-
-                List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(l.getVendor());
-                Set<Tag> tagSet = new HashSet<>();
-
-                for (TagVendor tv : tagVendorList) {
-                    tagSet.add(tv.getTag());
-
-                }
-//                if (tags.size() > 0 ) {
-//                    vendorData.setTags(StringUtils.join(tags, ","));
-//                }
-//                for (Tag tag : tags) {
-//
-//                }
-                vendorData.setTags(tagSet);
-
-                HashMap<String, Float> location = new HashMap<>();
-                location.put("lat", l.getLat());
-                location.put("lng", l.getLng());
-                vendorData.setLocation(location);
-                vendorData.setProfileImgURL(l.getVendor().getProfilePictureLocation());
-                vendorData.setBio(l.getVendor().getBio());
-
-                vendorDataList.add(vendorData);
+                Vendor vendor = l.getVendor(); //find vendor associated with location.
+                VendorData vd = createVendorDataObject(vendor);
+                vendorDataList.add(vd);
             }
+
             return new ResponseEntity<Object>(vendorDataList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<?> searchVendors(@PathVariable("tags") Set tags) {
-
+    @CrossOrigin
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ResponseEntity<?> searchVendors(@RequestBody Data data) {
         List<Location> locationList = removeExpiredVendors();
+        List<Tag> tagList =  data.tags;
+
+        List<Vendor> vendorMatch = new ArrayList<>();
 
         if (locationList.size() > 0) {
-           locationList.stream()
-                   .filter(location -> (!Collections.disjoint(location.getVendor().getTags(), tags))
-                   )
-                   .collect(Collectors.toCollection(ArrayList<Location>::new));
+            for (Location l : locationList) {
+                List<TagVendor> vendorTags = tagVendorRepository.findByVendor(l.getVendor()); //tagvendor objects.
+                List<Tag> vendorsTags = vendorTags.stream().map(TagVendor::getTag).collect(Collectors.toList()); //converted into tags
 
-            return new ResponseEntity<Object>(locationList, HttpStatus.OK);
+                //i am doing this because vendors are not coming out with tags.
+                //will need to change this at some future date.
+                if (!Collections.disjoint(vendorsTags, tagList)) {
+                    vendorMatch.add(l.getVendor());
+                }
+            }
+            return new ResponseEntity<Object>(vendorMatch, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
-
     }
-
-
 
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
@@ -435,10 +416,32 @@ public class ChuckWagonController {
     }
 
 
+    public VendorData createVendorDataObject(Vendor vendor) {
+        VendorData vendorData = new VendorData();
+
+        vendorData.setId(vendor.getId());
+        vendorData.setVendorName(vendor.getVendorName());
+        vendorData.setBio(vendor.getBio());
+        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
+
+        HashMap<String, Float> location = new HashMap<>();
+        location.put("lat", vendor.getLocation().get(0).getLat());
+        location.put("lng", vendor.getLocation().get(0).getLng());
+        vendorData.setLocation(location);
+
+        List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(vendor);
+        List<String> tagList = tagVendorList.stream().map(t -> t.getTag().getTag()).collect(Collectors.toList());
+        vendorData.setTags(tagList);
+
+        return vendorData;
+    }
+
+
     //unique id on each device, need Cordova plug in.
     //ionic has an onload method
 
     //passing a self generated unique cookie back and forth. FE doesn't need to store, but just return.
+
 
 
 }
