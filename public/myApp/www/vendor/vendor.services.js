@@ -22,41 +22,49 @@ angular
     return $http.post(url, post);
   }
 
-  function getTruck(truckId) {
-    var defer = $q.defer();
-    var cache = cacheEngine.get('vendors');
-    // IF cache already contains vendors, use those
-    if(cache) {
-      console.log('found trucks in the cache');
-      defer.resolve(cache);
-    }
-    // ELSE get vendors from server, put them in cache
-    else {
-      console.log('no trucks in cache. getting from service');
-      $http.get(vendorsURL).then(function(response) {
-        var trucks = response.data;
-        var favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
-        trucks.forEach(function(truck) {
-          if(favArr.indexOf(truck.id)>-1) {
-            truck.heart = true;
-          } else {
-            truck.heart = false;
+  function getCurrentVendors() {
+      var defer = $q.defer();
+      var cache = cacheEngine.get('vendors');
+      // IF cache already contains vendors, use those
+      if(cache) {
+        console.log('found trucks in the cache');
+        defer.resolve(cache);
+      }
+      // ELSE get vendors from server, put them in cache
+      else {
+        console.log('no trucks in cache. getting from service');
+        $http.get(vendorsURL).then(function(response) {
+          var trucks = response.data;
+          if (localStorage.getItem("currentVendor")) {
+            favArr = JSON.parse(localStorage.getItem("currentVendor"));
           }
-        })
-        cacheEngine.put('vendors',  trucks);
-        defer.resolve(trucks);
-        return defer.promise;
+          trucks.forEach(function(truck) {
+            if(localStorage.getItem("currentVendor")) {
+              if(favArr.indexOf(truck.id)>-1) {
+                truck.heart = true;
+              } else {
+                truck.heart = false;
+              }
+            } else {
+              localStorage.setItem("currentVendor")
+            }
+          });
+
+          cacheEngine.put('vendors',  currentVendor);
+          defer.resolve(currentVendor);
       });
       }
-    $http.get(vendorsURL).then(function(response) {
-    for (var i = 0; i < vendorsURL.length; i++) {
-      if (vendorsURL[i].id === parseInt(truckId)) {
-        return vendorsURL[i];
+      return defer.promise;
+  }
+
+  function getCurrentVendor(truckId) {
+    for (var i = 0; i < currentVendor.length; i++) {
+      if (trucks[i].id === parseInt(truckId)) {
+        return trucks[i];
       }
     }
     return null;
-  })
-  }
+  };
 
   function loginVendor(login){
     var defer = $q.defer();
@@ -93,6 +101,7 @@ angular
     loginVendor: loginVendor,
     logoutVendor: logoutVendor,
     editVendor: editVendor,
-    getTruck: getTruck,
+    getCurrentVendors: getCurrentVendors,
+    getCurrentVendor: getCurrentVendor,
   };
 });

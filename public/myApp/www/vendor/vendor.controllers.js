@@ -14,6 +14,7 @@ angular
       $scope.signup = function(vendor){
         console.log("SIGN UP");
         VendorService.signup(vendor);
+        localStorage.currentVendor = JSON.stringify(vendor);
       };
     })
 
@@ -48,10 +49,9 @@ angular
       };
     })
 
-<<<<<<< HEAD
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
 
-      $scope.truck = VendorService.getTruck($stateParams.truckId);
+      $scope.currentVendor = VendorService.getCurrentVendor($stateParams.currentVendorId);
       window.glob = $scope.truck;
 
         var mapOptions = {
@@ -69,18 +69,11 @@ angular
         });
 
         marker.setMap($scope.map);
-=======
-    .controller('VendordashdetailCtrl', function($scope, TruckService){
-      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
->>>>>>> b7e70cc8eb72151aa481392a12a53107c8f53dcb
     })
 
     .controller('EditCtrl', function($scope, VendorService){
       // Get current vendor from localStorage, clear tags for edit
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
-<<<<<<< HEAD
-      var id = $scope.currentVendor.id;
-=======
       $scope.currentVendor.tags = [];
 
       // Declare edited vendor object, tags as an array
@@ -116,7 +109,6 @@ angular
         // Send processed vendor edit data to server
         var id = $scope.currentVendor.id;
         VendorService.editVendor(processedVendor, id);
->>>>>>> b7e70cc8eb72151aa481392a12a53107c8f53dcb
 
         // Grab edit data, save changes in localStorage
         $scope.currentVendor.bio = editedVendor.bio;
