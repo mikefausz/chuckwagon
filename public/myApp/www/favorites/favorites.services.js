@@ -43,7 +43,7 @@ angular
             var favorites = trucks.filter(function(truck) {
               return favoriteVendorIds.indexOf(truck.id) > -1;
             });
-            console.log(favorites);
+            console.log("FAVORITES", favorites);
             return favorites;
 
         // ELSE get vendors from server, put them in cache

@@ -6,7 +6,6 @@ angular.module('starter.services', [])
   var ip = "http://10.0.10.70:8080";
   // var ip = "http://localhost:8080";
   var vendorsURL = ip + "/vendor/location";
-
   function getTrucks() {
       var defer = $q.defer();
       var cache = cacheEngine.get('vendors');
@@ -22,11 +21,16 @@ angular.module('starter.services', [])
           var trucks = response.data;
           var favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
           trucks.forEach(function(truck) {
-            if(favArr.indexOf(truck.id)>-1) {
-              truck.heart = true;
+            if(localStorage.getItem("favoriteVendors")) {
+              if(favArr.indexOf(truck.id)>-1) {
+                truck.heart = true;
+              } else {
+                truck.heart = false;
+              }
             } else {
-              truck.heart = false;
+              localStorage.setItem("favoriteVendors", "[]")
             }
+
           })
           cacheEngine.put('vendors',  trucks);
           defer.resolve(trucks);
