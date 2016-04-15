@@ -37,7 +37,7 @@
     transform-style: preserve-3d;
   }
   .icon-pulling {
-    @include animation-vendorName(refresh-spin-back);
+    @include animation-name(refresh-spin-back);
     @include animation-duration(200ms);
     @include animation-timing-function(linear);
     @include animation-fill-mode(none);
@@ -54,7 +54,7 @@
 
   &.active {
     .icon-pulling:not(.pulling-rotation-disabled) {
-      @include animation-vendorName(refresh-spin);
+      @include animation-name(refresh-spin);
       -webkit-transform: translate3d(0,0,0) rotate(-180deg);
       transform: translate3d(0,0,0) rotate(-180deg);
     }
