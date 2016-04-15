@@ -18,9 +18,9 @@
       <div id="map-detail"></div>
       <div class="card">
         <div class="item item-text-wrap">
-          <h4>Friday, April 12</h4>
-          <h3>We got crabs, lots of crabs!</h3>
-          <img ng-src="{{currentVendor.profilePictureLocation}}">
+          <h4>{{ currentVendor.location.time }}</h4>
+          <h3>{{currentVendor.location.tweet}}</h3>
+          <img ng-src="{{currentVendor.location.imageUrl}}">
         </div>
       </div>
     </div>
