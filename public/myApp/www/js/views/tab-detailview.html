@@ -4,13 +4,13 @@
   The ListviewCtrl pulls data from the TruckService(service.js)
   The TruckService returns an array of vendor data
 -->
-<ion-view view-title="{{truck.name}}">
+<ion-view view-title="{{truck.vendorName}}">
   <ion-content class="padding">
     <div id="detailview">
       <div id="detail-header">
         <img ng-src="{{truck.profileImg}}">
         <h3>{{truck.vendorName}}</h3>
-        <h4><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></h4>
+        <h4><span class="tag-span" ng-repeat="tag in truck.tagsList">{{ tag }} </span></h4>
         <label ng-click="addFavoriteTruck(truck.id, truck.heart)" ng-class="{'heart ion-ios-heart': truck.heart,'ion-ios-heart-outline': !truck.heart}" class="detail-heart">
           <input ng-model="truck.heart" style="display:none;" type="checkbox">
         </label>
@@ -19,11 +19,11 @@
         {{truck.bio}}
       </p>
       <div id="map-detail"></div>
-      <div class="card">
+      <div ng-show="hasContent()" class="card">
         <div class="item item-text-wrap">
-          <h4>Friday, April 8</h4>
-          <h3>We got shrimp poboys today. Get em while they last!</h3>
-          <img ng-src="{{truck.profilePictureLocation}}">
+          <h4>{{ truck.location.timestamp }}</h4>
+          <h3 ng-show="{{ truck.location.tweet }}">{{ truck.location.tweet }}</h3>
+          <img ng-show="{{ truck.location.imageUrl }}" ng-src="{{ truck.location.imageUrl }}">
         </div>
       </div>
     </div>

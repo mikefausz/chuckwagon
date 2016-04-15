@@ -1,6 +1,6 @@
 angular
   .module('favorites')
-  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
+  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService, $compile) {
     // if(!localStorage.getItem('favoriteVendors')) {
     //   localStorage.setItem('favoriteVendors', []);
     // }
@@ -81,6 +81,10 @@ angular
     // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
+  $scope.hasContent = function() {
+    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+  };
+  
     $scope.$on('favorite:added', function () {
       FavoritesService.getFavoriteTrucks().then(function(trucks) {
         $scope.trucks = trucks;
