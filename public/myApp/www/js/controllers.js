@@ -115,9 +115,14 @@ angular.module('starter.controllers', [])
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
+  $scope.hasContent = function() {
+    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+  };
+
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
   };
+  
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");

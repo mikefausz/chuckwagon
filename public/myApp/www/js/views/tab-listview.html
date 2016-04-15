@@ -3,7 +3,7 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="truck in trucks" type="item-text-wrap">
         <a ng-href="#/tab/list/{{truck.id}}">
-        <img class="search-img" ng-src="{{truck.profilePictureLocation}}">
+        <img class="search-img" ng-src="{{ truck.profilePictureLocation }}">
         <h2>{{truck.vendorName}}</h2>
         <p><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></p>
       </a>

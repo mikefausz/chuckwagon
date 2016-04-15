@@ -1,6 +1,6 @@
 angular
   .module('favorites')
-  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
+  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService, $compile) {
     // if(!localStorage.getItem('favoriteVendors')) {
     //   localStorage.setItem('favoriteVendors', []);
     // }
