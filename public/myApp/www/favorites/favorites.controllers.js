@@ -68,17 +68,11 @@ angular
         $scope.addFavoriteTruck = function (truckId, heart) {
           FavoritesService.addFavoriteTruck(truckId, heart)
         };
-      $scope.$on('favorite:removed', function () {
-        FavoritesService.getFavoriteTrucks().then(function(trucks) {
-          $scope.trucks = trucks;
-        })
-      })
+
   })
 
   .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService, HomeService) {
-    // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    //   viewData.enableBack = true;
-    // });
+
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
     $scope.$on('favorite:added', function () {
