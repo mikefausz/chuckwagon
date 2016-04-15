@@ -1,13 +1,11 @@
 package com.chuckwagon.entities;
 
-import com.chuckwagon.services.TagVendorRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -55,12 +53,18 @@ public class Vendor {
     private boolean isActive;
 
     @Transient
-    Set<Tag> tags;
+    List tags;
+
+    @Transient
+    List<String> tagsList;
 
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
     @JsonIgnore
     private List<Location> location;
+
+    @Transient
+    private Location currentLocation;
 
     public Vendor() {
     }
@@ -152,11 +156,11 @@ public class Vendor {
         isActive = active;
     }
 
-    public Set<Tag> getTags() {
+    public List getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List tags) {
         this.tags = tags;
     }
 
@@ -170,5 +174,21 @@ public class Vendor {
 
     public Integer getId() {
         return id;
+    }
+
+    public List<String> getTagsList() {
+        return tagsList;
+    }
+
+    public void setTagsList(List<String> tagsList) {
+        this.tagsList = tagsList;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = getLocation().get(0);
     }
 }

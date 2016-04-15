@@ -1,7 +1,7 @@
 package com.chuckwagon.entities;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by branden on 4/13/16 at 11:57.
@@ -13,26 +13,26 @@ public class VendorData {
 
     private Integer id;
 
-    private String name;
+    private String vendorName;
 
-    private Set<Tag> tags;
+    private List<String> tags;
 
     private String bio;
 
     private HashMap<String, Float> location;
 
-    private String profileImgURL;
+    private String profilePictureLocation;
 
     public VendorData() {
     }
 
-    public VendorData(Integer id, String name, Set<Tag> tags, String bio, HashMap<String, Float> location, String profileImgURL) {
+    public VendorData(Integer id, String vendorName, List<String> tags, String bio, HashMap<String, Float> location, String profilePictureLocation) {
         this.id = id;
-        this.name = name;
+        this.vendorName = vendorName;
         this.tags = tags;
         this.bio = bio;
         this.location = location;
-        this.profileImgURL = profileImgURL;
+        this.profilePictureLocation = profilePictureLocation;
     }
 
 
@@ -44,19 +44,19 @@ public class VendorData {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getVendorName() {
+        return vendorName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 
-    public Set<Tag> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 
@@ -76,11 +76,11 @@ public class VendorData {
         this.location = location;
     }
 
-    public String getProfileImgURL() {
-        return profileImgURL;
+    public String getProfilePictureLocation() {
+        return profilePictureLocation;
     }
 
-    public void setProfileImgURL(String profileImgURL) {
-        this.profileImgURL = profileImgURL;
+    public void setProfilePictureLocation(String profilePictureLocation) {
+        this.profilePictureLocation = profilePictureLocation;
     }
 }

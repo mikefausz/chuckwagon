@@ -5,15 +5,15 @@
 <div class="form-wrap">
     <form method="post" ng-submit="signup()" name="signupForm">
   <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.displayName.$invalid && signupForm.displayName.$dirty }">
-    <input class="form-control input-lg" type="text" name="displayName" ng-model="vendor.vendorName" placeholder="Name" required autofocus>
-    <span class="ion-person form-control-feedback"></span>
+    <input class="form-control input-lg" type="text" name="displayName" ng-model="vendor.vendorName" placeholder="TRUCK NAME" required autofocus>
+    <span class="ion-android-bus form-control-feedback"></span>
     <div class="help-block text-danger" ng-if="signupForm.displayName.$dirty" ng-messages="signupForm.displayName.$error">
       <div ng-message="required" class="required">You must enter your name.</div>
     </div>
   </div>
 
   <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.email.$invalid && signupForm.email.$dirty }">
-    <input class="form-control input-lg" type="email" id="email" name="email" ng-model="vendor.contactEmail" placeholder="Email" required>
+    <input class="form-control input-lg" type="email" id="email" name="email" ng-model="vendor.contactEmail" placeholder="EMAIL" required>
     <span class="ion-at form-control-feedback"></span>
     <div class="help-block text-danger" ng-if="signupForm.email.$dirty" ng-messages="signupForm.email.$error">
       <div ng-message="required" class="required">Your email address is required.</div>
@@ -21,7 +21,7 @@
   </div>
 
   <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.password.$invalid && signupForm.password.$dirty }">
-    <input password-strength class="form-control input-lg" type="password" name="password" ng-model="vendor.password" placeholder="Password" required>
+    <input password-strength class="form-control input-lg" type="password" name="password" ng-model="vendor.password" placeholder="PASSWORD" required>
     <span class="ion-key form-control-feedback"></span>
     <div class="help-block text-danger" ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
       <div ng-message="required" class="required">Password is required.</div>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.confirmPassword.$invalid && signupForm.confirmPassword.$dirty }">
-    <input password-match="password" class="form-control input-lg" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password">
+    <input password-match="vendor.password" class="form-control input-lg" type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="CONFIRM PASSWORD">
     <span class="ion-key form-control-feedback"></span>
     <div class="help-block text-danger" ng-if="signupForm.confirmPassword.$dirty" ng-messages="signupForm.confirmPassword.$error">
       <div ng-message="compareTo" class="required">Password must match.</div>
