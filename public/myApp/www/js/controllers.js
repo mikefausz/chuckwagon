@@ -96,7 +96,7 @@ angular.module('starter.controllers', [])
   });
 
   $scope.addFavoriteTruck = function (truckId, heart) {
-    FavoritesService.addFavoriteTruck(truckId, heart)
+    FavoritesService.addFavoriteTruck(truckId, heart);
   };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
@@ -106,7 +106,7 @@ angular.module('starter.controllers', [])
       console.log("Fav vendors not there");
       return false;
     }
-   }
+  };
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService, FavoritesService) {
@@ -116,7 +116,7 @@ angular.module('starter.controllers', [])
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   $scope.addFavoriteTruck = function (truckId, heart) {
-    FavoritesService.addFavoriteTruck(truckId, heart)
+    FavoritesService.addFavoriteTruck(truckId, heart);
   };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
