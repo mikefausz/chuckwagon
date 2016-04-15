@@ -29,12 +29,6 @@ public class Vendor {
     @Column(nullable = false, name = "vendor_password_hashed")
     private String password;
 
-    @Column( name = "contact_first_name")
-    private String contactFirstName;
-
-    @Column( name = "contact_last_name")
-    private String contactLastName;
-
     @Column( name = "contact_email", unique = true)
     private String contactEmail;
 
@@ -87,22 +81,6 @@ public class Vendor {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getContactFirstName() {
-        return contactFirstName;
-    }
-
-    public void setContactFirstName(String contactFirstName) {
-        this.contactFirstName = contactFirstName;
-    }
-
-    public String getContactLastName() {
-        return contactLastName;
-    }
-
-    public void setContactLastName(String contactLastName) {
-        this.contactLastName = contactLastName;
     }
 
     public String getContactEmail() {
@@ -166,7 +144,7 @@ public class Vendor {
     }
 
     public List<String> getTagsList() {
-        if (!tags.isEmpty()) {
+        if (tags != null && !tags.isEmpty()) {
             List<String> tagsString = new ArrayList<>();
             for (TagVendor tv : tags) {
                 tagsString.add(tv.getTag().getTag());

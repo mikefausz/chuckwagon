@@ -20,10 +20,10 @@ public class PopulateDB {
     public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository, TagRepository tagRepository, TagVendorRepository tagVendorRepository) throws PasswordStorage.CannotPerformOperationException {
 
         /** Hard Coded Tags */
-        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
+        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas", "none"};
         if (tagRepository.count() == 0) {
             for (String s : tagStrings) {
-                Tag tag = new Tag(s.toLowerCase());
+                Tag tag = new Tag(s);
                 tagRepository.save(tag);
             }
         }

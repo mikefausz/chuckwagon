@@ -28,9 +28,20 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by branden on 4/5/16 at 21:19.
  */
 
-@CrossOrigin(origins = "*")
 @RestController
 public class ChuckWagonController {
+
+    /**
+     *
+     *Catch all route for request method options
+     */
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+    public void manageOptions(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+    }
 
     //set up method wide vars
     private final VendorRepository vendorRepository;
@@ -86,7 +97,12 @@ public class ChuckWagonController {
 
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
+
+
         Vendor result = vendorRepository.save(vendor);
+//        Tag none = tagRepository.findByTag("none");
+//        TagVendor tv = new TagVendor(none, result);
+//        tagVendorRepository.save(tv);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
@@ -98,11 +114,6 @@ public class ChuckWagonController {
      */
     @RequestMapping(value = "/vendor", method = RequestMethod.GET)
     public ResponseEntity<?> getAllVendors() {
-
-        List<Vendor> vendorList = (List<Vendor>) vendorRepository.findAll();
-        for (Vendor v : vendorList) {
-        }
-
         return new ResponseEntity<Object>(vendorRepository.findAll(), HttpStatus.OK);
     }
 
@@ -133,7 +144,6 @@ public class ChuckWagonController {
      * @param data HashMap that contains a simple String Array of tags and a HashMap of Vendor fields to be updated
      * @return the manipulated vendor and a response status
      */
-    @CrossOrigin
     @RequestMapping(value = "/vendor/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateVendor(@PathVariable("id") Integer id, @RequestBody HashMap data) {
 
@@ -248,8 +258,6 @@ public class ChuckWagonController {
      */
     @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
     public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
-        System.out.println(location);
-        System.out.println(id);
         if (location.getLat() != null && (location.getLat() >= 0 || location.getLat() <= 0) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
             Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
             Location existingLocation = vendor.getLocation(); //possible preexisiting location set by vendor
@@ -284,42 +292,54 @@ public class ChuckWagonController {
 
         List<Vendor> vendorList = removeExpiredLocations();
         if (vendorList.size() > 0) {
-//            //list to hold special object that describes what the FE wants
-//            ArrayList<VendorData> vendorDataList = new ArrayList<>();
-//
-//            //build each object
-////            for (Location l : locationList) {
-////                Vendor vendor = l.getVendor(); //find vendor associated with location.
-////                VendorData vd = createVendorDataObject(vendor);
-////                vendorDataList.add(vd);
-////            }
-
             return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
     }
-
-    @CrossOrigin
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ResponseEntity<?> searchVendors(@RequestBody Data data) {
-
-        //convert the tags from client into a list of Strings
-        List<String> tagsClient = data.tags.stream().map(t -> t.getTag().toLowerCase()).collect(Collectors.toList());
-        List<Vendor> vendorMatch = new ArrayList<>(); //holds vendors that match search
-        List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
-        if (vendorList.size() > 0) {  //if we have vendors
-            for (Vendor v : vendorList) {
-                List<String> tagsVendor = v.getTagsList(); //get strings from the vendor
-                if (!Collections.disjoint(tagsClient, tagsVendor)) {
-                    vendorMatch.add(v);
-                }
-            }
-            return new ResponseEntity<Object>(vendorMatch, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
-        }
-    }
+//
+//    @CrossOrigin
+//    @RequestMapping(value = "/search", method = RequestMethod.POST)
+//    public ResponseEntity<?> searchVendors(@RequestBody Data data) {
+//
+//        if (data.keyword != null) {
+//            List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
+//            if (vendorList.size() > 0) {
+//                String keyword = data.keyword;
+//                /** filter by keyword */
+//                List<Vendor> vendorKeywordMatch = vendorList.stream().filter(v -> v.getVendorName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+//            } else {
+//                return new ResponseEntity<Object> (("No Matches on :" + data.keyword), HttpStatus.OK);
+//            }
+//        }
+//
+//        String keyword = data.keyword;
+//
+//        List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
+//
+//        if (vendorList.size() > 0) { // if we have vendors
+//            /** filter by keyword */
+//            List<Vendor> vendorKeywordMatch = vendorList.stream().filter(v -> v.getVendorName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+//
+//            if (vendorKeywordMatch.size() > 0) { //if there were keyword matches
+//                /** this part does tags */
+//                //convert the tags from client into a list of Strings
+//                List<String> tagsClient = data.tags.stream().map(t -> t.getTag()).collect(Collectors.toList());
+//                List<Vendor> vendorTagMatch = new ArrayList<>(); //holds vendors that match search
+//                for (Vendor v : vendorList) {
+//                    List<String> tagsVendor = v.getTagsList(); //get strings from the vendor
+//                    if (!Collections.disjoint(tagsClient, tagsVendor)) {
+//                        vendorTagMatch.add(v);
+//                    }
+//                }
+//
+//            }
+//            return new ResponseEntity<Object>(vendorTagMatch, HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<Object>("No Matched Trucks", HttpStatus.NO_CONTENT);
+//        }
+//    }
 
 
     /**
@@ -340,6 +360,7 @@ public class ChuckWagonController {
             return new ResponseEntity<Object>("Password Mismatch", HttpStatus.UNAUTHORIZED);
         }
     }
+
 
     @RequestMapping(value = "/vendor/{id}/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(@RequestParam("id") Integer id) {
@@ -432,18 +453,9 @@ public class ChuckWagonController {
                 }
             });
         }
-        return vendorList;
+        return (List<Vendor>) vendorRepository.findAll();
     }
 
-    /**
-     *
-     *Catch all route for request method options
-     */
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
-    public void manageOptions(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-    }
 
     /**
      * Created an more-readable and concise object for the front end to receive and work with
