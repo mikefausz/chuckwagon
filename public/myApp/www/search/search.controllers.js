@@ -113,6 +113,10 @@ angular
     };
     $scope.truck = SearchService.getTruck($stateParams.truckId);
 
+    $scope.hasContent = function() {
+      return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+    };
+    
     var mapOptions = {
       center: $scope.truck.location,
       zoom: 15,

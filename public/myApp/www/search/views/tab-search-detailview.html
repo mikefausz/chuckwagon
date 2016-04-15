@@ -13,11 +13,11 @@
         {{truck.bio}}
       </p>
       <div id="map-detail"></div>
-      <div class="card">
+      <div ng-show="hasContent()" class="card">
         <div class="item item-text-wrap">
           <h4>{{ truck.location.timestamp }}</h4>
-          <h3>{{ truck.message }}</h3>
-          <img ng-src="{{ truck.imageUrl }}">
+          <h3 ng-show="{{ truck.location.tweet }}">{{ truck.location.tweet }}</h3>
+          <img ng-show="{{ truck.location.imageUrl }}" ng-src="{{ truck.location.imageUrl }}">
         </div>
       </div>
     </div>
