@@ -6,12 +6,6 @@ angular.module('starter.controllers', [])
   $scope.vendorMode = false;
   window.localStorage.vendorLoggedIn = false;
 
-  // $scope.logoutVendor = function() {
-  //   HomeService.logoutVendor();
-  //   $scope.toggleVendorView();
-  //   localStorage.vendorLoggedIn = false;
-  // };
-
   // Toggles between user and vendor modes on click
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
@@ -102,7 +96,7 @@ angular.module('starter.controllers', [])
   });
 
   $scope.addFavoriteTruck = function (truckId, heart) {
-    FavoritesService.addFavoriteTruck(truckId, heart)
+    FavoritesService.addFavoriteTruck(truckId, heart);
   };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
@@ -112,7 +106,7 @@ angular.module('starter.controllers', [])
       console.log("Fav vendors not there");
       return false;
     }
-   }
+  };
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService, FavoritesService) {
@@ -121,9 +115,14 @@ angular.module('starter.controllers', [])
   // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
-  $scope.addFavoriteTruck = function (truckId, heart) {
-    FavoritesService.addFavoriteTruck(truckId, heart)
+  $scope.hasContent = function() {
+    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
   };
+
+  $scope.addFavoriteTruck = function (truckId, heart) {
+    FavoritesService.addFavoriteTruck(truckId, heart);
+  };
+  
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");
