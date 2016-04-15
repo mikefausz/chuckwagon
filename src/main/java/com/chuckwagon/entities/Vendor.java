@@ -51,6 +51,7 @@ public class Vendor {
     private boolean isActive;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "vendor")
+    @JsonIgnore
     private List<TagVendor> tags;
 
     @Transient
