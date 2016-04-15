@@ -1,5 +1,5 @@
 {
-  "vendorName": "myApp",
+  "name": "myApp",
   "app_id": "",
   "gulpStartupTasks": [
     "sass",

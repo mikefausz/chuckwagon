@@ -6,6 +6,7 @@ angular
    var ip = "http://localhost:8080";
   var loginUrl = ip + "/vendor/login";
   var signupUrl = ip + "/vendor";
+  var vendorsURL = ip + "/vendor/location";
 
   function signup(vendor){
     var currentVendor = $http.post(signupUrl, vendor);
@@ -20,6 +21,50 @@ angular
     console.log("OBJECT BEING SENT", post);
     return $http.post(url, post);
   }
+
+  function getCurrentVendors() {
+      var defer = $q.defer();
+      var cache = cacheEngine.get('vendors');
+      // IF cache already contains vendors, use those
+      if(cache) {
+        console.log('found trucks in the cache');
+        defer.resolve(cache);
+      }
+      // ELSE get vendors from server, put them in cache
+      else {
+        console.log('no trucks in cache. getting from service');
+        $http.get(vendorsURL).then(function(response) {
+          var trucks = response.data;
+          if (localStorage.getItem("currentVendor")) {
+            favArr = JSON.parse(localStorage.getItem("currentVendor"));
+          }
+          trucks.forEach(function(truck) {
+            if(localStorage.getItem("currentVendor")) {
+              if(favArr.indexOf(truck.id)>-1) {
+                truck.heart = true;
+              } else {
+                truck.heart = false;
+              }
+            } else {
+              localStorage.setItem("currentVendor")
+            }
+          });
+
+          cacheEngine.put('vendors',  currentVendor);
+          defer.resolve(currentVendor);
+      });
+      }
+      return defer.promise;
+  }
+
+  function getCurrentVendor(truckId) {
+    for (var i = 0; i < currentVendor.length; i++) {
+      if (trucks[i].id === parseInt(truckId)) {
+        return trucks[i];
+      }
+    }
+    return null;
+  };
 
   function loginVendor(login){
     var defer = $q.defer();
@@ -56,5 +101,7 @@ angular
     loginVendor: loginVendor,
     logoutVendor: logoutVendor,
     editVendor: editVendor,
+    getCurrentVendors: getCurrentVendors,
+    getCurrentVendor: getCurrentVendor,
   };
 });

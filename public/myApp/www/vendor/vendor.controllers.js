@@ -14,6 +14,7 @@ angular
       $scope.signup = function(vendor){
         console.log("SIGN UP");
         VendorService.signup(vendor);
+        localStorage.currentVendor = JSON.stringify(vendor);
       };
     })
 
@@ -48,8 +49,26 @@ angular
       };
     })
 
-    .controller('VendordashdetailCtrl', function($scope, TruckService){
-      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+    .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
+
+      $scope.currentVendor = VendorService.getCurrentVendor($stateParams.currentVendorId);
+      window.glob = $scope.truck;
+
+        var mapOptions = {
+          center: $scope.truck.location,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: $scope.truck.location,
+          map: $scope.map,
+          title: 'Truck name'
+        });
+
+        marker.setMap($scope.map);
     })
 
     .controller('EditCtrl', function($scope, VendorService){

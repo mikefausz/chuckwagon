@@ -40,11 +40,11 @@ Certain format codes support i18n. Check this [guide](https://docs.angularjs.org
 
 * `MMMM`
   _(Example: `February`, i18n support)_ -
-  Parses the full vendorName of a month.
+  Parses the full name of a month.
 
 * `MMM`
   _(Example: `Feb`, i18n support)_ -
-  Parses the short vendorName of a month.
+  Parses the short name of a month.
 
 * `MM`
   _(Example: `12`, Leading 0)_ -
@@ -72,11 +72,11 @@ Certain format codes support i18n. Check this [guide](https://docs.angularjs.org
 
 * `EEEE`
   _(Example: `Sunday`, i18n support)_ -
-  Parses the full vendorName of a day.
+  Parses the full name of a day.
 
 * `EEE`
   _(Example: `Mon`, i18n support)_ -
-  Parses the short vendorName of a day.
+  Parses the short name of a day.
 
 * `HH`
   _(Example: `14`, Leading 0)_ -

@@ -1,4 +1,4 @@
-<a vendorName="1.3.1"></a>
+<a name="1.3.1"></a>
 ## [1.3.1](https://github.com/angular-ui/bootstrap/compare/1.3.0...v1.3.1) (2016-04-05)
 
 
@@ -9,7 +9,7 @@
 
 
 
-<a vendorName="1.3.0"></a>
+<a name="1.3.0"></a>
 # [1.3.0](https://github.com/angular-ui/bootstrap/compare/1.2.5...v1.3.0) (2016-04-05)
 
 
@@ -52,7 +52,7 @@ attribute pass-throughs in the popup
 
 
 
-<a vendorName="1.2.5"></a>
+<a name="1.2.5"></a>
 ## [1.2.5](https://github.com/angular-ui/bootstrap/compare/1.2.4...v1.2.5) (2016-03-20)
 
 
@@ -75,13 +75,13 @@ attribute pass-throughs in the popup
 
 
 
-<a vendorName="1.2.4"></a>
+<a name="1.2.4"></a>
 ## [1.2.4](https://github.com/angular-ui/bootstrap/compare/1.2.3...v1.2.4) (2016-03-06)
 
 
 
 
-<a vendorName="1.2.3"></a>
+<a name="1.2.3"></a>
 ## [1.2.3](https://github.com/angular-ui/bootstrap/compare/1.2.2...v1.2.3) (2016-03-06)
 
 
@@ -100,7 +100,7 @@ attribute pass-throughs in the popup
 
 
 
-<a vendorName="1.2.2"></a>
+<a name="1.2.2"></a>
 ## [1.2.2](https://github.com/angular-ui/bootstrap/compare/1.2.1...v1.2.2) (2016-03-03)
 
 
@@ -117,7 +117,7 @@ attribute pass-throughs in the popup
 
 
 
-<a vendorName="1.2.1"></a>
+<a name="1.2.1"></a>
 ## [1.2.1](https://github.com/angular-ui/bootstrap/compare/1.2.0...v1.2.1) (2016-02-27)
 
 
@@ -127,7 +127,7 @@ attribute pass-throughs in the popup
 
 
 
-<a vendorName="1.2.0"></a>
+<a name="1.2.0"></a>
 # [1.2.0](https://github.com/angular-ui/bootstrap/compare/1.1.2...v1.2.0) (2016-02-26)
 
 
@@ -187,7 +187,7 @@ template
 
 
 
-<a vendorName="1.1.2"></a>
+<a name="1.1.2"></a>
 ## [1.1.2](https://github.com/angular-ui/bootstrap/compare/1.1.1...v1.1.2) (2016-02-01)
 
 
@@ -205,7 +205,7 @@ template
 
 
 
-<a vendorName="1.1.1"></a>
+<a name="1.1.1"></a>
 ## [1.1.1](https://github.com/angular-ui/bootstrap/compare/v1.1.0...v1.1.1) (2016-01-25)
 
 
@@ -216,7 +216,7 @@ template
 
 
 
-<a vendorName="1.1.0"></a>
+<a name="1.1.0"></a>
 # [1.1.0](https://github.com/angular-ui/bootstrap/compare/v1.0.3...v1.1.0) (2016-01-18)
 
 
@@ -255,7 +255,7 @@ template in one's app and provide the necessary CSS
 
 
 
-<a vendorName="1.0.3"></a>
+<a name="1.0.3"></a>
 # [1.0.3](https://github.com/angular-ui/bootstrap/compare/v1.0.2...v1.0.3) (2016-01-12)
 
 
@@ -265,7 +265,7 @@ template in one's app and provide the necessary CSS
 
 
 
-<a vendorName="1.0.2"></a>
+<a name="1.0.2"></a>
 # [1.0.2](https://github.com/angular-ui/bootstrap/compare/v1.0.1...v1.0.2) (2016-01-12)
 
 
@@ -275,7 +275,7 @@ template in one's app and provide the necessary CSS
 
 
 
-<a vendorName="1.0.1"></a>
+<a name="1.0.1"></a>
 # [1.0.1](https://github.com/angular-ui/bootstrap/compare/1.0.0...v1.0.1) (2016-01-12)
 
 
@@ -296,7 +296,7 @@ template in one's app and provide the necessary CSS
 
 
 
-<a vendorName="1.0.0"></a>
+<a name="1.0.0"></a>
 # [1.0.0](https://github.com/angular-ui/bootstrap/compare/0.14.3...v1.0.0) (2016-01-08)
 
 
@@ -441,7 +441,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 
-<a vendorName="0.14.3"></a>
+<a name="0.14.3"></a>
 # [0.14.3](https://github.com/angular-ui/bootstrap/compare/0.14.2...v0.14.3) (2015-10-23)
 
 
@@ -466,7 +466,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 
-<a vendorName="0.14.2"></a>
+<a name="0.14.2"></a>
 # [0.14.2](https://github.com/angular-ui/bootstrap/compare/0.14.1...v0.14.2) (2015-10-14)
 
 
@@ -478,7 +478,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 
-<a vendorName="0.14.1"></a>
+<a name="0.14.1"></a>
 # [0.14.1](https://github.com/angular-ui/bootstrap/compare/0.14.0...v0.14.1) (2015-10-11)
 
 
@@ -502,7 +502,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 
 
 
-<a vendorName="0.14.0"></a>
+<a name="0.14.0"></a>
 # [0.14.0](https://github.com/angular-ui/bootstrap/compare/0.13.4...0.14.0) (2015-10-09)
 
 
@@ -577,7 +577,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
 * Removes focus on datepicker on selection of a date via keyboard for accessibility reasons
 
 
-<a vendorName="0.13.4"></a>
+<a name="0.13.4"></a>
 # [0.13.4](https://github.com/angular-ui/bootstrap/compare/0.13.3...0.13.4) (2015-09-03)
 
 
@@ -661,7 +661,7 @@ $scope.typeaheadContainer = angular.element(document.querySelector('#typeaheadCo
    ([bb9fa1a](https://github.com/angular-ui/bootstrap/commit/bb9fa1a))
 
 
-<a vendorName"0.13.3"></a>
+<a name"0.13.3"></a>
 # 0.13.3 (2015-08-09)
 
 
@@ -748,7 +748,7 @@ Closes #4080
  ([5245ccad](https://github.com/angular-ui/bootstrap/commit/5245ccad))
 
 
-<a vendorName"0.13.2"></a>
+<a name"0.13.2"></a>
 # 0.13.2 (2015-08-02)
 
 
@@ -794,7 +794,7 @@ Closes #4080
   * add `typeaheadSelectOnExact` support ([277b30ca](https://github.com/angular-ui/bootstrap/commit/277b30ca), closes [#3365](https://github.com/angular-ui/bootstrap/issues/3365), [#3310](https://github.com/angular-ui/bootstrap/issues/3310))
 
 
-<a vendorName"0.13.1"></a>
+<a name"0.13.1"></a>
 # 0.13.1 (2015-07-23)
 
 
@@ -855,7 +855,7 @@ Closes #4080
   * handles min-length of 0 ([a5a25141](https://github.com/angular-ui/bootstrap/commit/a5a25141), closes [#3600](https://github.com/angular-ui/bootstrap/issues/3600))
 
 
-<a vendorName="0.13.0"></a>
+<a name="0.13.0"></a>
 # 0.13.0 (2015-05-02)
 
 
@@ -962,7 +962,7 @@ Closes #4080
 - **tooltip:**
   - incorrect position when text wraps ([5726e3ef](http://github.com/angular-ui/bootstrap/commit/5726e3ef))
 
-<a vendorName="0.12.0"></a>
+<a name="0.12.0"></a>
 # 0.12.0 (2014-11-16)
 
 
@@ -1587,7 +1587,7 @@ The placment='mouse' is gone with no equivalent
   - option for different mode when maxSize ([a023d082](http://github.com/angular-ui/bootstrap/commit/a023d082))
   - add pager directive ([d9526475](http://github.com/angular-ui/bootstrap/commit/d9526475))
 - **tabs:**
-  - Change directive vendorName, add features ([c5326595](http://github.com/angular-ui/bootstrap/commit/c5326595))
+  - Change directive name, add features ([c5326595](http://github.com/angular-ui/bootstrap/commit/c5326595))
   - support disabled state ([2b78dd16](http://github.com/angular-ui/bootstrap/commit/2b78dd16))
   - add support for vertical option ([88d17a75](http://github.com/angular-ui/bootstrap/commit/88d17a75))
   - add support for other navigation types, like 'pills' ([53e0a39f](http://github.com/angular-ui/bootstrap/commit/53e0a39f))
