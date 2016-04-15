@@ -78,7 +78,7 @@ angular.module('starter.controllers', [])
           icon: 'icon-tutone.png',
         });
 
-        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+        var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
         var compiled = $compile(contentString)($scope);
         var infowindow = new google.maps.InfoWindow({
           content: compiled[0]
