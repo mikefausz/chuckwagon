@@ -456,7 +456,6 @@ public class ChuckWagonController {
         return (List<Vendor>) vendorRepository.findAll();
     }
 
-
     /**
      * Created an more-readable and concise object for the front end to receive and work with
      *
@@ -478,27 +477,10 @@ public class ChuckWagonController {
         vendorData.setLocation(location);
         vendorData.setTags(vendor.getTagsList());
 
-//        List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(vendor);
-//        List<String> tagList = tagVendorList.stream().map(t -> t.getTag().getTag()).collect(Collectors.toList());
-//        vendorData.setTags(tagList);
         return vendorData;
     }
-
-
     //unique id on each device, need Cordova plug in.
     //ionic has an onload method
 
     //passing a self generated unique cookie back and forth. FE doesn't need to store, but just return.
-
-
-    public void tagsToStrings(Vendor vendor) {
-        List<TagVendor> tagList = vendor.getTags();
-        List<String> tagsString = new ArrayList<>();
-        for (TagVendor tv : tagList) {
-            tagsString.add(tv.getTag().getTag());
-        }
-        vendor.setTagsList(tagsString);
-    }
-
-
 }
