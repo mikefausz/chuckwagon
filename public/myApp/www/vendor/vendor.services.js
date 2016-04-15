@@ -57,15 +57,6 @@ angular
       return defer.promise;
   }
 
-  function getCurrentVendor(truckId) {
-    for (var i = 0; i < currentVendor.length; i++) {
-      if (trucks[i].id === parseInt(truckId)) {
-        return trucks[i];
-      }
-    }
-    return null;
-  };
-
   function loginVendor(login){
     var defer = $q.defer();
 
@@ -102,6 +93,5 @@ angular
     logoutVendor: logoutVendor,
     editVendor: editVendor,
     getCurrentVendors: getCurrentVendors,
-    getCurrentVendor: getCurrentVendor,
   };
 });

@@ -20,37 +20,45 @@ angular
 
 
     .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q){
+      $scope.located = false;
+      $scope.post = {};
 
-      window.scope = $scope;
+      $scope.gotLocation = function() {
+        return $scope.located;
+      }
 
-      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
-      console.log($scope.currentVendor);
+      $cordovaGeolocation.getCurrentPosition().then(function(position){
+        $scope.located = true;
+        $scope.lat = position.coords.latitude;
+        $scope.lng = position.coords.longitude;
+      }, function(err) {
+        console.log(err);
+      });
+
+
+      // console.log($scope.currentVendor);
 
       $scope.dropPin = function(post, vendorId){
-        $cordovaGeolocation.getCurrentPosition().then(function(position){
-          console.log("RELOG POS", position);
+          $scope.currentVendor = JSON.parse(localStorage.currentVendor);
           var id = $scope.currentVendor.id;
-          var time = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
 
-          console.log("SHOW",post);
-          post.lat = position.coords.latitude;
-          post.lng = position.coords.longitude;
+          post.lat = $scope.lat;
+          post.lng = $scope.lng;
+          // console.log("SHOW",post);
 
-          localStorage.currentVendor.imageUrl = post.imageUrl;
-          localStorage.currentVendor.lat = post.lat;
-          localStorage.currentVendor.lng = post.lng;
-          localStorage.currentVendor.tweet = post.tweet;
-          // localStorage.setItem('currentVendor.time', time);
-          localStorage.currentVendor.time = time;
+          $scope.currentVendor.location.imageUrl = post.imageUrl;
+          $scope.currentVendor.location.lat = post.lat;
+          $scope.currentVendor.location.lng = post.lng;
+          $scope.currentVendor.location.tweet = post.tweet;
+          $scope.currentVendor.location.time = new Date();
+          localStorage.setItem('currentVendor', JSON.stringify($scope.currentVendor));
 
           VendorService.dropPin(post, id)
-          .success(function(data) {
-            console.log("YAY", data);
-          })
-          .error(function(err) {
-            console.log('err', err);
-          });
-        });
+            .then(function(response) {
+              // console.log("YAY", response.data);
+            }), function(err) {
+              console.log('err', err);
+            };
       };
 
       $scope.logoutVendor = function() {
@@ -60,25 +68,23 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
+        $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
 
-      // $scope.currentVendor = VendorService.getCurrentVendor($stateParams.currentVendorId);
-      $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
+        console.log("CURRENT VENDOR " + $scope.currentVendor);
+          var mapOptions = {
+            center: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
 
-        var mapOptions = {
-          center: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+          $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
 
-        $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+          var marker = new google.maps.Marker({
+            position: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
+            map: $scope.map
+          });
 
-        var marker = new google.maps.Marker({
-          position: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
-          map: $scope.map,
-          title: 'Truck name'
-        });
-
-        marker.setMap($scope.map);
+          marker.setMap($scope.map);
     })
 
     .controller('EditCtrl', function($scope, VendorService){
