@@ -24,4 +24,18 @@ public class Data {
 
     public String keyword;
 
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "location=" + location +
+                ", menu=" + menu +
+                ", tag=" + tag +
+                ", tagVendor=" + tagVendor +
+                ", vendor=" + vendor +
+                ", vendorData=" + vendorData +
+                ", tags=" + tags +
+                ", keyword='" + keyword + '\'' +
+                '}';
+    }
 }

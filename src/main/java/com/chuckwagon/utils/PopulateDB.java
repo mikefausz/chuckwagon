@@ -23,7 +23,7 @@ public class PopulateDB {
         String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
         if (tagRepository.count() == 0) {
             for (String s : tagStrings) {
-                Tag tag = new Tag(s);
+                Tag tag = new Tag(s.toLowerCase());
                 tagRepository.save(tag);
             }
         }
@@ -40,6 +40,7 @@ public class PopulateDB {
             vendorRepository.save(bon);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), bon));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(2), bon));
+            System.out.println("Created bon");
 
 
             Vendor pink = (new Vendor("pink@pink.com", "Pink Bellies", "password"));
@@ -52,6 +53,7 @@ public class PopulateDB {
             vendorRepository.save(pink);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), pink));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), pink));
+            System.out.println("created pink");
 
 
             Vendor lobster = (new Vendor("lob@lob.com", "The Immortal Lobster", "password"));
@@ -64,6 +66,7 @@ public class PopulateDB {
             vendorRepository.save(lobster);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), lobster));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), lobster));
+            System.out.println("created lob");
 
             Vendor autob = (new Vendor("auto@auto.com", "Autobahn", "password"));
             autob.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -75,6 +78,7 @@ public class PopulateDB {
             vendorRepository.save(autob);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), autob));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(5), autob));
+            System.out.println("created autob");
         }
 
     }

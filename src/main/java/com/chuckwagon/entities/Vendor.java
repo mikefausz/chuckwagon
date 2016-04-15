@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,7 @@ public class Vendor {
     @JsonIgnore
     private List<TagVendor> tags;
 
+    //strings for FE to use.
     @Transient
     private List<String> tagsList;
 
@@ -143,11 +145,11 @@ public class Vendor {
         isActive = active;
     }
 
-    public List getTags() {
+    public List<TagVendor> getTags() {
         return tags;
     }
 
-    public void setTags(List tags) {
+    public void setTags(List<TagVendor> tags) {
         this.tags = tags;
     }
 
@@ -164,12 +166,20 @@ public class Vendor {
     }
 
     public List<String> getTagsList() {
+        if (!tags.isEmpty()) {
+            List<String> tagsString = new ArrayList<>();
+            for (TagVendor tv : tags) {
+                tagsString.add(tv.getTag().getTag());
+            }
+            tagsList = tagsString;
+        }
         return tagsList;
     }
 
     public void setTagsList(List<String> tagsList) {
         this.tagsList = tagsList;
     }
+
 
 
 }

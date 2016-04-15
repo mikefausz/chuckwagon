@@ -303,29 +303,18 @@ public class ChuckWagonController {
     @CrossOrigin
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ResponseEntity<?> searchVendors(@RequestBody Data data) {
-        List<Tag> tagList = data.tags;
 
-        List<Vendor> vendorMatch = new ArrayList<>();
-        List<Vendor> vendorList = removeExpiredLocations();
-
-        if (vendorList.size() > 0) {
+        //convert the tags from client into a list of Strings
+        List<String> tagsClient = data.tags.stream().map(t -> t.getTag().toLowerCase()).collect(Collectors.toList());
+        List<Vendor> vendorMatch = new ArrayList<>(); //holds vendors that match search
+        List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
+        if (vendorList.size() > 0) {  //if we have vendors
             for (Vendor v : vendorList) {
-                if (!Collections.disjoint(v.getTags(), tagList)) {
+                List<String> tagsVendor = v.getTagsList(); //get strings from the vendor
+                if (!Collections.disjoint(tagsClient, tagsVendor)) {
                     vendorMatch.add(v);
                 }
             }
-//        if (locationList.size() > 0) {
-//            for (Location l : locationList) {
-//                List<TagVendor> vendorTags = tagVendorRepository.findByVendor(l.getVendor()); //tagvendor objects.
-//                List<Tag> vendorsTags = vendorTags.stream().map(TagVendor::getTag).collect(Collectors.toList()); //converted into tags
-//
-//                //i am doing this because vendors are not coming out with tags.
-//                //will need to change this at some future date.
-//                if (!Collections.disjoint(vendorsTags, tagList)) {
-//                    vendorMatch.add(l.getVendor());
-//                }
-//            }
-
             return new ResponseEntity<Object>(vendorMatch, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);

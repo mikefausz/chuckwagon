@@ -57,13 +57,15 @@ public class Tag {
 
         Tag tag1 = (Tag) o;
 
-        if (!id.equals(tag1.id)) return false;
+        if (id != null ? !id.equals(tag1.id) : tag1.id != null) return false;
         return tag.equals(tag1.tag);
 
     }
 
     @Override
     public int hashCode() {
-        return tag.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + tag.hashCode();
+        return result;
     }
 }

@@ -71,7 +71,7 @@ public class TagVendor {
         TagVendor tagVendor = (TagVendor) o;
 
         if (id != null ? !id.equals(tagVendor.id) : tagVendor.id != null) return false;
-        if (tag != null ? !tag.equals(tagVendor.tag) : tagVendor.tag != null) return false;
+        if (!tag.equals(tagVendor.tag)) return false;
         return vendor != null ? vendor.equals(tagVendor.vendor) : tagVendor.vendor == null;
 
     }
@@ -79,7 +79,7 @@ public class TagVendor {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        result = 31 * result + tag.hashCode();
         result = 31 * result + (vendor != null ? vendor.hashCode() : 0);
         return result;
     }
