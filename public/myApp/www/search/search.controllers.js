@@ -43,7 +43,7 @@ angular
 
   })
 
-  .controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, SearchService) {
+  .controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, SearchService, $compile) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -78,7 +78,7 @@ angular
               icon: 'icon-tutone.png',
             });
 
-            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
             var compiled = $compile(contentString)($scope);
             var infowindow = new google.maps.InfoWindow({
               content: compiled[0]
@@ -116,7 +116,7 @@ angular
     $scope.hasContent = function() {
       return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
     };
-    
+
     var mapOptions = {
       center: $scope.truck.location,
       zoom: 15,

@@ -14,8 +14,24 @@ angular
           } else {
             console.log("no trucks from server");
           }
-          cacheEngine.put('searchVendors',  vendors);
-          defer.resolve(response.data);
+          var trucks = response.data;
+          var favArr = [];
+          if (localStorage.getItem("favoriteVendors")) {
+            favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          }
+          trucks.forEach(function(truck) {
+            if(localStorage.getItem("favoriteVendors")) {
+              if(favArr.indexOf(truck.id)>-1) {
+                truck.heart = true;
+              } else {
+                truck.heart = false;
+              }
+            } else {
+              localStorage.setItem("favoriteVendors", "[]");
+            }
+          });
+          cacheEngine.put('searchVendors',  trucks);
+          defer.resolve(trucks);
         }, function(err) {
           console.log(err);
         });

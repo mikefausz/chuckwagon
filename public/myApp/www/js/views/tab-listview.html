@@ -5,7 +5,7 @@
         <a ng-href="#/tab/list/{{truck.id}}">
         <img class="search-img" ng-src="{{ truck.profilePictureLocation }}">
         <h2>{{truck.vendorName}}</h2>
-        <p><span class="tag-span" ng-repeat="tag in truck.tags">{{ tag }} </span></p>
+        <p><span class="tag-span" ng-repeat="tag in truck.tagsList">{{ tag }} </span></p>
       </a>
         <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
         <label ng-click="addFavoriteTruck(truck.id, truck.heart)" ng-class="{'heart ion-ios-heart': truck.heart,'ion-ios-heart-outline': !truck.heart}" class="icon">
