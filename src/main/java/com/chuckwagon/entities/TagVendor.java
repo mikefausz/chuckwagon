@@ -1,5 +1,7 @@
 package com.chuckwagon.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -18,6 +20,7 @@ public class TagVendor {
     private Tag tag;
 
     @ManyToOne
+    @JsonIgnore
     private Vendor vendor;
 
 

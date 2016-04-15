@@ -35,9 +35,9 @@ public class PopulateDB {
             bon.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             Location bonLoc = new Location(32.788642f, -79.950876f, "48");
             bonLoc.setExpiresObject(LocalDateTime.now().plusDays(2));
-            bonLoc.setVendor(bon);
+            bonLoc = locationRepository.save(bonLoc);
+            bon.setLocation(bonLoc);
             vendorRepository.save(bon);
-            locationRepository.save(bonLoc);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), bon));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(2), bon));
 
@@ -47,9 +47,9 @@ public class PopulateDB {
             pink.setPassword(PasswordStorage.createHash(pink.getPassword()));
             Location pinkLoc = new Location(32.785400f, -79.937957f, "48");
             pinkLoc.setExpiresObject(LocalDateTime.now().plusDays(2));
-            pinkLoc.setVendor(pink);
+            pinkLoc = locationRepository.save(pinkLoc);
+            pink.setLocation(pinkLoc);
             vendorRepository.save(pink);
-            locationRepository.save(pinkLoc);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(1), pink));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), pink));
 
@@ -59,9 +59,9 @@ public class PopulateDB {
             lobster.setPassword(PasswordStorage.createHash(lobster.getPassword()));
             Location lobLoc = new Location(32.786300f, -79.94384f, "48");
             lobLoc.setExpiresObject(LocalDateTime.now().plusDays(2));
-            lobLoc.setVendor(lobster);
+            lobLoc = locationRepository.save(lobLoc);
+            lobster.setLocation(lobLoc);
             vendorRepository.save(lobster);
-            locationRepository.save(lobLoc);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(3), lobster));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), lobster));
 
@@ -70,9 +70,9 @@ public class PopulateDB {
             autob.setPassword(PasswordStorage.createHash(autob.getPassword()));
             Location autobLoc = new Location(32.796632f, -79.944514f, "48");
             autobLoc.setExpiresObject(LocalDateTime.now().plusDays(2));
-            autobLoc.setVendor(autob);
+            autobLoc = locationRepository.save(autobLoc);
+            autob.setLocation(autobLoc);
             vendorRepository.save(autob);
-            locationRepository.save(autobLoc);
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(4), autob));
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(5), autob));
         }

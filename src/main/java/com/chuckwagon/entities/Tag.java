@@ -3,6 +3,7 @@ package com.chuckwagon.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +21,10 @@ public class Tag {
 
     @Column(nullable = false)
     private String tag;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tag")
+    @JsonIgnore
+    private List<TagVendor> tagVendorList;
 
     public Tag() {
     }

@@ -5,8 +5,10 @@ import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by branden on 4/6/16 at 14:12.
@@ -41,8 +43,9 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Vendor vendor;
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "location")
+    @JsonIgnore
+    private List<Vendor> vendor;
 
 
 
@@ -88,11 +91,11 @@ public class Location {
       //  this.expiresObject = LocalDateTime.parse(expiresString);
     }
 
-    public Vendor getVendor() {
+    public List<Vendor> getVendor() {
         return vendor;
     }
 
-    public void setVendor(Vendor vendor) {
+    public void setVendor(List<Vendor> vendor) {
         this.vendor = vendor;
     }
 

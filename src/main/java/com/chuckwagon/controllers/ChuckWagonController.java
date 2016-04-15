@@ -70,31 +70,6 @@ public class ChuckWagonController {
     /** end DB viewing code */
 
     /**
-     * Route adds a menu to a vendor.
-     * A vendor can have multiple menus.
-     * Menus have names for toggle-ability
-     * Menus are images
-     *
-     * @param id Path variable describing the vendor logged in
-     * @param menuPicture Image of the menu. Image stored on DB, a link to image is stored in the Menu object
-     * @param menuName Name to refer to the menu as
-     * @return returns the status of the request
-     */
-    @RequestMapping(value = "/vendor/{id}/menu", method = RequestMethod.POST)
-    public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName) throws IOException {
-
-        Menu menu = new Menu(vendorRepository.findOne(id), menuName);
-
-            if (menuName != null && menuPicture != null) {
-                photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
-                menuRepository.save(menu);
-                return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
-            } else {
-                return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
-            }
-    }
-
-    /**
      * Adds a new vendor into the DB
      * allows for minimal fields
      * other fields to be set in vendor PUT route
@@ -142,6 +117,32 @@ public class ChuckWagonController {
             return new ResponseEntity<Object>("Not found", HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * Route adds a menu to a vendor.
+     * A vendor can have multiple menus.
+     * Menus have names for toggle-ability
+     * Menus are images
+     *
+     * @param id Path variable describing the vendor logged in
+     * @param menuPicture Image of the menu. Image stored on DB, a link to image is stored in the Menu object
+     * @param menuName Name to refer to the menu as
+     * @return returns the status of the request
+     */
+    @RequestMapping(value = "/vendor/{id}/menu", method = RequestMethod.POST)
+    public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName) throws IOException {
+
+        Menu menu = new Menu(vendorRepository.findOne(id), menuName);
+
+        if (menuName != null && menuPicture != null) {
+            photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
+            menuRepository.save(menu);
+            return new ResponseEntity<Object>(HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>("Did not receive menu content",HttpStatus.NO_CONTENT);
+        }
+    }
+
 
     /**
      * Uploads a profile picture for a specific vendor
@@ -245,11 +246,11 @@ public class ChuckWagonController {
 
             if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
 
-            location.setVendor(vendorRepository.findOne(id));
             double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
             hours = hours * 60 * 60; //convert hours to seconds
             location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
-            locationRepository.save(location);
+            vendor.setLocation(location);
+            vendorRepository.save(vendor);
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
@@ -268,18 +269,21 @@ public class ChuckWagonController {
     public ResponseEntity<?> getVendorLocations() {
 
         List<Location> locationList = removeExpiredVendors();
+
+
+        List<Vendor> vendorList = removeExpiredLocations();
         if (locationList.size() > 0) {
-            //list to hold special object that describes what the FE wants
-            ArrayList<VendorData> vendorDataList = new ArrayList<>();
+//            //list to hold special object that describes what the FE wants
+//            ArrayList<VendorData> vendorDataList = new ArrayList<>();
+//
+//            //build each object
+////            for (Location l : locationList) {
+////                Vendor vendor = l.getVendor(); //find vendor associated with location.
+////                VendorData vd = createVendorDataObject(vendor);
+////                vendorDataList.add(vd);
+////            }
 
-            //build each object
-            for (Location l : locationList) {
-                Vendor vendor = l.getVendor(); //find vendor associated with location.
-                VendorData vd = createVendorDataObject(vendor);
-                vendorDataList.add(vd);
-            }
-
-            return new ResponseEntity<Object>(vendorDataList, HttpStatus.OK);
+            return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
@@ -288,27 +292,35 @@ public class ChuckWagonController {
     @CrossOrigin
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ResponseEntity<?> searchVendors(@RequestBody Data data) {
-        List<Location> locationList = removeExpiredVendors();
-        List<Tag> tagList =  data.tags;
+        List<Tag> tagList = data.tags;
 
         List<Vendor> vendorMatch = new ArrayList<>();
+        List<Vendor> vendorList = removeExpiredLocations();
 
-        if (locationList.size() > 0) {
-            for (Location l : locationList) {
-                List<TagVendor> vendorTags = tagVendorRepository.findByVendor(l.getVendor()); //tagvendor objects.
-                List<Tag> vendorsTags = vendorTags.stream().map(TagVendor::getTag).collect(Collectors.toList()); //converted into tags
-
-                //i am doing this because vendors are not coming out with tags.
-                //will need to change this at some future date.
-                if (!Collections.disjoint(vendorsTags, tagList)) {
-                    vendorMatch.add(l.getVendor());
+        if (vendorList.size() > 0) {
+            for (Vendor v : vendorList) {
+                if (!Collections.disjoint(v.getTags(), tagList)) {
+                    vendorMatch.add(v);
                 }
             }
+//        if (locationList.size() > 0) {
+//            for (Location l : locationList) {
+//                List<TagVendor> vendorTags = tagVendorRepository.findByVendor(l.getVendor()); //tagvendor objects.
+//                List<Tag> vendorsTags = vendorTags.stream().map(TagVendor::getTag).collect(Collectors.toList()); //converted into tags
+//
+//                //i am doing this because vendors are not coming out with tags.
+//                //will need to change this at some future date.
+//                if (!Collections.disjoint(vendorsTags, tagList)) {
+//                    vendorMatch.add(l.getVendor());
+//                }
+//            }
+
             return new ResponseEntity<Object>(vendorMatch, HttpStatus.OK);
         } else {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
     }
+
 
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
@@ -329,11 +341,16 @@ public class ChuckWagonController {
         }
     }
 
-    @RequestMapping(value = "vendor/{id}/logout", method = RequestMethod.POST)
-    public ResponseEntity<?> logout(HttpSession session, @RequestParam("id") Integer id) {
-            session.invalidate();
+    @RequestMapping(value = "/vendor/{id}/logout", method = RequestMethod.POST)
+    public ResponseEntity<?> logout(@RequestParam("id") Integer id) {
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
         }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public ResponseEntity<?> test() {
+        Vendor v = vendorRepository.findOne(1);
+        return new ResponseEntity<Object>(v, HttpStatus.ACCEPTED);
+    }
 
     /**
      * Processes an image and stores to server returning a link to where it was stored
@@ -405,6 +422,19 @@ public class ChuckWagonController {
         return locationList;
     }
 
+    public List<Vendor> removeExpiredLocations() {
+        List<Vendor> vendorList = (List<Vendor>) vendorRepository.findAll();
+
+        if (vendorList.size() > 0) {
+            vendorList.forEach(vendor -> {
+                if (vendor.getLocation().getExpiresObject().isBefore(LocalDateTime.now())) {
+                    locationRepository.delete(vendor.getLocation());
+                }
+            });
+        }
+        return vendorList;
+    }
+
     /**
      *
      *Catch all route for request method options
@@ -416,25 +446,25 @@ public class ChuckWagonController {
     }
 
 
-    public VendorData createVendorDataObject(Vendor vendor) {
-        VendorData vendorData = new VendorData();
-
-        vendorData.setId(vendor.getId());
-        vendorData.setVendorName(vendor.getVendorName());
-        vendorData.setBio(vendor.getBio());
-        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
-
-        HashMap<String, Float> location = new HashMap<>();
-        location.put("lat", vendor.getLocation().get(0).getLat());
-        location.put("lng", vendor.getLocation().get(0).getLng());
-        vendorData.setLocation(location);
-
-        List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(vendor);
-        List<String> tagList = tagVendorList.stream().map(t -> t.getTag().getTag()).collect(Collectors.toList());
-        vendorData.setTags(tagList);
-
-        return vendorData;
-    }
+//    public VendorData createVendorDataObject(Vendor vendor) {
+//        VendorData vendorData = new VendorData();
+//
+//        vendorData.setId(vendor.getId());
+//        vendorData.setVendorName(vendor.getVendorName());
+//        vendorData.setBio(vendor.getBio());
+//        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
+//
+//        HashMap<String, Float> location = new HashMap<>();
+//        location.put("lat", vendor.getLocation().get(0).getLat());
+//        location.put("lng", vendor.getLocation().get(0).getLng());
+//        vendorData.setLocation(location);
+//
+//        List<TagVendor> tagVendorList = tagVendorRepository.findByVendor(vendor);
+//        List<String> tagList = tagVendorList.stream().map(t -> t.getTag().getTag()).collect(Collectors.toList());
+//        vendorData.setTags(tagList);
+//
+//        return vendorData;
+//    }
 
 
     //unique id on each device, need Cordova plug in.

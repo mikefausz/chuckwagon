@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -44,27 +45,20 @@ public class Vendor {
 
     @Transient
     @JsonIgnore
-    private MultipartFile profilePicture;  //this stays out of DB Json.
-
-    @Column(name = "created")
-    private LocalDateTime created;
+    private MultipartFile profilePicture;  //this stays out of DB & Json.
 
     @Column(name = "active")
     private boolean isActive;
 
-    @Transient
-    List tags;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "vendor")
+    private List<TagVendor> tags;
 
     @Transient
-    List<String> tagsList;
+    private List<String> tagsList;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Location location;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
-    @JsonIgnore
-    private List<Location> location;
-
-    @Transient
-    private Location currentLocation;
 
     public Vendor() {
     }
@@ -140,14 +134,6 @@ public class Vendor {
         this.profilePicture = profilePicture;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -164,11 +150,11 @@ public class Vendor {
         this.tags = tags;
     }
 
-    public List<Location> getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(List<Location> location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -184,11 +170,5 @@ public class Vendor {
         this.tagsList = tagsList;
     }
 
-    public Location getCurrentLocation() {
-        return currentLocation;
-    }
 
-    public void setCurrentLocation(Location currentLocation) {
-        this.currentLocation = getLocation().get(0);
-    }
 }
