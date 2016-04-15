@@ -14,6 +14,7 @@ angular
       $scope.signup = function(vendor){
         console.log("SIGN UP");
         VendorService.signup(vendor);
+        localStorage.currentVendor = JSON.stringify(vendor);
       };
     })
 
@@ -24,14 +25,24 @@ angular
 
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
       console.log($scope.currentVendor);
+
       $scope.dropPin = function(post, vendorId){
         $cordovaGeolocation.getCurrentPosition().then(function(position){
           console.log("RELOG POS", position);
           var id = $scope.currentVendor.id;
+          var time = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
 
           console.log("SHOW",post);
           post.lat = position.coords.latitude;
           post.lng = position.coords.longitude;
+
+          localStorage.currentVendor.imageUrl = post.imageUrl;
+          localStorage.currentVendor.lat = post.lat;
+          localStorage.currentVendor.lng = post.lng;
+          localStorage.currentVendor.tweet = post.tweet;
+          // localStorage.setItem('currentVendor.time', time);
+          localStorage.currentVendor.time = time;
+
           VendorService.dropPin(post, id)
           .success(function(data) {
             console.log("YAY", data);
@@ -48,8 +59,26 @@ angular
       };
     })
 
-    .controller('VendordashdetailCtrl', function($scope, TruckService){
-      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+    .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
+
+      // $scope.currentVendor = VendorService.getCurrentVendor($stateParams.currentVendorId);
+      $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
+
+        var mapOptions = {
+          center: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
+          map: $scope.map,
+          title: 'Truck name'
+        });
+
+        marker.setMap($scope.map);
     })
 
     .controller('EditCtrl', function($scope, VendorService){

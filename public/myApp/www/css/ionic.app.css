@@ -20,9 +20,9 @@ $dark:                            #444 !default;
   left: 0;
   width: 46px;
   height: 46px;
-  line-height: 46px;
+  line-height: 54px;
   color: #555;
-  padding-left: 13px; }
+  padding-left: 11px; }
 
 .has-feedback.form-control {
   padding-left: 13px; }
