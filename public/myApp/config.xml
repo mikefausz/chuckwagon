@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <vendorName>HelloCordova</vendorName>
+  <name>HelloCordova</name>
   <description>
         An Ionic Framework and Cordova project.
     </description>
@@ -9,17 +9,17 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
-  <preference vendorName="webviewbounce" value="false"/>
-  <preference vendorName="UIWebViewBounce" value="false"/>
-  <preference vendorName="DisallowOverscroll" value="true"/>
-  <preference vendorName="android-minSdkVersion" value="16"/>
-  <preference vendorName="BackupWebStorage" value="none"/>
-  <preference vendorName="SplashScreen" value="screen"/>
-  <preference vendorName="SplashScreenDelay" value="3000"/>
-  <feature vendorName="StatusBar">
-    <param vendorName="ios-package" value="CDVStatusBar" onload="true"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="SplashScreen" value="screen"/>
+  <preference name="SplashScreenDelay" value="3000"/>
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
-  <platform vendorName="ios">
+  <platform name="ios">
     <icon src="resources/ios/icon/icon.png" width="57" height="57"/>
     <icon src="resources/ios/icon/icon@2x.png" width="114" height="114"/>
     <icon src="resources/ios/icon/icon-40.png" width="40" height="40"/>
