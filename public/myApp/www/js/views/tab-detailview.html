@@ -8,7 +8,7 @@
   <ion-content class="padding">
     <div id="detailview">
       <div id="detail-header">
-        <img ng-src="{{truck.profileImg}}">
+        <img ng-src="{{truck.profilePictureLocation}}">
         <h3>{{truck.vendorName}}</h3>
         <h4><span class="tag-span" ng-repeat="tag in truck.tagsList">{{ tag }} </span></h4>
         <label ng-click="addFavoriteTruck(truck.id, truck.heart)" ng-class="{'heart ion-ios-heart': truck.heart,'ion-ios-heart-outline': !truck.heart}" class="detail-heart">
