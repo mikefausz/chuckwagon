@@ -67,17 +67,11 @@ angular
         $scope.addFavoriteTruck = function (truckId, heart) {
           FavoritesService.addFavoriteTruck(truckId, heart)
         };
-      $scope.$on('favorite:removed', function () {
-        FavoritesService.getFavoriteTrucks().then(function(trucks) {
-          $scope.trucks = trucks;
-        })
-      })
+
   })
 
   .controller('FavDetailviewCtrl', function($scope, $stateParams, FavoritesService, HomeService) {
-    // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    //   viewData.enableBack = true;
-    // });
+
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   $scope.hasContent = function() {
@@ -105,7 +99,7 @@ angular
       position: $scope.truck.location,
       // position: {lat: -34.397, lng: 150.644},
       map: $scope.map,
-      title: 'Truck name'
+      icon: 'logo-pin-shadow-white-sm.png',
     });
 
     marker.setMap($scope.map);
