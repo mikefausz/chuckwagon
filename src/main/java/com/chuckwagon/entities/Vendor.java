@@ -45,7 +45,7 @@ public class Vendor {
     @Column(name = "active")
     private boolean isActive;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "vendor")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "vendor")
     @JsonIgnore
     private List<TagVendor> tags;
 

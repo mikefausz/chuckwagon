@@ -245,7 +245,8 @@ public class ChuckWagonController {
     @RequestMapping(value = "/vendor/{id}/menu", method = RequestMethod.POST)
     public ResponseEntity<?> addMenuToVendor(@PathVariable("id") Integer id, @RequestParam(value = "menuPicture") MultipartFile menuPicture, @RequestParam(value = "menuName") String menuName) throws IOException {
 
-        Menu menu = new Menu(vendorRepository.findOne(id), menuName);
+//        Menu menu = new Menu(vendorRepository.findOne(id), menuName);
+        Menu menu = new Menu();
 
         if (menuName != null && menuPicture != null) {
             photoUpload(menuPicture, vendorRepository.findOne(id), Optional.of(menu));
@@ -292,6 +293,7 @@ public class ChuckWagonController {
             File path = new File("public/images/" + vendorRepository.findOne(id).getVendorName().toLowerCase().replace(" ", ""));
             deleteFilesAndDirectory(path);
 
+            tagVendorRepository.deleteByVendor(vendorRepository.findOne(id));
             vendorRepository.delete(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
@@ -357,11 +359,6 @@ public class ChuckWagonController {
             return new ResponseEntity<Object>("logged out", HttpStatus.ACCEPTED);
         }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public ResponseEntity<?> test() {
-        Vendor v = vendorRepository.findOne(1);
-        return new ResponseEntity<Object>(v, HttpStatus.ACCEPTED);
-    }
 
     /**
      * Processes an image and stores to server returning a link to where it was stored

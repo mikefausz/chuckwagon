@@ -10,7 +10,7 @@ public class Data {
 
     public Location location;
 
-    public Menu menu;
+//    public Menu menu;
 
     public Tag tag;
 
@@ -29,7 +29,6 @@ public class Data {
     public String toString() {
         return "Data{" +
                 "location=" + location +
-                ", menu=" + menu +
                 ", tag=" + tag +
                 ", tagVendor=" + tagVendor +
                 ", vendor=" + vendor +

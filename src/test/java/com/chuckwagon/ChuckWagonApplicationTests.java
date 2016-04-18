@@ -101,19 +101,21 @@ public class ChuckWagonApplicationTests {
         ).andExpect(status().is(202));
     }
 
-    @Test
-    public void eCreateMenuTest() throws Exception {
-        FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
-        MockMultipartFile image = new MockMultipartFile("menuPicture", "imageFromClient.jpg", "image/jpeg", fis);
+    //menu currently taken out
 
-        mockMvc.perform(
-                MockMvcRequestBuilders
-                        .fileUpload("/vendor/5/menu").file(image)
-                        .param("menuName", "Monday")
-                        .sessionAttr("email", "mail@mail.com")
-
-        ).andExpect(status().is(202));
-    }
+//    @Test
+//    public void eCreateMenuTest() throws Exception {
+//        FileInputStream fis = new FileInputStream(new File("branden-small.jpg"));
+//        MockMultipartFile image = new MockMultipartFile("menuPicture", "imageFromClient.jpg", "image/jpeg", fis);
+//
+//        mockMvc.perform(
+//                MockMvcRequestBuilders
+//                        .fileUpload("/vendor/5/menu").file(image)
+//                        .param("menuName", "Monday")
+//                        .sessionAttr("email", "mail@mail.com")
+//
+//        ).andExpect(status().is(202));
+//    }
 
     @Test
     public void fAddLocationTest() throws Exception {
