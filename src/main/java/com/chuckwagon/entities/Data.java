@@ -10,7 +10,7 @@ public class Data {
 
     public Location location;
 
-    public Menu menu;
+//    public Menu menu;
 
     public Tag tag;
 
@@ -24,4 +24,17 @@ public class Data {
 
     public String keyword;
 
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "location=" + location +
+                ", tag=" + tag +
+                ", tagVendor=" + tagVendor +
+                ", vendor=" + vendor +
+                ", vendorData=" + vendorData +
+                ", tags=" + tags +
+                ", keyword='" + keyword + '\'' +
+                '}';
+    }
 }

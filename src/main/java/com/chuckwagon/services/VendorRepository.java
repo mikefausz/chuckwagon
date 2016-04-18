@@ -1,5 +1,6 @@
 package com.chuckwagon.services;
 
+import com.chuckwagon.entities.Tag;
 import com.chuckwagon.entities.Vendor;
 
 import java.util.ArrayList;
@@ -16,5 +17,6 @@ public interface VendorRepository extends CrudRepository<Vendor, Integer> {
     Vendor findByVendorName(String vendorName);
     List<Vendor> findByIsActive(Boolean isActive);
     Vendor findByContactEmail(String contactEmail);
+    List<Vendor> findByVendorNameIgnoreCaseContaining(String search);
 
 }

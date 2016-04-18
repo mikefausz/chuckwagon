@@ -15,9 +15,9 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.191" level="project" />
     <orderEntry type="library" name="Gradle: com.sun.mail:javax.mail:1.5.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.postgresql:postgresql:9.4.1208.jre7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.4.0.M1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.postgresql:postgresql:9.4.1208.jre7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:1.4.0.M1" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-entitymanager:4.3.11.Final" level="project" />
