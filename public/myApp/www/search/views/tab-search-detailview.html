@@ -19,7 +19,7 @@
       <div id="map-detail"></div>
       <div ng-show="hasContent()" class="card">
         <div class="item item-text-wrap">
-          <h4>{{ truck.location.timestamp }}</h4>
+          <h4>{{truck.location.time}}</h4>
           <h3 ng-show="{{ truck.location.tweet }}">{{ truck.location.tweet }}</h3>
           <img ng-show="{{ truck.location.imageUrl }}" ng-src="{{ truck.location.imageUrl }}">
         </div>
