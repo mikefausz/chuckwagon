@@ -20,6 +20,7 @@ angular
 
 
     .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q){
+      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
       $scope.located = false;
       $scope.post = {};
 
@@ -39,7 +40,8 @@ angular
       // console.log($scope.currentVendor);
 
       $scope.dropPin = function(post, vendorId){
-          $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+          // $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+          $scope.currentVendor.location = {};
           var id = $scope.currentVendor.id;
 
           post.lat = $scope.lat;
