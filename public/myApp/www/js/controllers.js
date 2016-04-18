@@ -10,11 +10,14 @@ angular.module('starter.controllers', [])
   $scope.toggleVendorView = function() {
     // IF toggle clicked from vendor mode, switch to user mode
     if ($scope.vendorMode){
+        console.log("VENDOR MODE: " + $scope.vendorMode);
         $scope.vendorMode = false;
         $state.go('tab.map');
     }
     // IF toggle clicked from user mode, switch to vendor mode
     else {
+      console.log("VENDOR MODE: " + $scope.vendorMode);
+
       $state.go('tab.vendorlogin');
       $scope.vendorMode = true;
     }
@@ -143,7 +146,7 @@ angular.module('starter.controllers', [])
   var marker = new google.maps.Marker({
     position: $scope.truck.location,
     map: $scope.map,
-    title: 'Truck name'
+    icon: 'logo-pin-shadow-white-sm.png',
   });
 
   marker.setMap($scope.map);
