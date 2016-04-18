@@ -20,12 +20,13 @@ angular
 
 
     .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q){
+      $scope.currentVendor = JSON.parse(localStorage.currentVendor);
       $scope.located = false;
       $scope.post = {};
 
       $scope.gotLocation = function() {
         return $scope.located;
-      }
+      };
 
       $cordovaGeolocation.getCurrentPosition().then(function(position){
         $scope.located = true;
@@ -36,15 +37,16 @@ angular
       });
 
 
-      // console.log($scope.currentVendor);
+      console.log($scope.currentVendor);
 
       $scope.dropPin = function(post, vendorId){
-          $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+          // $scope.currentVendor = JSON.parse(localStorage.currentVendor);
+          $scope.currentVendor.location = {};
           var id = $scope.currentVendor.id;
 
           post.lat = $scope.lat;
           post.lng = $scope.lng;
-          // console.log("SHOW",post);
+          console.log("SHOW",post);
 
           $scope.currentVendor.location.imageUrl = post.imageUrl;
           $scope.currentVendor.location.lat = post.lat;
@@ -55,10 +57,10 @@ angular
 
           VendorService.dropPin(post, id)
             .then(function(response) {
-              // console.log("YAY", response.data);
-            }), function(err) {
+              console.log("YAY", response.data);
+            }, function(err) {
               console.log('err', err);
-            };
+            });
       };
 
       $scope.logoutVendor = function() {
@@ -87,7 +89,7 @@ angular
           marker.setMap($scope.map);
     })
 
-    .controller('EditCtrl', function($scope, VendorService){
+    .controller('EditCtrl', function($scope, VendorService, $state){
       // Get current vendor from localStorage, clear tags for edit
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
       $scope.currentVendor.tags = [];
@@ -130,5 +132,6 @@ angular
         $scope.currentVendor.bio = editedVendor.bio;
         $scope.currentVendor.profilePictureLocation = editedVendor.profilePictureLocation;
         localStorage.currentVendor = $scope.currentVendor;
+        $state.go('tab.dashboard-detailview');
       };
     });
