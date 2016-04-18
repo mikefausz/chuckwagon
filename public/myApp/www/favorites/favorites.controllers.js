@@ -1,6 +1,6 @@
 angular
   .module('favorites')
-  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService) {
+  .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService, $compile) {
     // if(!localStorage.getItem('favoriteVendors')) {
     //   localStorage.setItem('favoriteVendors', []);
     // }
@@ -22,8 +22,7 @@ angular
       var marker = new google.maps.Marker({
         position: latLng,
         map: $scope.map,
-        title: 'You are here',
-        icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+        icon: 'logo-pin-here.png'
       });
 
       marker.setMap($scope.map);
@@ -35,7 +34,7 @@ angular
           var marker = new google.maps.Marker({
             position: truck.location,
             map: $scope.map,
-            icon: 'icon-tutone.png',
+            icon: 'logo-pin-shadow-white-sm.png',
           });
 
           var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
@@ -80,6 +79,10 @@ angular
     //   viewData.enableBack = true;
     // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
+
+  $scope.hasContent = function() {
+    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+  };
 
     $scope.$on('favorite:added', function () {
       FavoritesService.getFavoriteTrucks().then(function(trucks) {

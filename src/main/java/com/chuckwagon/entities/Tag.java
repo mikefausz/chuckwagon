@@ -22,7 +22,7 @@ public class Tag {
     @Column(nullable = false)
     private String tag;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tag")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tag")
     @JsonIgnore
     private List<TagVendor> tagVendorList;
 

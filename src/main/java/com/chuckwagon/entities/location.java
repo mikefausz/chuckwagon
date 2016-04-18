@@ -43,7 +43,7 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "location")
+    @OneToMany(fetch = FetchType.EAGER,  cascade = CascadeType.PERSIST,  mappedBy = "location")
     @JsonIgnore
     private List<Vendor> vendor;
 

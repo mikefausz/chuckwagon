@@ -36,7 +36,7 @@ public class Vendor {
     private String bio;
 
     @Column( name = "profile_picture")
-    private String profilePictureLocation;
+    private String profilePictureLocation = "public/images/stock/logo-circle.png";
 
     @Transient
     @JsonIgnore
@@ -53,7 +53,7 @@ public class Vendor {
     @Transient
     private List<String> tagsList;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Location location;
 
 

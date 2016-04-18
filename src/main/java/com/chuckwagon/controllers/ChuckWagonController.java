@@ -262,14 +262,13 @@ public class ChuckWagonController {
             Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
             Location existingLocation = vendor.getLocation(); //possible preexisiting location set by vendor
 
-            if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
-
             double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
             hours = hours * 60 * 60; //convert hours to seconds
             location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
             location = locationRepository.save(location);
             vendor.setLocation(location);
             vendorRepository.save(vendor);
+            if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
@@ -297,50 +296,38 @@ public class ChuckWagonController {
             return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
         }
     }
-//
-//    @CrossOrigin
-//    @RequestMapping(value = "/search", method = RequestMethod.POST)
-//    public ResponseEntity<?> searchVendors(@RequestBody Data data) {
-//
-//        if (data.keyword != null) {
-//            List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
-//            if (vendorList.size() > 0) {
-//                String keyword = data.keyword;
-//                /** filter by keyword */
-//                List<Vendor> vendorKeywordMatch = vendorList.stream().filter(v -> v.getVendorName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
-//            } else {
-//                return new ResponseEntity<Object> (("No Matches on :" + data.keyword), HttpStatus.OK);
-//            }
-//        }
-//
-//        String keyword = data.keyword;
-//
-//        List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
-//
-//        if (vendorList.size() > 0) { // if we have vendors
-//            /** filter by keyword */
-//            List<Vendor> vendorKeywordMatch = vendorList.stream().filter(v -> v.getVendorName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
-//
-//            if (vendorKeywordMatch.size() > 0) { //if there were keyword matches
-//                /** this part does tags */
-//                //convert the tags from client into a list of Strings
-//                List<String> tagsClient = data.tags.stream().map(t -> t.getTag()).collect(Collectors.toList());
-//                List<Vendor> vendorTagMatch = new ArrayList<>(); //holds vendors that match search
-//                for (Vendor v : vendorList) {
-//                    List<String> tagsVendor = v.getTagsList(); //get strings from the vendor
-//                    if (!Collections.disjoint(tagsClient, tagsVendor)) {
-//                        vendorTagMatch.add(v);
-//                    }
-//                }
-//
-//            }
-//            return new ResponseEntity<Object>(vendorTagMatch, HttpStatus.OK);
-//        }
-//        else {
-//            return new ResponseEntity<Object>("No Matched Trucks", HttpStatus.NO_CONTENT);
-//        }
-//    }
 
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ResponseEntity<?> searchVendors(@RequestBody Data data) {
+        List<Vendor> vendorList = removeExpiredLocations(); //grab all vendors in DB that are not expired
+
+        if (data.keyword != null) {
+            if (vendorList.size() > 0) {
+                String keyword = data.keyword;
+                /** filter by keyword */
+                vendorList = vendorRepository.findByVendorNameIgnoreCaseContaining(keyword);
+                //vendorList = vendorList.stream().filter(v -> v.getVendorName().toLowerCase().contains(keyword.toLowerCase())).collect(Collectors.toList());
+            } else {
+                return new ResponseEntity<Object>(("No Matches on :" + data.keyword), HttpStatus.OK);
+            }
+        }
+
+        if (data.tags != null && data.tags.size() != 0 && vendorList != null && vendorList.size() != 0) {
+            /** this part does tags */
+            //convert the tags from client into a list of Strings
+            List<String> tagsClient = data.tags.stream().map(t -> t.getTag()).collect(Collectors.toList());
+            List<Vendor> vendorTagMatch = new ArrayList<>(); //holds vendors that match search
+            for (Vendor v : vendorList) {
+                List<String> tagsVendor = v.getTagsList(); //get strings from the vendor
+                if (tagsVendor != null && !Collections.disjoint(tagsClient, tagsVendor)) {
+                    vendorTagMatch.add(v);
+                }
+            }
+            return new ResponseEntity<Object>(vendorTagMatch, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
+        }
+    }
 
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
@@ -448,7 +435,7 @@ public class ChuckWagonController {
 
         if (vendorList.size() > 0) {
             vendorList.forEach(vendor -> {
-                if (vendor.getLocation().getExpiresObject().isBefore(LocalDateTime.now())) {
+                if (vendor.getLocation() != null && vendor.getLocation().getExpiresObject().isBefore(LocalDateTime.now())) {
                     locationRepository.delete(vendor.getLocation());
                 }
             });
