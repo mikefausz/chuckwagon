@@ -99,7 +99,7 @@ angular
       position: $scope.truck.location,
       // position: {lat: -34.397, lng: 150.644},
       map: $scope.map,
-      title: 'Truck name'
+      icon: 'logo-pin-shadow-white-sm.png',
     });
 
     marker.setMap($scope.map);

@@ -127,7 +127,7 @@ angular
     var marker = new google.maps.Marker({
       position: $scope.truck.location,
       map: $scope.map,
-      title: 'Truck name'
+      icon: 'logo-pin-shadow-white-sm.png',
     });
 
     marker.setMap($scope.map);

@@ -70,13 +70,12 @@ angular
   }
 
   function logoutVendor(){
+    // Hit hypothetical logout route
+    // var vendor = JSON.parse(localStorage.currentVendor);
+    // var logoutUrl = "/vendor/" + vendor.id + "/logout";
+    // $http.post(logoutUrl);
     window.localStorage.vendorLoggedIn = false;
     window.localStorage.currentVendor = '';
-    var vendor = JSON.parse(localStorage.currentVendor);
-    var logoutUrl = "/vendor/" + vendor.id + "/logout";
-    // Hit logout route
-    $http.post(logoutUrl);
-
     console.log("in localStorage: " + JSON.stringify(localStorage.currentVendor));
   }
 
