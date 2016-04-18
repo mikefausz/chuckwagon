@@ -131,4 +131,7 @@ angular
     });
 
     marker.setMap($scope.map);
+
+    $scope.truck.location.created = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
+
   });
