@@ -32,11 +32,11 @@ public class Vendor {
     @Column( name = "contact_email", unique = true)
     private String contactEmail;
 
-    @Column( name = "bio")
+    @Column( name = "bio", length = 510)
     private String bio;
 
     @Column( name = "profile_picture")
-    private String profilePictureLocation = "public/images/stock/logo-circle.png";
+    private String profilePictureLocation;
 
     @Transient
     @JsonIgnore
@@ -100,6 +100,10 @@ public class Vendor {
     }
 
     public String getProfilePictureLocation() {
+        if (profilePictureLocation == null) {
+            profilePictureLocation = "107.170.8.42/public/images/stock/logo-circle.png";
+        }
+
         return profilePictureLocation;
     }
 

@@ -134,6 +134,29 @@ public class ChuckWagonController {
     }
 
     /**
+     * Returns a special object that the Front End requires.
+     * Object contains vendors and locations of vendors
+     *
+     * i don't really like the way I am dong this, looking for better method
+     *
+     * @return
+     */
+    @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
+    public ResponseEntity<?> getVendorLocations() {
+
+        // List<Location> locationList = removeExpiredVendors();
+
+
+        List<Vendor> vendorList = removeExpiredLocations();
+        if (vendorList.size() > 0) {
+            return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
+        }
+    }
+
+
+    /**
      * If first visit to route allows to set additional vendor profile information and tags
      *
      * If fields already set, allows for updating
@@ -177,6 +200,33 @@ public class ChuckWagonController {
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<Object>("Vendor not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Add a location with expiration to a vendor
+     *
+     * @param id Path variable describing the vendor that's logged in/being manipulated
+     * @param location Location object that contains a lat and lng as well as a time to expire
+     * @return a vendor and sucessful response or a string and a failure response
+     */
+    @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
+    public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
+        if (location.getLat() != null && (location.getLat() >= 0 || location.getLat() <= 0) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
+            Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
+            Location existingLocation = vendor.getLocation(); //possible preexisiting location set by vendor
+
+            double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
+            hours = hours * 60 * 60; //convert hours to seconds
+            location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
+            location.setCreated(LocalDateTime.now().toString()); //created at date time string for FE to use
+            location = locationRepository.save(location);
+            vendor.setLocation(location);
+            vendorRepository.save(vendor);
+            if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
+            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
         }
     }
 
@@ -249,53 +299,6 @@ public class ChuckWagonController {
         }
         }
 
-    /**
-     * Add a location with expiration to a vendor
-     *
-     * @param id Path variable describing the vendor that's logged in/being manipulated
-     * @param location Location object that contains a lat and lng as well as a time to expire
-     * @return a vendor and sucessful response or a string and a failure response
-     */
-    @RequestMapping(value = "/vendor/{id}/location", method = RequestMethod.POST)
-    public ResponseEntity<?> addVendorLocation(@PathVariable("id") Integer id, @RequestBody Location location) {
-        if (location.getLat() != null && (location.getLat() >= 0 || location.getLat() <= 0) && (location.getLng() >= 0 || location.getLng() <= 0) && location.getExpiresString() != null) {
-            Vendor vendor = vendorRepository.findOne(id); //vendor that is entering a location
-            Location existingLocation = vendor.getLocation(); //possible preexisiting location set by vendor
-
-            double hours = Double.valueOf(location.getExpiresString()); //catch as double to preserve decimal
-            hours = hours * 60 * 60; //convert hours to seconds
-            location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
-            location = locationRepository.save(location);
-            vendor.setLocation(location);
-            vendorRepository.save(vendor);
-            if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
-            return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<Object>("Missing required fields", HttpStatus.PARTIAL_CONTENT);
-        }
-    }
-
-    /**
-     * Returns a special object that the Front End requires.
-     * Object contains vendors and locations of vendors
-     *
-     * i don't really like the way I am dong this, looking for better method
-     *
-     * @return
-     */
-    @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
-    public ResponseEntity<?> getVendorLocations() {
-
-      // List<Location> locationList = removeExpiredVendors();
-
-
-        List<Vendor> vendorList = removeExpiredLocations();
-        if (vendorList.size() > 0) {
-            return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Object>("No Wagons Rolling", HttpStatus.NO_CONTENT);
-        }
-    }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ResponseEntity<?> searchVendors(@RequestBody Data data) {

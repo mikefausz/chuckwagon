@@ -40,6 +40,9 @@ public class Location {
     @JsonIgnore
     private LocalDateTime expiresObject;
 
+    @Column
+    private String created;
+
     @Transient
     private String expiresString;
 
@@ -117,6 +120,14 @@ public class Location {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     @Override
