@@ -57,8 +57,7 @@ angular.module('starter.controllers', [])
     var marker = new google.maps.Marker({
       position: latLng,
       map: $scope.map,
-      title: 'You are here',
-      icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+      icon: 'logo-pin-here.png'
     });
 
     marker.setMap($scope.map);
@@ -69,7 +68,7 @@ angular.module('starter.controllers', [])
         var marker = new google.maps.Marker({
           position: truck.location,
           map: $scope.map,
-          icon: 'icon-tutone.png',
+          icon: 'logo-pin-shadow-white-sm.png',
         });
 
         var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
@@ -122,7 +121,7 @@ angular.module('starter.controllers', [])
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
   };
-  
+
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");
