@@ -10,6 +10,7 @@ angular
       // FAVORITES MAP TAB
       // Map of user's favorite trucks centered on user's location
       .state('tab.fav-map', {
+        cache: false,
         url: '/favorites',
         views: {
           'tab-favorites': {

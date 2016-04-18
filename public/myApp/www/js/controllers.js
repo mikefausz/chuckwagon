@@ -100,6 +100,10 @@ angular.module('starter.controllers', [])
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
   };
+  //
+  // $scope.addFavoriteTruck = function (truckId, heart) {
+  //   FavoritesService.addFavoriteTruck(truckId, heart);
+  // };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");
@@ -118,8 +122,13 @@ angular.module('starter.controllers', [])
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   $scope.hasContent = function() {
-    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
-  };
+     if($scope.truck.location) {
+       return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+     }
+     else {
+       return false;
+     }
+   };
 
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
