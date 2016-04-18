@@ -8,14 +8,30 @@ angular
 
       function sendSearchOptions(processedOptions) {
         var defer = $q.defer();
-        $http.post(searchUrl, processedOptions).then(function(response) {
-          if(trucks) {
+        $http.post(searchURL, processedOptions).then(function(response) {
+          if(response) {
             console.log("got trucks from server");
           } else {
             console.log("no trucks from server");
           }
-          cacheEngine.put('searchVendors',  vendors);
-          defer.resolve(response.data);
+          var trucks = response.data;
+          var favArr = [];
+          if (localStorage.getItem("favoriteVendors")) {
+            favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
+          }
+          trucks.forEach(function(truck) {
+            if(localStorage.getItem("favoriteVendors")) {
+              if(favArr.indexOf(truck.id)>-1) {
+                truck.heart = true;
+              } else {
+                truck.heart = false;
+              }
+            } else {
+              localStorage.setItem("favoriteVendors", "[]");
+            }
+          });
+          cacheEngine.put('searchVendors',  trucks);
+          defer.resolve(trucks);
         }, function(err) {
           console.log(err);
         });
@@ -24,16 +40,8 @@ angular
 
       function getTrucksFromCache() {
         var defer = $q.defer();
-        var trucks = cacheEngine.get('searchVendors').then(function(trucks) {
-          if(trucks) {
-            console.log("found trucks in cache");
-          } else {
-            console.log("no trucks found in cache");
-          }
-          defer.resolve(trucks);
-        }, function(err) {
-          console.log(err);
-        });
+        var trucks = cacheEngine.get('searchVendors');
+        defer.resolve(trucks);
         return defer.promise;
       }
 

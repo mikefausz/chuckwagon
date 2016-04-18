@@ -2,15 +2,16 @@ angular
   .module('search')
   .controller('SearchCtrl', function($scope, SearchService) {
     $scope.searchOptions = {};
-    console.log('searchOptions: ' + $scope.searchOptions);
-    window.search = $scope.searchOptions;
+    $scope.searchOptions.tags = [];
+
 
     // Declare edited vendor object, tags as an array
-    $scope.searchOptions = {};
-    $scope.searchOptions.tags = [];
+
 
     // SEND SEARCH OPTIONS TO SERVER, CACHE RESPONSE FOR MAP
     $scope.sendSearchOptions = function(searchOptions) {
+      console.log('searchOptions: ' + $scope.searchOptions);
+      window.search = $scope.searchOptions;
       // Process tag checkboxes for back-end
       var tagArr = [];
       searchOptions.tags.forEach(function(tag, idx) {
@@ -30,6 +31,8 @@ angular
         tags: tagArr,
       };
 
+      console.log(processedOptions);
+      window.opts = processedOptions;
       // Send processed search options to server
       SearchService.sendSearchOptions(processedOptions).then(function(response) {
         $scope.trucks = response;
@@ -40,7 +43,7 @@ angular
 
   })
 
-  .controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, SearchService) {
+  .controller('SearchMapCtrl', function($scope, $state, $cordovaGeolocation, SearchService, $compile) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -58,8 +61,7 @@ angular
       var marker = new google.maps.Marker({
         position: latLng,
         map: $scope.map,
-        title: 'You are here',
-        icon: 'http://www.euroheat.co.uk/images/you-are-here-icon.png'
+        icon: 'logo-pin-here.png'
       });
 
       marker.setMap($scope.map);
@@ -72,10 +74,10 @@ angular
             var marker = new google.maps.Marker({
               position: truck.location,
               map: $scope.map,
-              icon: 'icon-tutone.png',
+              icon: 'logo-pin-shadow-white-sm.png',
             });
 
-            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
             var compiled = $compile(contentString)($scope);
             var infowindow = new google.maps.InfoWindow({
               content: compiled[0]
@@ -96,7 +98,7 @@ angular
   })
 
   .controller('SearchListviewCtrl', function($scope, SearchService, FavoritesService){
-    SearchService.getTrucks().then(function(trucks) {
+    SearchService.getTrucksFromCache().then(function(trucks) {
       $scope.trucks = trucks;
       $scope.addFavoriteTruck = function (truckId, heart) {
         FavoritesService.addFavoriteTruck(truckId, heart);
@@ -109,6 +111,10 @@ angular
       FavoritesService.addFavoriteTruck(truckId, heart);
     };
     $scope.truck = SearchService.getTruck($stateParams.truckId);
+
+    $scope.hasContent = function() {
+      return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+    };
 
     var mapOptions = {
       center: $scope.truck.location,

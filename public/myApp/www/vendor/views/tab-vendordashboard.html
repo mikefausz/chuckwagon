@@ -1,5 +1,5 @@
 <ion-view view-title="Vendor Dashboard">
-  <ion-content class="padding">
+  <ion-content>
     <h1>Welcome, {{currentVendor.vendorName}}</h1>
 
     <a href="#/tab/home"><button class="button" ng-click="logoutVendor()">LOGOUT</button></a>
@@ -41,7 +41,8 @@
       <input type="text" placeholder="Type a message" ng-model="post.tweet">
     </label>
 
-<a href="#/tab/vendordashboard/{{currentVendor.id}}"><button ng-click="dropPin(post, currentVendor.id)" class="button button-block button-dark" type="button" name="button">DROP PIN</button></a>
+<button ng-hide="gotLocation()" disabled class="button button-block button-dark" type="button" name="button">GETTING LOCATION...</button>
+<a href="#/tab/vendordashboard/{{currentVendor.id}}"><button ng-hide="!gotLocation()" ng-click="dropPin(post, currentVendor.id)" class="button button-block button-calm" type="button" name="button">DROP PIN</button></a>
 
   </ion-content>
 </ion-view>
