@@ -178,6 +178,6 @@ public class ChuckWagonApplicationTests {
     public void zDeleteVendorTest() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/vendor/5")
-        ).andExpect(status().is(202));
+        ).andExpect(status().is(204));
     }
 }

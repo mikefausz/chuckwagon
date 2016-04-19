@@ -101,7 +101,7 @@ public class Vendor {
 
     public String getProfilePictureLocation() {
         if (profilePictureLocation == null) {
-            profilePictureLocation = "107.170.8.42/public/images/stock/logo-circle.png";
+            profilePictureLocation = "107.170.8.42/images/stock/logo-circle.png";
         }
 
         return profilePictureLocation;

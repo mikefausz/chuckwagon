@@ -35,7 +35,7 @@ public class ChuckWagonController {
      *
      *Catch all route for request method options
      */
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/**")
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/vendor/*")
     public void manageOptions(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -63,18 +63,18 @@ public class ChuckWagonController {
     }
     /** this area is for viewing DB in web browser */
 
-    Server dbui = null;
+//    Server dbui = null;
 
     @PostConstruct
     public void init() throws SQLException, PasswordStorage.CannotPerformOperationException {
-        dbui = Server.createWebServer().start();
+//        dbui = Server.createWebServer().start();
         PopulateDB.populate(vendorRepository, locationRepository, tagRepository, tagVendorRepository);
     }
-
-    @PreDestroy
-    public void preDestory() {
-        dbui.stop();
-    }
+//
+//    @PreDestroy
+//    public void preDestory() {
+//        dbui.stop();
+//    }
 
 
     /** end DB viewing code */
@@ -295,7 +295,7 @@ public class ChuckWagonController {
 
             tagVendorRepository.deleteByVendor(vendorRepository.findOne(id));
             vendorRepository.delete(id);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Deleted", HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<Object>("Vendor not found in DB", HttpStatus.NOT_FOUND);
         }
