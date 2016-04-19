@@ -19,10 +19,15 @@ angular
     })
 
 
-    .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q){
+    .controller('VendordashboardCtrl', function($scope, $cordovaGeolocation, VendorService, $q, $location, $ionicNavBarDelegate){
       $scope.currentVendor = JSON.parse(localStorage.currentVendor);
       $scope.located = false;
       $scope.post = {};
+      ///Hide back button
+      var path = $location.path();
+      if (path.indexOf('/tab/vendordashboard') != -1){
+        $ionicNavBarDelegate.showBackButton(false);
+      }
 
       $scope.gotLocation = function() {
         return $scope.located;
@@ -67,6 +72,7 @@ angular
       $scope.logoutVendor = function() {
         VendorService.logoutVendor();
         $scope.$parent.toggleVendorView();
+        $ionicNavBarDelegate.showBackButton(true);
       };
     })
 
@@ -132,7 +138,7 @@ angular
         // Grab edit data, save changes in localStorage
         $scope.currentVendor.bio = editedVendor.bio;
         $scope.currentVendor.profilePictureLocation = editedVendor.profilePictureLocation;
-        localStorage.currentVendor = $scope.currentVendor;
-        $state.go('tab.dashboard-detailview');
+        localStorage.currentVendor = JSON.stringify($scope.currentVendor);
+        // $state.go('tab.dashboard-detailview');
       };
     });

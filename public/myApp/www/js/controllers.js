@@ -42,7 +42,12 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $compile, HomeService) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $compile, HomeService, $location, $ionicNavBarDelegate) {
+  // var path = $location.path();
+  // if (path.indexOf('/tab/home') != -1){
+  //   console.log("show button");
+  //   $ionicNavBarDelegate.showBackButton(true);
+  // }
   var options = {timeout: 10000, enableHighAccuracy: true};
   console.log("INITIALIZING MAP");
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
