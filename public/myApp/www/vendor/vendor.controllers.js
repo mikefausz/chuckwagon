@@ -78,7 +78,7 @@ angular
 
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
         $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
-
+        console.log('IN DASH DETAIL');
         console.log("CURRENT VENDOR " + $scope.currentVendor);
           var mapOptions = {
             center: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
