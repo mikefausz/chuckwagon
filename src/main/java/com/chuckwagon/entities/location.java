@@ -46,7 +46,7 @@ public class Location {
     @Transient
     private String expiresString;
 
-    @OneToMany(fetch = FetchType.EAGER,  cascade = CascadeType.PERSIST,  mappedBy = "location")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "location")
     @JsonIgnore
     private List<Vendor> vendor;
 
@@ -91,7 +91,6 @@ public class Location {
 
     public void setExpiresString(String expiresString) {
         this.expiresString = expiresString;
-      //  this.expiresObject = LocalDateTime.parse(expiresString);
     }
 
     public List<Vendor> getVendor() {
