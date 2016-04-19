@@ -118,7 +118,12 @@ angular.module('starter.controllers', [])
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   $scope.hasContent = function() {
-    return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+    if($scope.truck.location) {
+      return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+    }
+    else {
+      return false;
+    }
   };
 
   $scope.addFavoriteTruck = function (truckId, heart) {

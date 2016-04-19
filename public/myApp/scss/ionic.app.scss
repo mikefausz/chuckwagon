@@ -145,6 +145,10 @@ img.truck-toggle {
   height: 65px;
 }
 
+.tag-span+.tag-span:before {
+  content: ", ";
+}
+
 #detailview {
   #detail-header {
     img {
