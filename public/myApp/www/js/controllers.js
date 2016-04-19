@@ -105,10 +105,6 @@ angular.module('starter.controllers', [])
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
   };
-  //
-  // $scope.addFavoriteTruck = function (truckId, heart) {
-  //   FavoritesService.addFavoriteTruck(truckId, heart);
-  // };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");
@@ -121,11 +117,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('DetailviewCtrl', function($scope, $stateParams, HomeService, FavoritesService) {
-  // $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-  //   viewData.enableBack = true;
-  // });
   $scope.truck = HomeService.getTruck($stateParams.truckId);
-
   $scope.hasContent = function() {
      if($scope.truck.location) {
        return $scope.truck.location.tweet || $scope.truck.location.imageUrl;

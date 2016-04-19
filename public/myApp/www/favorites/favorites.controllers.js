@@ -83,7 +83,8 @@ angular
     $scope.$on('favorite:added', function () {
       FavoritesService.getFavoriteTrucks().then(function(trucks) {
         $scope.trucks = trucks;
-      })      })
+        })
+      });
       $scope.addFavoriteTruck = function (truckId, heart) {
         FavoritesService.addFavoriteTruck(truckId, heart)
       };
