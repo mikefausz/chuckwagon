@@ -100,6 +100,10 @@ angular.module('starter.controllers', [])
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
   };
+  //
+  // $scope.addFavoriteTruck = function (truckId, heart) {
+  //   FavoritesService.addFavoriteTruck(truckId, heart);
+  // };
   $scope.isFavorites = function(truckId) {
     if (localStorage.favoriteVendors) {
       // console.log("Fav vendors is there");
@@ -118,6 +122,7 @@ angular.module('starter.controllers', [])
   $scope.truck = HomeService.getTruck($stateParams.truckId);
 
   $scope.hasContent = function() {
+<<<<<<< HEAD
     if($scope.truck.location) {
       return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
     }
@@ -125,6 +130,15 @@ angular.module('starter.controllers', [])
       return false;
     }
   };
+=======
+     if($scope.truck.location) {
+       return $scope.truck.location.tweet || $scope.truck.location.imageUrl;
+     }
+     else {
+       return false;
+     }
+   };
+>>>>>>> 9ae1f4e4b465a3de0032982937ac65709528f4fe
 
   $scope.addFavoriteTruck = function (truckId, heart) {
     FavoritesService.addFavoriteTruck(truckId, heart);
@@ -155,5 +169,7 @@ angular.module('starter.controllers', [])
   });
 
   marker.setMap($scope.map);
+
+  $scope.truck.location.created = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
 
 });

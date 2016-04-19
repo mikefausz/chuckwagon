@@ -1,5 +1,7 @@
 package com.chuckwagon.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -14,10 +16,11 @@ public class TagVendor {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     private Tag tag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private Vendor vendor;
 
 
@@ -68,7 +71,7 @@ public class TagVendor {
         TagVendor tagVendor = (TagVendor) o;
 
         if (id != null ? !id.equals(tagVendor.id) : tagVendor.id != null) return false;
-        if (tag != null ? !tag.equals(tagVendor.tag) : tagVendor.tag != null) return false;
+        if (!tag.equals(tagVendor.tag)) return false;
         return vendor != null ? vendor.equals(tagVendor.vendor) : tagVendor.vendor == null;
 
     }
@@ -76,7 +79,7 @@ public class TagVendor {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        result = 31 * result + tag.hashCode();
         result = 31 * result + (vendor != null ? vendor.hashCode() : 0);
         return result;
     }

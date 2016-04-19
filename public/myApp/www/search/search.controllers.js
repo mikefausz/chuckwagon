@@ -77,7 +77,7 @@ angular
               icon: 'logo-pin-shadow-white-sm.png',
             });
 
-            var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
+            var contentString = "<div><a ng-href='#/tab/search-list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
             var compiled = $compile(contentString)($scope);
             var infowindow = new google.maps.InfoWindow({
               content: compiled[0]
@@ -131,4 +131,7 @@ angular
     });
 
     marker.setMap($scope.map);
+
+    $scope.truck.location.created = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
+
   });

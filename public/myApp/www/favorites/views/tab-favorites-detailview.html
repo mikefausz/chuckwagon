@@ -10,7 +10,7 @@
  </ion-nav-title>  <ion-content class="padding">
     <div id="detailview">
       <div id="detail-header">
-        <img ng-src="{{truck.profileImg}}">
+        <img ng-src="{{truck.profilePictureLocation}}">
         <h3>{{truck.vendorName}}</h3>
         <h4><span class="tag-span" ng-repeat="tag in truck.tagsList">{{ tag }}</span></h4>
       </div>
@@ -20,9 +20,9 @@
       <div id="map-detail"></div>
       <div ng-show="hasContent()" class="card">
         <div class="item item-text-wrap">
-          <h4>{{ truck.location.timestamp }}</h4>
-          <h3 ng-show="{{ truck.location.tweet }}">{{ truck.location.tweet }}</h3>
-          <img ng-show="{{ truck.location.imageUrl }}" ng-src="{{ truck.location.imageUrl }}">
+          <h4>{{ truck.location.created }}</h4>
+          <h3 ng-show="truck.location.tweet">{{ truck.location.tweet }}</h3>
+          <img ng-show="truck.location.imageUrl" ng-src="{{ truck.location.imageUrl }}">
         </div>
       </div>
     </div>

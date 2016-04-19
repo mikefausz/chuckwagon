@@ -6,17 +6,18 @@ angular.module('starter.services', [])
   // var ip = "http://10.0.10.70:8080";
   var ip = "http://107.170.8.42:8080";
   // var ip = "http://localhost:8080";
+
   var vendorsURL = ip + "/vendor/location";
   function getTrucks() {
       var defer = $q.defer();
-      var cache = cacheEngine.get('vendors');
+      // var cache = cacheEngine.get('vendors');
       // IF cache already contains vendors, use those
-      if(cache) {
-        console.log('found trucks in the cache');
-        defer.resolve(cache);
-      }
-      // ELSE get vendors from server, put them in cache
-      else {
+      // if(cache) {
+      //   console.log('found trucks in the cache');
+      //   defer.resolve(cache);
+      // }
+      // // ELSE get vendors from server, put them in cache
+      // else {
         console.log('no trucks in cache. getting from service');
         $http.get(vendorsURL).then(function(response) {
           var trucks = response.data;
@@ -39,7 +40,7 @@ angular.module('starter.services', [])
           cacheEngine.put('vendors',  trucks);
           defer.resolve(trucks);
       });
-      }
+      // }
       return defer.promise;
   }
 

@@ -1,13 +1,12 @@
 angular
   .module('favorites')
   .controller('FavMapCtrl', function($scope, $state, $cordovaGeolocation, FavoritesService, $compile) {
-    // if(!localStorage.getItem('favoriteVendors')) {
-    //   localStorage.setItem('favoriteVendors', []);
-    // }
+
 
     var options = {timeout: 10000, enableHighAccuracy: true};
     console.log("INITIALIZING MAP");
-    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+
+      $cordovaGeolocation.getCurrentPosition(options).then(function(position){
       console.log("RELOG POS");
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -37,7 +36,7 @@ angular
             icon: 'logo-pin-shadow-white-sm.png',
           });
 
-          var contentString = "<div><a ng-href='#/tab/list/" + truck.id + "'>" + truck.name + "</a></div>";
+          var contentString = "<div><a ng-href='#/tab/fav-list/" + truck.id + "'>" + truck.vendorName + "</a></div>";
           var compiled = $compile(contentString)($scope);
           var infowindow = new google.maps.InfoWindow({
             content: compiled[0]
@@ -49,6 +48,7 @@ angular
 
           marker.setMap($scope.map);
         });
+
         }, function(error){
         console.log("Could not get location");
         });
@@ -62,8 +62,10 @@ angular
       })
       $scope.$on('favorite:added', function () {
         FavoritesService.getFavoriteTrucks().then(function(trucks) {
+          console.log("FAV LIST VIEW CHANGED");
           $scope.trucks = trucks;
-        })      })
+          })
+      });
         $scope.addFavoriteTruck = function (truckId, heart) {
           FavoritesService.addFavoriteTruck(truckId, heart)
         };
@@ -103,4 +105,7 @@ angular
     });
 
     marker.setMap($scope.map);
+
+    $scope.truck.location.created = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
+
   });
