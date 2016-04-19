@@ -145,6 +145,10 @@ img.truck-toggle {
   height: 65px;
 }
 
+.tag-span+.tag-span:before {
+  content: ", ";
+}
+
 #detailview {
   #detail-header {
     img {
@@ -178,7 +182,7 @@ img.truck-toggle {
 
 #map-detail {
   width: 100%;
-  height: 200px;
+  height: 240px;
 }
 
 .button.list-toggle {

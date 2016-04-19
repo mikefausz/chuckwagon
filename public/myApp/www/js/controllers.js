@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
     console.log("RELOG POS");
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
+    localStorage.setItem('userLocation', JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude}));
     var mapOptions = {
       center: latLng,
       zoom: 15,
@@ -142,20 +142,47 @@ angular.module('starter.controllers', [])
   };
 
   var mapOptions = {
-    center: $scope.truck.location,
+    center: JSON.parse(localStorage.userLocation),
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
 
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+
+  console.log(JSON.parse(localStorage.userLocation));
+  console.log({lat: $scope.truck.location.lat, lng: $scope.truck.location.lng });
+
+  directionsDisplay.setMap($scope.map);
+
+  directionsService.route({
+    origin: JSON.parse(localStorage.userLocation),
+    destination: {lat: $scope.truck.location.lat, lng: $scope.truck.location.lng },
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
+
   var marker = new google.maps.Marker({
-    position: $scope.truck.location,
+    position: {lat: $scope.truck.location.lat, lng: $scope.truck.location.lng },
     map: $scope.map,
     icon: 'logo-pin-shadow-white-sm.png',
   });
 
+  var user = new google.maps.Marker({
+    position: JSON.parse(localStorage.userLocation),
+    map: $scope.map,
+    icon: 'logo-pin-here.png',
+  });
+
   marker.setMap($scope.map);
+  user.setMap($scope.map);
 
   $scope.truck.location.created = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
 

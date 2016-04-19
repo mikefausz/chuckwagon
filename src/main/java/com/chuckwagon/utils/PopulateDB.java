@@ -20,7 +20,7 @@ public class PopulateDB {
     public static void populate(VendorRepository vendorRepository, LocationRepository locationRepository, TagRepository tagRepository, TagVendorRepository tagVendorRepository) throws PasswordStorage.CannotPerformOperationException {
 
         /** Hard Coded Tags */
-        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas", "none"};
+        String[] tagStrings = { "BBQ", "Stir Fry", "Pizza", "Coffee", "Ice Cream", "Tacos", "Salads", "Seafood", "Breakfast", "Juice & Smoothies", "Burritos", "Omelettes", "Fritattas"};
         if (tagRepository.count() == 0) {
             for (String s : tagStrings) {
                 Tag tag = new Tag(s);
@@ -29,7 +29,7 @@ public class PopulateDB {
         }
 
 
-        if (vendorRepository.count() <= 1) {
+        if (vendorRepository.count() == 0) {
             Vendor bon = (new Vendor("bon@bon.com", "Bon Banh Mi", "password"));
             bon.setPassword(PasswordStorage.createHash(bon.getPassword()));
             bon.setBio("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
