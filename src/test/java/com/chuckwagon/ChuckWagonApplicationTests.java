@@ -1,5 +1,6 @@
 package com.chuckwagon;
 
+import com.chuckwagon.controllers.ChuckWagonController;
 import com.chuckwagon.entities.Location;
 import com.chuckwagon.entities.Tag;
 import com.chuckwagon.entities.Vendor;
@@ -173,6 +174,7 @@ public class ChuckWagonApplicationTests {
 
       //  Assert.assertTrue(tagVendorRepository.count() == 2);
     }
+
 
     @Test
     public void zDeleteVendorTest() throws Exception {
