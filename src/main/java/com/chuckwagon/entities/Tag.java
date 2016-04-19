@@ -3,6 +3,7 @@ package com.chuckwagon.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +21,10 @@ public class Tag {
 
     @Column(nullable = false)
     private String tag;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tag")
+    @JsonIgnore
+    private List<TagVendor> tagVendorList;
 
     public Tag() {
     }
@@ -52,13 +57,15 @@ public class Tag {
 
         Tag tag1 = (Tag) o;
 
-        if (!id.equals(tag1.id)) return false;
+        if (id != null ? !id.equals(tag1.id) : tag1.id != null) return false;
         return tag.equals(tag1.tag);
 
     }
 
     @Override
     public int hashCode() {
-        return tag.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + tag.hashCode();
+        return result;
     }
 }

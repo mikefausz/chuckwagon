@@ -44,10 +44,10 @@ angular
 
       // SEARCH DETAIL VIEW TAB
       // Detailed profile view of selected truck that fits search criteria
-      .state('tab.dashboard-detailview', {
-        url: '/vendordashboard/:truckId',
+      .state('tab.dashboard-vendordetail', {
+        url: '/vendordetail/:truckId',
         views: {
-          'tab-vendor': {
+          'tab-vendordetail': {
             templateUrl: 'vendor/views/tab-dashdetail.html',
             controller: 'VendordashdetailCtrl'
           }
