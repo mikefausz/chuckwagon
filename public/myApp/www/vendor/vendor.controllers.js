@@ -42,7 +42,7 @@ angular
       });
 
 
-      console.log($scope.currentVendor);
+      console.log("LOOK AT THIS", $scope.currentVendor);
 
       $scope.dropPin = function(post, vendorId){
           // $scope.currentVendor = JSON.parse(localStorage.currentVendor);
@@ -57,6 +57,7 @@ angular
           $scope.currentVendor.location.lat = post.lat;
           $scope.currentVendor.location.lng = post.lng;
           $scope.currentVendor.location.tweet = post.tweet;
+          // $scope.currentVendor.location.time = post.created.hour%12 + ":" + post.created.minute;
           $scope.currentVendor.location.time = new Date().toLocaleTimeString().replace("/.*(\d{2}:\d{2}:\d{2}).*/", "$1");
           localStorage.setItem('currentVendor', JSON.stringify($scope.currentVendor));
 

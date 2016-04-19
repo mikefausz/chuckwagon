@@ -5,7 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by branden on 4/5/16 at 22:03.
@@ -27,16 +29,10 @@ public class Vendor {
     @Column(nullable = false, name = "vendor_password_hashed")
     private String password;
 
-    @Column( name = "contact_first_name")
-    private String contactFirstName;
-
-    @Column( name = "contact_last_name")
-    private String contactLastName;
-
     @Column( name = "contact_email", unique = true)
     private String contactEmail;
 
-    @Column( name = "bio")
+    @Column( name = "bio", length = 510)
     private String bio;
 
     @Column( name = "profile_picture")
@@ -44,27 +40,22 @@ public class Vendor {
 
     @Transient
     @JsonIgnore
-    private MultipartFile profilePicture;  //this stays out of DB Json.
-
-    @Column(name = "created")
-    private LocalDateTime created;
+    private MultipartFile profilePicture;  //this stays out of DB & Json.
 
     @Column(name = "active")
     private boolean isActive;
 
-    @Transient
-    List tags;
-
-    @Transient
-    List<String> tagsList;
-
-
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "vendor")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "vendor")
     @JsonIgnore
-    private List<Location> location;
+    private List<TagVendor> tags;
 
+    //strings for FE to use.
     @Transient
-    private Location currentLocation;
+    private List<String> tagsList;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Location location;
+
 
     public Vendor() {
     }
@@ -92,22 +83,6 @@ public class Vendor {
         this.password = password;
     }
 
-    public String getContactFirstName() {
-        return contactFirstName;
-    }
-
-    public void setContactFirstName(String contactFirstName) {
-        this.contactFirstName = contactFirstName;
-    }
-
-    public String getContactLastName() {
-        return contactLastName;
-    }
-
-    public void setContactLastName(String contactLastName) {
-        this.contactLastName = contactLastName;
-    }
-
     public String getContactEmail() {
         return contactEmail;
     }
@@ -125,6 +100,10 @@ public class Vendor {
     }
 
     public String getProfilePictureLocation() {
+        if (profilePictureLocation == null) {
+            profilePictureLocation = "107.170.8.42/public/images/stock/logo-circle.png";
+        }
+
         return profilePictureLocation;
     }
 
@@ -140,14 +119,6 @@ public class Vendor {
         this.profilePicture = profilePicture;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
     public boolean isActive() {
         return isActive;
     }
@@ -156,19 +127,19 @@ public class Vendor {
         isActive = active;
     }
 
-    public List getTags() {
+    public List<TagVendor> getTags() {
         return tags;
     }
 
-    public void setTags(List tags) {
+    public void setTags(List<TagVendor> tags) {
         this.tags = tags;
     }
 
-    public List<Location> getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(List<Location> location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -177,6 +148,13 @@ public class Vendor {
     }
 
     public List<String> getTagsList() {
+        if (tags != null && !tags.isEmpty()) {
+            List<String> tagsString = new ArrayList<>();
+            for (TagVendor tv : tags) {
+                tagsString.add(tv.getTag().getTag());
+            }
+            tagsList = tagsString;
+        }
         return tagsList;
     }
 
@@ -184,11 +162,6 @@ public class Vendor {
         this.tagsList = tagsList;
     }
 
-    public Location getCurrentLocation() {
-        return currentLocation;
-    }
 
-    public void setCurrentLocation(Location currentLocation) {
-        this.currentLocation = getLocation().get(0);
-    }
+
 }

@@ -4,6 +4,7 @@ angular
       var cacheEngine = $cacheFactory('search');
       var ip = "http://107.170.8.42:8080";
       // var ip = "http://localhost:8080";
+
       var searchURL = ip + '/search';
 
       function sendSearchOptions(processedOptions) {

@@ -10,5 +10,5 @@ import java.util.List;
  * Created by branden on 4/10/16 at 12:35.
  */
 public interface MenuRepository extends CrudRepository<Menu, Integer> {
-    List<Menu> findByVendor(Vendor vendor);
+//    List<Menu> findByVendor(Vendor vendor);
 }

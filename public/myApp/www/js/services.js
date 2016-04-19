@@ -5,6 +5,7 @@ angular.module('starter.services', [])
 
   var ip = "http://107.170.8.42:8080";
   // var ip = "http://localhost:8080";
+
   var vendorsURL = ip + "/vendor/location";
   function getTrucks() {
       var defer = $q.defer();

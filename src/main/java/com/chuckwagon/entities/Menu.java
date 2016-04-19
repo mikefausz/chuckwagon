@@ -16,9 +16,9 @@ public class Menu {
     @GeneratedValue
     @Column(name = "menu_id")
     private Integer id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Vendor vendor;
+    
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Vendor vendor;
 
     @Column(nullable = false)
     private String name;
@@ -30,18 +30,6 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(Vendor vendor, String name) {
-        this.vendor = vendor;
-        this.name = name;
-    }
-
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
 
     public String getName() {
         return name;
@@ -64,14 +52,4 @@ public class Menu {
         return id;
     }
 
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", vendor=" + vendor +
-                ", name='" + name + '\'' +
-                ", photoLocation='" + photoLocation + '\'' +
-                '}';
-    }
 }

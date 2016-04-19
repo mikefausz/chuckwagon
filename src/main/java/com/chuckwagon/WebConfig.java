@@ -14,9 +14,7 @@ public class WebConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                 .allowedMethods("PUT", "DELETE", "POST", "GET", "OPTIONS");
     }
-
-
-
 }
