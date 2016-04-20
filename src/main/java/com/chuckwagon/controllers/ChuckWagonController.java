@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,12 +98,7 @@ public class ChuckWagonController {
 
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
-
-
         Vendor result = vendorRepository.save(vendor);
-//        Tag none = tagRepository.findByTag("none");
-//        TagVendor tv = new TagVendor(none, result);
-//        tagVendorRepository.save(tv);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
@@ -134,20 +130,15 @@ public class ChuckWagonController {
     }
 
     /**
-     * Returns a special object that the Front End requires.
-     * Object contains vendors and locations of vendors
-     *
-     * i don't really like the way I am dong this, looking for better method
+     * Returns locations of active vendors
      *
      * @return
      */
     @RequestMapping(value = "/vendor/location", method = RequestMethod.GET)
     public ResponseEntity<?> getVendorLocations() {
 
-        // List<Location> locationList = removeExpiredVendors();
-
-
         List<Vendor> vendorList = removeExpiredLocations();
+//        List<Location> locationList = removeExpiredVendors();
         if (vendorList.size() > 0) {
             return new ResponseEntity<Object>(vendorList, HttpStatus.OK);
         } else {
@@ -220,9 +211,10 @@ public class ChuckWagonController {
             hours = hours * 60 * 60; //convert hours to seconds
             location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
             location.setCreated(LocalDateTime.now().toString()); //created at date time string for FE to use
+            location.setExpiresTime(location.getExpiresObject().format(DateTimeFormatter.ofPattern("M-dd - HH:mm a"))); //this is string of expires time...just for me to look at
             location = locationRepository.save(location);
             vendor.setLocation(location);
-            vendorRepository.save(vendor);
+            vendor = vendorRepository.save(vendor);
             if (existingLocation != null) { locationRepository.delete(existingLocation); }  //delete if there is one
             return new ResponseEntity<Object>(vendor, HttpStatus.ACCEPTED);
         } else {
@@ -334,6 +326,11 @@ public class ChuckWagonController {
         }
     }
 
+    @RequestMapping(value = "/vendor/tags", method = RequestMethod.GET)
+    public ResponseEntity<?> showTags() {
+        return new ResponseEntity<Object>(tagRepository.findAll(), HttpStatus.OK);
+    }
+
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
      *
@@ -427,7 +424,7 @@ public class ChuckWagonController {
                 }
             });
         }
-        return locationList;
+        return (List<Location>) locationRepository.findAll();
     }
 
     public List<Vendor> removeExpiredLocations() {
@@ -436,38 +433,16 @@ public class ChuckWagonController {
         if (vendorList.size() > 0) {
             vendorList.forEach(vendor -> {
                 if (vendor.getLocation() != null && vendor.getLocation().getExpiresObject().isBefore(LocalDateTime.now())) {
-                    locationRepository.delete(vendor.getLocation());
+                    Location loc = vendor.getLocation();
+                    vendor.setLocation(null);
+                    vendorRepository.save(vendor);
+                    locationRepository.delete(loc);
                 }
             });
         }
-        return (List<Vendor>) vendorRepository.findAll();
+        vendorList = (List<Vendor>) vendorRepository.findAll();
+        vendorList = vendorList.stream().filter(vendor -> (vendor.getLocation() != null)).collect(Collectors.toList()); //remove out of list of no location
+
+        return vendorList;
     }
-
-    /**
-     * Created an more-readable and concise object for the front end to receive and work with
-     *
-     * this is not strictly necessary, but it's easy enough to do.
-     * @param vendor
-     * @return
-     */
-    public VendorData createVendorDataObject(Vendor vendor) {
-        VendorData vendorData = new VendorData();
-
-        vendorData.setId(vendor.getId());
-        vendorData.setVendorName(vendor.getVendorName());
-        vendorData.setBio(vendor.getBio());
-        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
-
-        HashMap<String, Float> location = new HashMap<>();
-        location.put("lat", vendor.getLocation().getLat());
-        location.put("lng", vendor.getLocation().getLng());
-        vendorData.setLocation(location);
-        vendorData.setTags(vendor.getTagsList());
-
-        return vendorData;
-    }
-    //unique id on each device, need Cordova plug in.
-    //ionic has an onload method
-
-    //passing a self generated unique cookie back and forth. FE doesn't need to store, but just return.
 }
