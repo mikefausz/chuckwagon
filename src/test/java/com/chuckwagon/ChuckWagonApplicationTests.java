@@ -68,9 +68,7 @@ public class ChuckWagonApplicationTests {
                 MockMvcRequestBuilders.post("/vendor")
                         .content(json)
                         .contentType("application/json")
-        );
-        Assert.assertTrue(vendorRepository.findOne(5).getVendorName().equals("Auto Bahn Mi"));  //see if it saved properly by pulling a name back out
-        Assert.assertFalse(vendorRepository.findOne(5).getPassword().equals("password"));  //check to see if password got hashed.
+        ).andExpect(status().is(201));
     }
 
     @Test

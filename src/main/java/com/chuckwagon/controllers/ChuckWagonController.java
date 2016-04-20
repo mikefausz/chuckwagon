@@ -329,6 +329,11 @@ public class ChuckWagonController {
         }
     }
 
+    @RequestMapping(value = "/vendor/tags", method = RequestMethod.GET)
+    public ResponseEntity<?> showTags() {
+        return new ResponseEntity<Object>(tagRepository.findAll(), HttpStatus.OK);
+    }
+
     /**
      * Allows a vendor to log in where they will be able to update profiled and set locations
      *
