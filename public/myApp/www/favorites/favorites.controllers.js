@@ -84,7 +84,8 @@ angular
     $scope.$on('favorite:added', function () {
       FavoritesService.getFavoriteTrucks().then(function(trucks) {
         $scope.trucks = trucks;
-      })      })
+        })
+      });
       $scope.addFavoriteTruck = function (truckId, heart) {
         FavoritesService.addFavoriteTruck(truckId, heart)
       };
@@ -105,6 +106,7 @@ angular
     console.log({lat: $scope.truck.location.lat, lng: $scope.truck.location.lng });
 
     directionsDisplay.setMap($scope.map);
+    directionsDisplay.setOptions({suppressMarkers: true})
 
     directionsService.route({
       origin: JSON.parse(localStorage.userLocation),

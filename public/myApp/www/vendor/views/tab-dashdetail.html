@@ -17,12 +17,12 @@
       <p>
         {{currentVendor.bio}}
       </p>
-      <div id="map-detail"></div>
-      <div class="card">
+      <div id="vendor-map"></div>
+      <div ng-show="hasContent()" class="card">
         <div class="item item-text-wrap">
-          <h4>{{currentVendor.location.time}}</h4>
-          <h3>{{currentVendor.location.tweet}}</h3>
-          <img ng-src="{{currentVendor.location.imageUrl}}">
+          <h4>{{ currentVendor.location.created }}</h4>
+          <h3 ng-show="currentVendor.location.tweet">{{ currentVendor.location.tweet }}</h3>
+          <img ng-show="currentVendor.location.imageUrl" ng-src="{{ currentVendor.location.imageUrl }}">
         </div>
       </div>
     </div>
