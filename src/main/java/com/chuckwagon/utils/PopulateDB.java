@@ -79,7 +79,7 @@ public class PopulateDB {
             tagVendorRepository.save(new TagVendor(tagRepository.findOne(5), autob));
             System.out.println("created autob");
 
-            Vendor huevos = (new Vendor("hueves@huevos.com", "Outta My Huevos", "password"));
+            Vendor huevos = (new Vendor("huevos@huevos.com", "Outta My Huevos", "password"));
             huevos.setBio("A from- scratch food truck specializing in brunch fare. OMH works closely with local farmers in order to provide the highest quality ingredients possible for its customers.");
             huevos.setPassword(PasswordStorage.createHash(huevos.getPassword()));
             Location huevosLoc = new Location(32.86857473f, -79.92099364f, "48");

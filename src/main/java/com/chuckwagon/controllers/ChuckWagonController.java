@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,12 +98,7 @@ public class ChuckWagonController {
 
         //hash password
         vendor.setPassword(PasswordStorage.createHash(vendor.getPassword()));
-
-
         Vendor result = vendorRepository.save(vendor);
-//        Tag none = tagRepository.findByTag("none");
-//        TagVendor tv = new TagVendor(none, result);
-//        tagVendorRepository.save(tv);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
@@ -215,6 +211,7 @@ public class ChuckWagonController {
             hours = hours * 60 * 60; //convert hours to seconds
             location.setExpiresObject(LocalDateTime.now().plusSeconds((long) hours)); //add time to expire to the current time
             location.setCreated(LocalDateTime.now().toString()); //created at date time string for FE to use
+            location.setExpiresTime(location.getExpiresObject().format(DateTimeFormatter.ofPattern("M-dd - HH:mm a"))); //this is string of expires time...just for me to look at
             location = locationRepository.save(location);
             vendor.setLocation(location);
             vendor = vendorRepository.save(vendor);
@@ -448,32 +445,4 @@ public class ChuckWagonController {
 
         return vendorList;
     }
-
-    /**
-     * Created an more-readable and concise object for the front end to receive and work with
-     *
-     * this is not strictly necessary, but it's easy enough to do.
-     * @param vendor
-     * @return
-     */
-    public VendorData createVendorDataObject(Vendor vendor) {
-        VendorData vendorData = new VendorData();
-
-        vendorData.setId(vendor.getId());
-        vendorData.setVendorName(vendor.getVendorName());
-        vendorData.setBio(vendor.getBio());
-        vendorData.setProfilePictureLocation(vendor.getProfilePictureLocation());
-
-        HashMap<String, Float> location = new HashMap<>();
-        location.put("lat", vendor.getLocation().getLat());
-        location.put("lng", vendor.getLocation().getLng());
-        vendorData.setLocation(location);
-        vendorData.setTags(vendor.getTagsList());
-
-        return vendorData;
-    }
-    //unique id on each device, need Cordova plug in.
-    //ionic has an onload method
-
-    //passing a self generated unique cookie back and forth. FE doesn't need to store, but just return.
 }
