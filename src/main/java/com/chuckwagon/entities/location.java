@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -42,6 +43,9 @@ public class Location {
 
     @Column
     private String created;
+
+    @Column
+    private String expiresTime;
 
     @Transient
     private String expiresString;
@@ -127,6 +131,15 @@ public class Location {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+
+    public String getExpiresTime() {
+        return expiresTime;
+    }
+
+    public void setExpiresTime(String expiresTime) {
+        this.expiresTime = expiresTime;
     }
 
     @Override
