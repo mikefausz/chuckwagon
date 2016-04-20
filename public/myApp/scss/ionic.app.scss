@@ -240,12 +240,18 @@ img.truck-toggle {
   display: block;
 }
 
-#dash-logo {
-  width: 250px;
+.vendor-wrapper {
+  text-align: center; 
+  margin: 0 auto;
+  #dash-logo {
+    width: 250px;
+    height: 250px;
     border-radius: 100%;
     border: 8px solid $positive;
     padding: 8px;
+  }
 }
+
 
 #dash-name {
   font-family: "Bevan";
