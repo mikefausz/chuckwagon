@@ -156,7 +156,7 @@ angular.module('starter.controllers', [])
   console.log({lat: $scope.truck.location.lat, lng: $scope.truck.location.lng });
 
   directionsDisplay.setMap($scope.map);
-
+  directionsDisplay.setOptions({suppressMarkers: true})
   directionsService.route({
     origin: JSON.parse(localStorage.userLocation),
     destination: {lat: $scope.truck.location.lat, lng: $scope.truck.location.lng },
