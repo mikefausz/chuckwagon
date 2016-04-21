@@ -1,11 +1,15 @@
 <ion-view>
   <ion-nav-title style="font-size: 20px; font-family: Bevan; text-shadow: 2px 1px 1px #565555 ">
-   CHUCKWAGON
+    VENDOR  SIGN-UP
  </ion-nav-title>
   <ion-content class="padding">
 
-    <h2>ChuckWagon</h2>
-<div class="form-wrap">
+    <div class="non-semantic-protector">
+      <img id="chuckwagon-logo-signup" src="logo-pin-shadow-white.png" alt=""/>
+      <h1 class="ribbon" id="ribbon-signup">
+        <strong class="ribbon-content">CHUCKWAGON</strong>
+      </h1>
+    </div><div class="form-wrap">
     <form method="post" ng-submit="signup()" name="signupForm">
   <div class="form-group has-feedback" ng-class="{ 'has-error' : signupForm.displayName.$invalid && signupForm.displayName.$dirty }">
     <input class="form-control input-lg" type="text" name="displayName" ng-model="vendor.vendorName" placeholder="TRUCK NAME" required autofocus>
@@ -41,8 +45,8 @@
 </div>
 </form>
 <div class="submit-wrap">
-  <a href="#/tab/vendordashboard"><button ng-click="signup(vendor)" class="button button-block button-dark special" type="submit" name="button">APPLY FOR ACCOUNT</button></a>
-  <a href="#/tab/home"><button class="button button-block button-dark" type="submit" name="button">CANCEL</button></a>
+  <a href="#/tab/vendordashboard"><button ng-click="signup(vendor)" class="button button-block button-calm special" type="submit" name="button">APPLY FOR ACCOUNT</button></a>
+  <a href="#/tab/home"><button class="button button-block button-assertive" type="submit" name="button">CANCEL</button></a>
 </div>
 
   </ion-content>
