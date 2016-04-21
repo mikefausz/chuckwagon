@@ -24,6 +24,8 @@ $assertive: rgb(240,83,61);
 // subtitle grey
 $grey: #666;
 
+
+
 ion-header-bar.bar-calm.bar.bar-header {
   -webkit-box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
   -moz-box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
@@ -39,7 +41,6 @@ ion-header-bar.bar-calm.bar.bar-header {
   height: 46px;
   line-height: 54px;
   color: #555;
-  padding-left: 11px;
 }
 
 .has-feedback.form-control {
@@ -71,7 +72,7 @@ ion-header-bar.bar-calm.bar.bar-header {
 
 // this is for sign in fancy stuff
 .form-control.input-lg {
-  width: 94%;
+  width: 100%;
   border-radius: 0px;
   display: block;
   padding-top: 12px;
@@ -198,7 +199,7 @@ img.truck-toggle {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 12px auto -20px;
+  margin: 12px auto 10px;
   .tag {
     margin-bottom: 10px;
   }
@@ -240,12 +241,40 @@ img.truck-toggle {
   display: block;
 }
 
-#dash-logo {
-  width: 250px;
+#chuckwagon-logo-signup {
+  @extend #chuckwagon-logo;
+  width: 170px;
+  margin: -10px auto 0 auto;
+}
+
+#ribbon-signup {
+  top: 68%;
+right: 24%;
+    font-size: 18px !important;
+    width: 52%;
+    &::after, &::before {
+          bottom: 4px;
+    }
+    &::after {
+      right: -2.2em;
+    }
+    &::before {
+      left: -2.2em;
+    }
+}
+
+.vendor-wrapper {
+  text-align: center;
+  margin: 10px;
+  #dash-logo {
+    width: 250px;
+    height: 250px;
     border-radius: 100%;
     border: 8px solid $positive;
     padding: 8px;
+  }
 }
+
 
 #dash-name {
   font-family: "Bevan";
