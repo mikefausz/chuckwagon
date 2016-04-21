@@ -9,15 +9,48 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="1200mm"
+   height="1200mm"
+   viewBox="0 0 4251.9685 4251.9685"
    id="svg3581"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="chuckwagon-pin-tutone.svg">
   <defs
-     id="defs3583" />
+     id="defs3583">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow"
+       id="filter3493">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood3495" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite3497" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="4"
+         result="blur"
+         id="feGaussianBlur3499" />
+      <feOffset
+         dx="0"
+         dy="0"
+         result="offset"
+         id="feOffset3501" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite3503" />
+    </filter>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,9 +58,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="-10.597635"
-     inkscape:cy="604.98796"
+     inkscape:zoom="0.087500001"
+     inkscape:cx="632.86953"
+     inkscape:cy="1736.3588"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -53,9 +86,12 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,3199.6063)">
     <g
-       id="g5335">
+       id="g5335"
+       transform="matrix(5.3606478,0,0,5.3606478,229.09299,-3713.3592)"
+       style="filter:url(#filter3493)">
       <path
          sodipodi:nodetypes="sssssssssssssssssssscsscccsccsscscsssssssscscssssssscsssscssscsccssssssscscscccsssssscsscccsssccccccccssscssscc"
          inkscape:connector-curvature="0"

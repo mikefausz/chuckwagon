@@ -77,7 +77,16 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
-        $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
+      $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
+
+      $scope.hasContent = function() {
+         if($scope.currentVendor.location) {
+           return $scope.currentVendor.location.tweet || $scope.currentVendor.location.imageUrl;
+         }
+         else {
+           return false;
+         }
+       };
         console.log('IN DASH DETAIL');
         console.log("CURRENT VENDOR " + $scope.currentVendor);
           var mapOptions = {
@@ -86,11 +95,12 @@ angular
             mapTypeId: google.maps.MapTypeId.ROADMAP
           };
 
-          $scope.map = new google.maps.Map(document.getElementById("map-detail"), mapOptions);
+          $scope.map = new google.maps.Map(document.getElementById("vendor-map"), mapOptions);
 
           var marker = new google.maps.Marker({
             position: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
-            map: $scope.map
+            map: $scope.map,
+            icon: 'logo-pin-shadow-white-sm.png',
           });
 
           marker.setMap($scope.map);

@@ -58,6 +58,7 @@ angular.module('starter', [
   // HOME TAB -- DEFAULT
   // Map of all trucks in database centered on user's location
   .state('tab.map', {
+    cache: false,
     url: '/home',
     views: {
       'tab-home': {

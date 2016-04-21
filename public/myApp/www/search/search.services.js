@@ -19,20 +19,23 @@ angular
           }
           var trucks = response.data;
           var favArr = [];
+
           if (localStorage.getItem("favoriteVendors")) {
             favArr = JSON.parse(localStorage.getItem("favoriteVendors"));
           }
+          else {
+            localStorage.setItem("favoriteVendors", "[]");
+          }
+
           trucks.forEach(function(truck) {
-            if(localStorage.getItem("favoriteVendors")) {
-              if(favArr.indexOf(truck.id)>-1) {
+            if(favArr.indexOf(truck.id)>-1) {
                 truck.heart = true;
-              } else {
-                truck.heart = false;
               }
-            } else {
-              localStorage.setItem("favoriteVendors", "[]");
+            else {
+              truck.heart = false;
             }
           });
+          
           cacheEngine.put('searchVendors',  trucks);
           defer.resolve(trucks);
         }, function(err) {
