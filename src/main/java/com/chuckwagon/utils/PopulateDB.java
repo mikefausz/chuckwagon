@@ -46,7 +46,7 @@ public class PopulateDB {
             Vendor bacon = (new Vendor("bacon@bacon.com", "Bac'n Me Crazy", "password"));
             bacon.setBio("Charlestons gourmet Bacon Food truck. Serving all types of Bacon sandwiches and crazy Bacon filled eats.");
             bacon.setPassword(PasswordStorage.createHash(bacon.getPassword()));
-            Location baconLoc = new Location(32.787342f, -79.48267f, "48");
+            Location baconLoc = new Location(32.787342f, -79.98267f, "48");
             baconLoc.setExpiresObject(LocalDateTime.now().plusDays(5));
             baconLoc.setImageUrl("https://scontent-atl3-1.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/13000085_1780770425484372_6017258864353769878_n.jpg?oh=06db5e6b23d71511c3dff80582370bc7&oe=57B0FFC8 ");
             baconLoc = locationRepository.save(baconLoc);
