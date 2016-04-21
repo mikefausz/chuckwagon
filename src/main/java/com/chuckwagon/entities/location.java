@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -43,10 +44,13 @@ public class Location {
     @Column
     private String created;
 
+    @Column
+    private String expiresTime;
+
     @Transient
     private String expiresString;
 
-    @OneToMany(fetch = FetchType.EAGER,  cascade = CascadeType.PERSIST,  mappedBy = "location")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "location")
     @JsonIgnore
     private List<Vendor> vendor;
 
@@ -91,7 +95,6 @@ public class Location {
 
     public void setExpiresString(String expiresString) {
         this.expiresString = expiresString;
-      //  this.expiresObject = LocalDateTime.parse(expiresString);
     }
 
     public List<Vendor> getVendor() {
@@ -128,6 +131,15 @@ public class Location {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+
+    public String getExpiresTime() {
+        return expiresTime;
+    }
+
+    public void setExpiresTime(String expiresTime) {
+        this.expiresTime = expiresTime;
     }
 
     @Override

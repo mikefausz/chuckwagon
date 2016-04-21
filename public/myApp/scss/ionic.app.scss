@@ -30,6 +30,8 @@ ion-header-bar.bar-calm.bar.bar-header {
   box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
 }
 
+
+
 .has-feedback .form-control-feedback {
   top: 0;
   left: 0;
@@ -128,9 +130,9 @@ ion-header-bar.bar-calm.bar.bar-header {
   text-align: center;
 }
 
-.button.button-block {
+.button.button-block.button-login {
   width: 94%;
-  margin: auto;
+  margin: 10px auto;
 }
 
 #map, #fav-map, #search-map {
@@ -180,7 +182,7 @@ img.truck-toggle {
 }
 
 
-#map-detail {
+#map-detail, #vendor-map {
   width: 100%;
   height: 240px;
 }
@@ -201,7 +203,7 @@ img.truck-toggle {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 20px auto;
+  margin: 12px auto -20px;
   .tag {
     margin-bottom: 10px;
   }
@@ -243,6 +245,21 @@ img.truck-toggle {
   display: block;
 }
 
+#dash-logo {
+  width: 250px;
+    border-radius: 100%;
+    border: 8px solid $positive;
+    padding: 8px;
+}
+
+#dash-name {
+  font-family: "Bevan";
+  text-transform: uppercase;
+  color: $calm;
+  display: block;
+  margin: auto;
+}
+
 .map-bg {
   background: url("../chs-map.png");
   background-size: 128%;
@@ -268,6 +285,7 @@ img.truck-toggle {
 .ribbon {
  font-size: 24px !important;
  font-family: 'Bevan';
+ text-transform: uppercase;
  text-shadow: 2px 1px 1px #565555;
  width: 64%;
  position: absolute;

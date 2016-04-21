@@ -53,7 +53,7 @@ public class Vendor {
     @Transient
     private List<String> tagsList;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Location location;
 
 

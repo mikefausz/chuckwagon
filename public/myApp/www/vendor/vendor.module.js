@@ -33,6 +33,7 @@ angular
       // VENDOR DASHBOARD TAB
       // Vendor pin drop and optional CRUD form
       .state('tab.vendordashboard', {
+        cache: false,
         url: '/vendordashboard',
         views: {
           'tab-vendor': {
@@ -58,6 +59,7 @@ angular
       // VENDOR EDIT TAB
       // Vendor profile edit form
       .state('tab.vendoredit', {
+        cache: false,
         url: '/vendoredit',
         views: {
           'tab-vendoredit': {

@@ -77,6 +77,7 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
+<<<<<<< HEAD
       $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
 
       $scope.hasContent = function() {
@@ -87,6 +88,17 @@ angular
            return false;
          }
        };
+=======
+        $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
+        $scope.hasContent = function() {
+           if($scope.currentVendor.location) {
+             return $scope.currentVendor.location.tweet || $scope.currentVendor.location.imageUrl;
+           }
+           else {
+             return false;
+           }
+         };
+>>>>>>> fe526dbec18a5cba59333b764253be8f2709c521
         console.log('IN DASH DETAIL');
         console.log("CURRENT VENDOR " + $scope.currentVendor);
           var mapOptions = {
@@ -100,7 +112,12 @@ angular
           var marker = new google.maps.Marker({
             position: {lat: $scope.currentVendor.location.lat, lng: $scope.currentVendor.location.lng},
             map: $scope.map,
+<<<<<<< HEAD
             icon: 'logo-pin-shadow-white-sm.png',
+=======
+            icon: 'logo-pin-here.png'
+
+>>>>>>> fe526dbec18a5cba59333b764253be8f2709c521
           });
 
           marker.setMap($scope.map);
@@ -143,6 +160,7 @@ angular
 
         // Send processed vendor edit data to server
         var id = $scope.currentVendor.id;
+        console.log("ID", id);
         VendorService.editVendor(processedVendor, id);
 
         // Grab edit data, save changes in localStorage

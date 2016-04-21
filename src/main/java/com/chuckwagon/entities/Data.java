@@ -18,8 +18,6 @@ public class Data {
 
     public Vendor vendor;
 
-    public VendorData vendorData;
-
     public List<Tag> tags;
 
     public String keyword;
@@ -32,7 +30,6 @@ public class Data {
                 ", tag=" + tag +
                 ", tagVendor=" + tagVendor +
                 ", vendor=" + vendor +
-                ", vendorData=" + vendorData +
                 ", tags=" + tags +
                 ", keyword='" + keyword + '\'' +
                 '}';
