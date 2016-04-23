@@ -1,0 +1,384 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// CHUCKWAGON blue
+$calm: rgb(37,155,205);
+// Secondary blue
+$positive: rgb(25, 87, 154);
+// CHUCKWAGON red
+$assertive: rgb(240,83,61);
+// subtitle grey
+$grey: #666;
+
+
+
+ion-header-bar.bar-calm.bar.bar-header {
+  -webkit-box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
+  -moz-box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
+  box-shadow: 0px 4px 14px -4px rgba(0,0,0,0.65);
+}
+
+
+
+.has-feedback .form-control-feedback {
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  line-height: 54px;
+  color: #555;
+}
+
+.has-feedback.form-control {
+  padding-left: 13px;
+}
+
+// this is for sign in fancy stuff
+.password-strength-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 5px;
+  padding: 0 15px;
+}
+
+.button.button-block.special{
+  margin-top: 25px;
+}
+
+// this is for sign in fancy stuff
+.password-strength-indicator span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-bottom: 2px;
+  background: #ebeef1;
+  border-radius: 5px;
+}
+
+// this is for sign in fancy stuff
+.form-control.input-lg {
+  width: 100%;
+  border-radius: 0px;
+  display: block;
+  padding-top: 12px;
+  height: 50px;
+  color: #111;
+  vertical-align: middle;
+  font-size: 18px;
+  font: inherit;
+  background-color: transparent;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  border: none;
+  border: 1px solid gainsboro;
+  box-shadow: none;
+  margin: 0 auto;
+  margin-bottom: -15px;
+  &::-webkit-input-placeholder{
+    -webkit-font-smoothing: antialiased;
+    font: inherit;
+    font-size: 18px;
+  }
+}
+
+.required {
+  margin-top: 25px;
+  margin-bottom: -5px;
+  margin-left: 5px;
+  font: inherit;
+  font-size: 15px;
+}
+
+// this is for sign in fancy stuff
+[class^='ion-'] {
+  font-size: 1.2em;
+}
+
+// this is for sign in fancy stuff
+.has-error.help-block {
+  margin-top: 20px;
+}
+
+// this is for sign in fancy stuff
+.has-feedback .form-control {
+  padding-left: 32px;
+}
+
+
+.scroll {
+  height: 100%;
+}
+
+.center {
+  text-align: center;
+}
+
+.button.button-block.button-login {
+  width: 94%;
+  margin: 10px auto;
+}
+
+#map, #fav-map, #search-map {
+  width: 100%;
+  height: 100%;
+}
+
+img.truck-toggle {
+  top: 16px;
+  right: 16px;
+  position: absolute;
+  height: 65px;
+}
+
+.tag-span+.tag-span:before {
+  content: ", ";
+}
+
+#detailview {
+  #detail-header {
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      float: left;
+      margin: 0 10px 6px 0;
+    }
+    h3, h4 {
+      vertical-align: top;
+      font-weight: normal;
+    }
+    h4 {
+      color: $grey;
+      margin: 0 0 8px 0;
+    }
+  }
+  .detail-name-tags {
+    display: inline-block;
+  }
+  img {
+    width: 100%;
+    height: 200px;
+  }
+  h4 {
+    font-weight: normal;
+  }
+}
+
+
+#map-detail, #vendor-map {
+  width: 100%;
+  height: 240px;
+}
+
+#vendor-map {
+  width: 100%;
+  height: 240px;
+}
+
+.button.list-toggle {
+  position: absolute;
+  width: 28%;
+  bottom: 4%;
+  left: 37%;
+}
+
+.tag-wrap ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 12px auto 10px;
+  .tag {
+    margin-bottom: 10px;
+  }
+  .checked {
+    background-color: #19579a !important;
+    background-color: $assertive !important;
+    color: white !important;
+  }
+}
+
+.search-items {
+  left: 0;
+}
+
+.search-img {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  max-width: 40px;
+  max-height: 40px;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.heart {
+  color: $assertive !important;
+}
+
+.detail-heart {
+  font-size: 41px;
+  float: right;
+  margin: 9px;
+}
+
+#chuckwagon-logo {
+  width: 260px;
+  margin: 12px 56px;
+  display: block;
+}
+
+#chuckwagon-logo-signup {
+  @extend #chuckwagon-logo;
+  width: 170px;
+  margin: -10px auto 0 auto;
+}
+
+#ribbon-signup {
+  top: 68%;
+right: 22%;
+    font-size: 18px !important;
+    width: 55%;
+    &::after, &::before {
+          bottom: 4px;
+    }
+    &::after {
+      right: -2.2em;
+    }
+    &::before {
+      left: -2.2em;
+    }
+}
+
+.vendor-wrapper {
+  text-align: center;
+  margin: 10px;
+  #dash-logo {
+    width: 250px;
+    height: 250px;
+    border-radius: 100%;
+    border: 8px solid $positive;
+    padding: 8px;
+  }
+}
+
+
+#dash-name {
+  font-family: "Bevan";
+  text-transform: uppercase;
+  color: $calm;
+  display: block;
+  margin: auto;
+}
+
+.map-bg {
+  background: url("../chs-map.png");
+  background-size: 128%;
+  background-repeat: no-repeat;
+  background-position-y: 45%;
+  background-position-x: 29%;
+  margin-top: -12px;
+}
+
+.tint {
+  background-color: rgba(37,155,205, .6);
+  width: 100%;
+  height: 100%;
+  padding-bottom: 14px;
+}
+
+.non-semantic-protector {
+  position: relative;
+  z-index: 1;
+  padding-top: 12px;
+}
+
+.ribbon {
+ font-size: 24px !important;
+ font-family: 'Bevan';
+ text-transform: uppercase;
+ text-shadow: 2px 1px 1px #565555;
+ width: 64%;
+ position: absolute;
+ top: 72%;
+ right: 18%;
+ background: $calm;
+ color: #fff;
+ text-align: center;
+ padding: 1em 2em; /* Adjust to suit */
+ margin: 2em auto 3em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon 'graphics' take up 24px themselves so we double it. */
+ padding: 10px;
+ margin: 2px auto 24px;
+}
+
+.ribbon, .ribbon:before, .ribbon:after {
+  box-shadow: 0px 10px 10px -10px rgba(0,0,0,0.75);
+}
+
+.ribbon:before, .ribbon:after {
+ content: "";
+ position: absolute;
+ display: block;
+ bottom: 10px;
+ border: 24px solid #1F74B9;
+ z-index: -1;
+}
+
+.ribbon:before {
+ left: -2em;
+ border-right-width: 1.5em;
+ border-left-color: transparent;
+}
+
+.ribbon:after {
+ right: -2em;
+ border-left-width: 1.5em;
+ border-right-color: transparent;
+}
+
+.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+ content: "";
+ border-style: solid;
+ position: absolute;
+ width: 0;
+ height: 0;
+ right: -2px;
+ top: -12px;
+ border-color: transparent  transparent #1F4485 transparent ;
+}
+
+.ribbon .ribbon-content:before {
+ left: 0;
+ border-width: 2px 0 10px 12px;
+}
+
+.ribbon .ribbon-content:after {
+ right: 0;
+ border-width: 2px 12px 10px 0;
+}
+
+
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
