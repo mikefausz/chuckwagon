@@ -1,7 +1,13 @@
 <ion-view>
+<<<<<<< HEAD
   <ion-nav-title style="font-size: 20px; font-family: Bevan; text-shadow: 2px 1px 1px #565555 ">
    CHUCKWAGON
    <button class="button">Log Out</button>
+=======
+  <ion-nav-title style="font-size: 20px; font-family: Bevan; text-shadow: 2px 1px 1px #565555; text-transform: uppercase;">
+    {{currentVendor.vendorName}}
+   <!-- <button class="button">Log Out</button> -->
+>>>>>>> b1705b605185d8a6192dfee91cd2c67d14bf44a8
  </ion-nav-title>
   <!-- <ion-content> -->
   <ion-content class="padding">
@@ -12,10 +18,12 @@
       </h1>
     </div> -->
     <!-- <img id="dash-logo-left" src="logo-pin-shadow-white.png" alt=""/> -->
-    <img id="dash-logo" src="{{ currentVendor.profilePictureLocation }}" alt=""/>
+    <div class="vendor-wrapper">
+      <img id="dash-logo" src="{{ currentVendor.profilePictureLocation }}" alt=""/>
+    </div>
     <!-- <h2>Welcome,</h2>
     <h2>{{currentVendor.vendorName}}</h2> -->
-    <h2 id="dash-name">{{currentVendor.vendorName}}</h2>
+    <!-- <h2 id="dash-name">{{currentVendor.vendorName}}</h2> -->
 
     <!-- <div class="list list-inset"> -->
 
