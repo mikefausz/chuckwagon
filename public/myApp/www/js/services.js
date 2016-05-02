@@ -81,7 +81,7 @@ angular.module('starter.services', [])
       tweet: "The best lobster roll in town!!!",
       imageUrl: "http://s3-media4.fl.yelpcdn.com/bphoto/_v5xUva29s1lG415KO4mbA/o.jpg",
       created: "11:24 AM"},
-    profilePictureLocation: 'https://static.wixstatic.com/media/95a1a8_f29aff97f9f04fd18e8ab01ae5f8a9d0.jpg/v1/fill/w_1258,h_944,al_c,q_90,usm_0.66_1.00_0.01/95a1a8_f29aff97f9f04fd18e8ab01ae5f8a9d0.jpg'
+    profilePictureLocation: 'https://lh4.googleusercontent.com/-VkfY_yJeKuY/AAAAAAAAAAI/AAAAAAAAABs/4rlmgnHLyEE/photo.jpg'
   }, {
     id: 12,
     vendorName: 'Pink Bellies',
