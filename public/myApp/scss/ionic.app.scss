@@ -33,6 +33,34 @@ ion-header-bar.bar-calm.bar.bar-header {
 }
 
 
+.nav-bar-block, .view-container {
+ width: 375px !important;
+}
+
+.view-container {
+ height: 900px;
+}
+
+.desc {
+  margin: 40px 40px 40px 425px;
+  h1 {
+    color: $assertive;
+  a {
+   color: $calm;
+   text-decoration: none;
+   transition: all .3s ease-in-out;
+   &:hover {
+     color: $positive;
+   }
+ }
+}
+ul {
+ li {
+   margin-left: 30px;
+ }
+}
+}
+
 
 .has-feedback .form-control-feedback {
   top: 0;
