@@ -77,16 +77,16 @@ angular
     })
 
     .controller('VendordashdetailCtrl', function($scope, VendorService, $stateParams){
+      $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
 
-        $scope.currentVendor = JSON.parse(localStorage.getItem('currentVendor'));
-        $scope.hasContent = function() {
-           if($scope.currentVendor.location) {
-             return $scope.currentVendor.location.tweet || $scope.currentVendor.location.imageUrl;
-           }
-           else {
-             return false;
-           }
-         };
+      $scope.hasContent = function() {
+         if($scope.currentVendor.location) {
+           return $scope.currentVendor.location.tweet || $scope.currentVendor.location.imageUrl;
+         }
+         else {
+           return false;
+         }
+       };
         console.log('IN DASH DETAIL');
         console.log("CURRENT VENDOR " + $scope.currentVendor);
           var mapOptions = {
