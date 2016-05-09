@@ -3,8 +3,9 @@ angular
     .factory('FavoritesService', function($http, $q, $cacheFactory, $rootScope, HomeService, $compile) {
 
       // var ip = "http://10.0.10.70:8080";
-      var ip = "http://107.170.8.42:8080";
+      // var ip = "http://107.170.8.42:8080";
       // var ip = "http://localhost:8080";
+      var ip = "https://chuckwagonapi.tech";
 
       // var favTrucks = [];
       function addFavoriteTruck(truckId, heart) {
